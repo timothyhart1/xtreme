@@ -1,0 +1,57 @@
+@font-face {
+	font-family: Montserrat;
+	src: url(../public/Montserrat-Medium.ttf);
+}
+
+* {
+	font-family: "Montserrat", sans-serif !important;
+	box-sizing: border-box !important;
+	margin: 0;
+}
+
+.App {
+	text-align: center;
+}
+
+body {
+	background-color: #f5f7fb !important;
+	margin: 0;
+}
+
+.App-logo {
+	height: 40vmin;
+	pointer-events: none;
+}
+
+.card-spacing {
+	padding: 20px !important;
+	margin-top: 20px !important;
+}
+
+.my-card-title {
+	font-weight: 600 !important;
+	font-size: 24px !important;
+	text-align: left !important;
+	margin: 0px 0 30px 0 !important;
+}
+
+.my-page-header {
+	font-weight: 600 !important;
+	font-size: 24px !important;
+	text-align: left !important;
+}
+
+#app-container {
+	padding: 30px !important;
+}
+
+#card-container {
+	padding: 20px !important;
+	border: 1px solid #e6edef !important;
+	margin-top: 20px !important;
+}
+
+#app-container.sidebar-open {
+	margin-left: 250px; /* Adjust this value according to your sidebar width */
+	transition: margin-left 0.3s ease;
+}

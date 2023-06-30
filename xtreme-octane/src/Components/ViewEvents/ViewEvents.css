@@ -1,0 +1,28 @@
+.event-card-item {
+	width: 20rem;
+	margin: 0.5rem;
+	padding: 5px;
+}
+
+#event-card-body {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.event-image {
+	border-radius: 7px;
+	height: 200px;
+	object-fit: cover;
+}
+
+#event-btn-card {
+	background-color: #3274b6;
+	border-color: #3274b6;
+	font-weight: 500;
+	font-size: 12px;
+}
+
+.event-header {
+	font-weight: 600;
+}
