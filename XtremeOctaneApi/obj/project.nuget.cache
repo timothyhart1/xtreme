@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "xRKBqw9cNenVYtG+EuGtHjrgcttn9JSHGlmF0TAgP1f4S71v3TViuMiO6W/xfTurcAjkxxmzfN3EY4STXPlBTw==",
+  "dgSpecHash": "IpIf5UVzHZ3WnPuOqOk/Qqa0olRtbnzK5OFL/Tvxg/pkq71rbfwCMTiwl0Sue2UUZqovdr2Xr/xMoFUb13IcPA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Timothy\\Documents\\GitHub\\Xtreme-Octane\\XtremeOctaneApi\\XtremeOctaneApi.csproj",
+  "projectFilePath": "C:\\Users\\Timothy\\Documents\\GitHub\\xtreme\\XtremeOctaneApi\\XtremeOctaneApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Timothy\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\Timothy\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

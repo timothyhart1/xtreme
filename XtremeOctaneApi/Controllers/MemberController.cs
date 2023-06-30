@@ -105,6 +105,7 @@ namespace XtremeOctaneApi.Controllers
             {
                 var member = new Member
                 {
+                    Email= memberModel.Email,
                     Name = memberModel.Name,
                     Surname = memberModel.Surname,
                     City = memberModel.City,

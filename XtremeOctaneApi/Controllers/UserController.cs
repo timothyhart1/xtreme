@@ -33,7 +33,6 @@ namespace XtremeOctaneApi.Controllers
             var hashedPassword = sha.ComputeHash(asByteArray);
             return Convert.ToBase64String(hashedPassword);
         }
-
         [HttpPost("Register")]
         [AllowAnonymous]
         public async Task<IActionResult> Register(User user)
@@ -49,13 +48,37 @@ namespace XtremeOctaneApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            user.Password = HashPassword(user.Password);
+            try
+            {
+                user.Password = HashPassword(user.Password);
 
-            user.Token = GenerateToken(user);
+                user.Token = GenerateToken(user);
 
-            _db.User.Add(user);
-            await _db.SaveChangesAsync();
-            return Ok();
+                Member member = new Member
+                {
+                    Email = user.Email,
+                    Name = null,
+                    Surname = null,
+                    City = null,
+                    PhoneNumber = null,
+                    Gender = null,
+                    CreateDate = DateTime.Now
+                };
+
+                await _db.Member.AddAsync(member);
+                await _db.SaveChangesAsync();
+
+                user.MemberId = member.MemberId; 
+
+                await _db.User.AddAsync(user);
+                await _db.SaveChangesAsync();
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
         }
 
 

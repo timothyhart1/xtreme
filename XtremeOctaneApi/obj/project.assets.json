@@ -3711,11 +3711,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Timothy\\Documents\\GitHub\\Xtreme-Octane\\XtremeOctaneApi\\XtremeOctaneApi.csproj",
+      "projectUniqueName": "C:\\Users\\Timothy\\Documents\\GitHub\\xtreme\\XtremeOctaneApi\\XtremeOctaneApi.csproj",
       "projectName": "XtremeOctaneApi",
-      "projectPath": "C:\\Users\\Timothy\\Documents\\GitHub\\Xtreme-Octane\\XtremeOctaneApi\\XtremeOctaneApi.csproj",
+      "projectPath": "C:\\Users\\Timothy\\Documents\\GitHub\\xtreme\\XtremeOctaneApi\\XtremeOctaneApi.csproj",
       "packagesPath": "C:\\Users\\Timothy\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Timothy\\Documents\\GitHub\\Xtreme-Octane\\XtremeOctaneApi\\obj\\",
+      "outputPath": "C:\\Users\\Timothy\\Documents\\GitHub\\xtreme\\XtremeOctaneApi\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Timothy\\AppData\\Roaming\\NuGet\\NuGet.Config",
