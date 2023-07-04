@@ -14,7 +14,7 @@
 }
 
 body {
-	background-color: #f5f7fb !important;
+	background-color: #f7f7f9 !important;
 	margin: 0;
 }
 
@@ -52,6 +52,10 @@ body {
 }
 
 #app-container.sidebar-open {
-	margin-left: 250px; /* Adjust this value according to your sidebar width */
+	margin-left: 250px;
+	transition: margin-left 0.3s ease;
+}
+
+#app-container:not(.sidebar-open) {
 	transition: margin-left 0.3s ease;
 }

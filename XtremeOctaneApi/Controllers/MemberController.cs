@@ -41,7 +41,7 @@ namespace XtremeOctaneApi.Controllers
         }
 
 
-        [HttpGet("Single-Member")]
+        [HttpGet("Single-Member/{id}")]
         public async Task<ActionResult<Member>> GetMemberById(int id)
         {
             try

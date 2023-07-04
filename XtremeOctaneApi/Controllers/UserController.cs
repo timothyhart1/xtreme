@@ -5,8 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 using XtremeOctaneApi.Data;
 using XtremeOctaneApi.Models;
 
@@ -81,18 +84,32 @@ namespace XtremeOctaneApi.Controllers
             }
         }
 
-
         private string GenerateToken(User user)
         {
-            var securitykey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-            var credentials = new SigningCredentials(securitykey, SecurityAlgorithms.HmacSha256);
+            List<Claim> claims = new List<Claim>
+            {       
+                new Claim(ClaimTypes.Email, user.Email),
+            };
 
-            var token = new JwtSecurityToken(_config["Jwt:Issuer"], _config["Jwt:Audience"], null,
-                expires: DateTime.Now.AddDays(20), 
-                signingCredentials: credentials);
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_config.
+                GetSection("AppSettings:Token").Value));
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+            var serializerOptions = new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.Preserve,
+            };
+
+            var token = new JwtSecurityToken(
+                claims: claims,
+                expires: DateTime.Now.AddDays(1),
+                signingCredentials: creds);
+
+            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+            return jwt;
         }
+
 
         [AllowAnonymous]
         [HttpPost("login")]
@@ -103,7 +120,7 @@ namespace XtremeOctaneApi.Controllers
             if (existingUser != null && VerifyPassword(user.Password, existingUser.Password))
             {
                 var token = GenerateToken(existingUser);
-                response = Ok(new { token = token });
+                response = Ok(new { token = token, memberId = existingUser.MemberId, email = existingUser.Email });
             }
             else
             {

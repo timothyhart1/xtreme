@@ -1,6 +1,15 @@
 import React, { useState, Fragment } from "react";
 import axios from "axios";
-import { Container } from "reactstrap";
+import {
+	Row,
+	Card,
+	Form,
+	Label,
+	Input,
+	Container,
+	Button,
+	FormGroup,
+} from "reactstrap";
 
 const Login = () => {
 	const API = window.appConfig.API;
@@ -16,7 +25,12 @@ const Login = () => {
 					email: email,
 					password: password,
 				})
-				.then((response) => console.log(response));
+				.then((response) => {
+					console.log(response);
+					sessionStorage.setItem("Token", response.data.token);
+					sessionStorage.setItem("Email", response.data.email);
+					sessionStorage.setItem("MemberId", response.data.memberId);
+				});
 		} catch (error) {
 			console.log(error);
 		}
@@ -25,25 +39,31 @@ const Login = () => {
 	return (
 		<Fragment>
 			<Container fluid={true}>
-				<form onSubmit={postLogin}>
-					<label for="email">email</label>
-					<input
-						type="email"
-						placeholder="janedoe@gmail.com"
-						id="email"
-						name="email"
-						onChange={(e) => setEmail(e.target.value)}
-					/>
-					<label for="password">password</label>
-					<input
-						type="password"
-						placeholder="**********"
-						id="password"
-						name="password"
-						onChange={(e) => setPassword(e.target.value)}
-					/>
-					<button>Login</button>
-				</form>
+				<Card className="login-card" id="card-container">
+					<Form onSubmit={postLogin}>
+						<Label className="form-label" id="event-label">
+							Email
+						</Label>
+						<Input
+							type="email"
+							placeholder="janedoe@gmail.com"
+							id="email"
+							name="email"
+							onChange={(e) => setEmail(e.target.value)}
+						/>
+						<Label className="form-label" id="event-label">
+							Password
+						</Label>
+						<Input
+							type="password"
+							placeholder="**********"
+							id="password"
+							name="password"
+							onChange={(e) => setPassword(e.target.value)}
+						/>
+						<Button>Login</Button>
+					</Form>
+				</Card>
 			</Container>
 		</Fragment>
 	);

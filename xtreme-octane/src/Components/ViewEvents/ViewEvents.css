@@ -21,8 +21,16 @@
 	border-color: #3274b6;
 	font-weight: 500;
 	font-size: 12px;
+	margin: auto 5px auto 5px;
+	width: 120px;
 }
 
 .event-header {
 	font-weight: 600;
+}
+
+.event-btn-container {
+	display: flex;
+	justify-content: center;
+	margin: auto;
 }

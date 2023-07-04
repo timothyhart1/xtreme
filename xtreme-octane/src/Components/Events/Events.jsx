@@ -140,7 +140,6 @@ const Events = () => {
 											rows="10"
 											className="form-control event-input"
 											required={true}
-											id="form-notes"
 											autoComplete="off"
 											onChange={(e) => setEventDesc(e.target.value)}
 										/>
@@ -149,14 +148,14 @@ const Events = () => {
 								<Row>
 									<FormGroup id="event-form-group">
 										<Label for="examplePassword" id="event-label">
-											Event Description
+											Event Image
 										</Label>
 										<Input
 											type="file"
-											className="form-control event-input image-input"
+											className="form-control image-input"
 											required={true}
-											id="form-notes"
 											onChange={getImage}
+											id="event-image-input"
 										/>
 									</FormGroup>
 								</Row>

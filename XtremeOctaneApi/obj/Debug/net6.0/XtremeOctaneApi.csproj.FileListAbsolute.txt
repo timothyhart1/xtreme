@@ -166,4 +166,3 @@ C:\Users\Timothy\Documents\GitHub\xtreme\XtremeOctaneApi\obj\Debug\net6.0\refint
 C:\Users\Timothy\Documents\GitHub\xtreme\XtremeOctaneApi\obj\Debug\net6.0\XtremeOctaneApi.pdb
 C:\Users\Timothy\Documents\GitHub\xtreme\XtremeOctaneApi\obj\Debug\net6.0\XtremeOctaneApi.genruntimeconfig.cache
 C:\Users\Timothy\Documents\GitHub\xtreme\XtremeOctaneApi\obj\Debug\net6.0\ref\XtremeOctaneApi.dll
-C:\Users\Timothy\Documents\GitHub\xtreme\XtremeOctaneApi\bin\Debug\net6.0\Newtonsoft.Json.dll

@@ -2,7 +2,7 @@ import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import React, { useState } from "react";
 import Navbar from "./Components/Navbar/Navbar";
-import routes from "./Layout/routes";
+import routes from "./Routes/routes";
 
 function App() {
 	const [sidebarOpen, setSidebarOpen] = useState(true);

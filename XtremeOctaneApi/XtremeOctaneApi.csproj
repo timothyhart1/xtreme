@@ -18,7 +18,6 @@
   <ItemGroup>
     <Folder Include="Documents\Events\" />
     <Folder Include="Documents\Cars\" />
-    <Folder Include="Dtos\" />
   </ItemGroup>
 
 </Project>

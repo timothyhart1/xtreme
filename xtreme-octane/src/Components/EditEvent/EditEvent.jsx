@@ -96,7 +96,7 @@ const EditEvent = () => {
 										</Label>
 										<Input
 											className="form-control event-input"
-											required
+											required={true}
 											type="text"
 											name="eventName"
 											autoComplete="off"
@@ -132,6 +132,13 @@ const EditEvent = () => {
 											src={`${API}/Event/Get-Event-Image/${eventId}`}
 											alt="event-image"
 											className="edit-event-image"
+										/>
+										<br />
+										<br />
+										<Input
+											type="file"
+											className="form-control image-input"
+											id="event-image-input"
 										/>
 									</FormGroup>
 								</Row>

@@ -20,14 +20,13 @@
 	height: 100vh;
 	position: fixed;
 	top: 0;
-	left: -100%;
-	transition: 0.2s ease-in-out;
+	left: -250px;
+	transition: left 0.3s ease-in-out;
 }
 
 .nav-menu.active {
 	left: 0;
 	z-index: 999 !important;
-	transition: 0.2s ease-in-out;
 }
 
 .nav-text {

@@ -130,3 +130,7 @@
 #event-btns {
 	margin: auto 5px auto 5px;
 }
+
+#event-image-input {
+	border: 2px solid #e6edef !important;
+}
