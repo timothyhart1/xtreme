@@ -14,6 +14,7 @@ import {
 	Button,
 } from "reactstrap";
 import { FaCheckCircle } from "react-icons/fa";
+import "./styles.css";
 
 const VoteEvent = () => {
 	const API = window.appConfig.API;
@@ -32,7 +33,7 @@ const VoteEvent = () => {
 				},
 			}
 		);
-		setVoteResult(res.data.vote);
+		setVoteResult(res.data);
 	};
 
 	useEffect(() => {
@@ -84,34 +85,60 @@ const VoteEvent = () => {
 					<h6 style={{ textAlign: "center" }}>Are you attending?</h6>
 					<form onSubmit={eventVote}>
 						<div className="vote-btns" style={{ textAlign: "center" }}>
-							{voteResult === "yes" && <FaCheckCircle />}
-							<Button
-								color="primary"
-								style={{ margin: "5px", width: "100px" }}
-								onClick={() => handleButtonClick("yes")}
-								type="submit"
-							>
-								Yes
-							</Button>
-							{voteResult === "yes" && <FaCheckCircle />}
-							<Button
-								color="danger"
-								style={{ margin: "5px", width: "100px" }}
-								onClick={() => handleButtonClick("no")}
-								type="submit"
-							>
-								No
-							</Button>
-							{voteResult === "yes" && <FaCheckCircle />}
-
-							<Button
-								color="warning"
-								style={{ margin: "5px", width: "100px" }}
-								onClick={() => handleButtonClick("maybe")}
-								type="submit"
-							>
-								Maybe
-							</Button>
+							<div className="inner-btn">
+								<Button
+									color="primary"
+									style={{ margin: "5px", width: "100px" }}
+									onClick={() => handleButtonClick("yes")}
+									type="submit"
+									disabled={
+										voteResult.length > 0 && voteResult[0].vote === "yes"
+									}
+								>
+									Yes
+								</Button>
+								{voteResult.length > 0 && voteResult[0].vote === "yes" && (
+									<div className="checkmark-container">
+										<FaCheckCircle id="vote-check" />
+									</div>
+								)}
+							</div>
+							<div className="inner-btn">
+								<Button
+									color="danger"
+									style={{ margin: "5px", width: "100px" }}
+									onClick={() => handleButtonClick("no")}
+									type="submit"
+									disabled={
+										voteResult.length > 0 && voteResult[0].vote === "no"
+									}
+								>
+									No
+								</Button>
+								{voteResult.length > 0 && voteResult[0].vote === "no" && (
+									<div className="checkmark-container">
+										<FaCheckCircle id="vote-check" />
+									</div>
+								)}
+							</div>
+							<div className="inner-btn">
+								<Button
+									color="warning"
+									style={{ margin: "5px", width: "100px" }}
+									onClick={() => handleButtonClick("maybe")}
+									type="submit"
+									disabled={
+										voteResult.length > 0 && voteResult[0].vote === "maybe"
+									}
+								>
+									Maybe
+								</Button>
+								{voteResult.length > 0 && voteResult[0].vote === "maybe" && (
+									<div className="checkmark-container">
+										<FaCheckCircle id="vote-check" />
+									</div>
+								)}
+							</div>
 						</div>
 					</form>
 				</Card>
