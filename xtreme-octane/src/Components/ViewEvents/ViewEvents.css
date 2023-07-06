@@ -16,6 +16,14 @@
 	object-fit: cover;
 }
 
+.event-image-vote {
+	border-radius: 7px;
+	height: 300px;
+	width: 400px;
+	object-fit: cover;
+	margin: auto;
+}
+
 #event-btn-card {
 	background-color: #3274b6;
 	border-color: #3274b6;

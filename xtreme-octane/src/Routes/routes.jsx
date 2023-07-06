@@ -9,6 +9,7 @@ import ViewEvents from "../Components/ViewEvents/ViewEvents";
 import EditProfile from "../Components/EditProfile/EditProfile";
 import Login from "../Components/Auth/Login/Login";
 import Register from "../Components/Auth/Register/Register";
+import VoteEvent from "../Components/VoteEvent/VoteEvents";
 
 const routes = [
 	{
@@ -54,6 +55,10 @@ const routes = [
 	{
 		path: "login",
 		Component: Login,
+	},
+	{
+		path: "vote-event/:eventId",
+		Component: VoteEvent,
 	},
 ];
 

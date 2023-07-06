@@ -58,7 +58,7 @@ const ViewEvents = () => {
 											<Link to={`/view-event-${item.eventId}`}>
 												<Button id="event-btn-card">View Event</Button>
 											</Link>
-											<Link to={`/vote-event-${item.eventId}`}>
+											<Link to={`/vote-event/:${item.eventId}`}>
 												<Button id="event-btn-card">Vote</Button>
 											</Link>
 										</div>

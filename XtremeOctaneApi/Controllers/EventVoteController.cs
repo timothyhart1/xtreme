@@ -51,9 +51,9 @@ namespace XtremeOctaneApi.Controllers
 
 
 
-        [HttpPost("Add-Event-Vote")]
+        [HttpPost("Add-Event-Vote/{id}")]
         [AllowAnonymous]
-        public async Task<ActionResult<Event>> AddEventVote(EventVote eventVote)
+        public async Task<ActionResult<Event>> AddEventVote(int id, EventVote eventVote)
         {
             if (!ModelState.IsValid)
             {
@@ -62,17 +62,25 @@ namespace XtremeOctaneApi.Controllers
 
             try
             {
-                var extremeEventVote = new EventVote
+                var existingVote = await _db.EventVote.FirstOrDefaultAsync(ev => ev.EventId == id && ev.MemberId == eventVote.MemberId);
+
+                if (existingVote != null)
                 {
-                    EventId = eventVote.EventId,
+                    _db.EventVote.Remove(existingVote);
+                }
+
+                var newEventVote = new EventVote
+                {
+                    EventId = id,
                     MemberId = eventVote.MemberId,
                     Vote = eventVote.Vote,
                     VoteDate = DateTime.Now
                 };
 
-                await _db.EventVote.AddAsync(extremeEventVote);
+                await _db.EventVote.AddAsync(newEventVote);
                 await _db.SaveChangesAsync();
-                return Ok(extremeEventVote);
+
+                return Ok(newEventVote);
             }
             catch (Exception ex)
             {
@@ -80,5 +88,6 @@ namespace XtremeOctaneApi.Controllers
                 return StatusCode(500, "An error occurred while posting the event");
             }
         }
+
     }
 }
