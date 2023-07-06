@@ -6,6 +6,7 @@ import PageHeader from "../PageHeader/PageHeader";
 import CardTitle from "../CardTitle/CardTitle";
 import ModalDeleteEvent from "../Modal/Modal";
 import { FaRegEdit } from "react-icons/fa";
+import { FaRegEye } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -211,6 +212,17 @@ const Events = () => {
 													>
 														<i className="candidate-icons">
 															<FaRegEdit />
+														</i>
+													</button>
+												</Link>
+												<Link to={`event-votes/${item.eventId}`}>
+													<button
+														type="button"
+														class="btn btn-info"
+														id="event-btns"
+													>
+														<i className="candidate-icons">
+															<FaRegEye />
 														</i>
 													</button>
 												</Link>

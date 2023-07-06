@@ -50,6 +50,25 @@ namespace XtremeOctaneApi.Controllers
         }
 
 
+        [HttpGet("MemberEventVote/{id}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<List<EventVote>>> GetEventVotes(int id, int memberId)
+        {
+            try
+            {
+                var voteResults = await _db.EventVote
+                    .Where(ev => ev.EventId == id && ev.MemberId == memberId)
+                    .ToListAsync();
+
+                return Ok(voteResults);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"An error occurred while fetching the event with ID {id}");
+                return StatusCode(500, "An error occurred while fetching the event with ID");
+            }
+        }
+
 
         [HttpPost("Add-Event-Vote/{id}")]
         [AllowAnonymous]

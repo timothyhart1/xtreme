@@ -2,7 +2,6 @@ import React, { useState, useEffect, Fragment } from "react";
 import "./ViewEvents.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
-
 import PageHeader from "../PageHeader/PageHeader";
 import CardTitle from "../CardTitle/CardTitle";
 import { ToastContainer, toast } from "react-toastify";

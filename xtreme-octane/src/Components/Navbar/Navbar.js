@@ -30,11 +30,9 @@ function Navbar({ toggleSidebar }) {
 								<AiIcons.AiOutlineClose />
 							</Link>
 						</li>
-						<hr className="nav-hr" />
 						<div className="logo-container">
 							<img src={logo} alt="" className="xtreme-octane-logo" />
 						</div>
-						<hr className="nav-hr" />
 						{SidebarData.map((item, index) => {
 							return (
 								<li key={index} className="nav-text">

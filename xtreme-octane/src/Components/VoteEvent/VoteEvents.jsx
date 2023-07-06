@@ -13,6 +13,7 @@ import {
 	CardText,
 	Button,
 } from "reactstrap";
+import { FaCheckCircle } from "react-icons/fa";
 
 const VoteEvent = () => {
 	const API = window.appConfig.API;
@@ -20,6 +21,19 @@ const VoteEvent = () => {
 	const { eventId } = useParams();
 	const [vote, setVote] = useState("");
 	const memberId = sessionStorage.getItem("MemberId");
+	const [voteResult, setVoteResult] = useState("");
+
+	const getMemberVote = async () => {
+		const res = await axios.get(
+			`${API}/EventVote/MemberEventVote/${eventId.slice(1)}`,
+			{
+				params: {
+					memberId: memberId,
+				},
+			}
+		);
+		setVoteResult(res.data.vote);
+	};
 
 	useEffect(() => {
 		async function fetchData() {
@@ -34,6 +48,7 @@ const VoteEvent = () => {
 			}
 		}
 		fetchData();
+		getMemberVote();
 	}, []);
 
 	const handleButtonClick = (value) => {
@@ -69,6 +84,7 @@ const VoteEvent = () => {
 					<h6 style={{ textAlign: "center" }}>Are you attending?</h6>
 					<form onSubmit={eventVote}>
 						<div className="vote-btns" style={{ textAlign: "center" }}>
+							{voteResult === "yes" && <FaCheckCircle />}
 							<Button
 								color="primary"
 								style={{ margin: "5px", width: "100px" }}
@@ -77,6 +93,7 @@ const VoteEvent = () => {
 							>
 								Yes
 							</Button>
+							{voteResult === "yes" && <FaCheckCircle />}
 							<Button
 								color="danger"
 								style={{ margin: "5px", width: "100px" }}
@@ -85,6 +102,8 @@ const VoteEvent = () => {
 							>
 								No
 							</Button>
+							{voteResult === "yes" && <FaCheckCircle />}
+
 							<Button
 								color="warning"
 								style={{ margin: "5px", width: "100px" }}
