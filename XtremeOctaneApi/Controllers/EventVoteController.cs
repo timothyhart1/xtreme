@@ -20,7 +20,8 @@ namespace XtremeOctaneApi.Controllers
             _logger = logger;
 
         }
-
+        
+        
         [HttpGet("EventVotes/{id}")]
         [AllowAnonymous]
         public async Task<ActionResult<VoteResults>> GetEventVotes(int id)
@@ -36,7 +37,10 @@ namespace XtremeOctaneApi.Controllers
                         TotalVotes = g.Count(),
                         YesVotes = g.Count(ev => ev.Vote == "yes"),
                         NoVotes = g.Count(ev => ev.Vote == "no"),
-                        MaybeVotes = g.Count(ev => ev.Vote == "maybe")
+                        MaybeVotes = g.Count(ev => ev.Vote == "maybe"),
+                        YesPercentage = Math.Round((double)g.Count(ev => ev.Vote == "yes") / g.Count() * 100, 2),
+                        NoPercentage = Math.Round((double)g.Count(ev => ev.Vote == "no") / g.Count() * 100, 2),
+                        MaybePercentage = Math.Round((double)g.Count(ev => ev.Vote == "maybe") / g.Count() * 100, 2)
                     })
                     .SingleOrDefaultAsync();
 
@@ -48,6 +52,7 @@ namespace XtremeOctaneApi.Controllers
                 return StatusCode(500, "An error occurred while fetching the event with ID");
             }
         }
+
 
 
         [HttpGet("MemberEventVote/{id}")]
