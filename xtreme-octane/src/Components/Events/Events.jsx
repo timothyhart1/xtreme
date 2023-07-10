@@ -5,8 +5,7 @@ import { Link } from "react-router-dom";
 import PageHeader from "../PageHeader/PageHeader";
 import CardTitle from "../CardTitle/CardTitle";
 import ModalDeleteEvent from "../Modal/Modal";
-import { FaRegEdit } from "react-icons/fa";
-import { FaRegEye } from "react-icons/fa";
+import { FaRegEdit, FaRegEye, FaPlus } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -204,6 +203,17 @@ const Events = () => {
 												className="event-items-icons text-center align-middle"
 												id="event-actions"
 											>
+												<Link to={`/add-event-expense/${item.eventId}`}>
+													<button
+														type="button"
+														class="btn btn-success"
+														id="event-btns"
+													>
+														<i className="candidate-icons">
+															<FaPlus />
+														</i>
+													</button>
+												</Link>
 												<Link to={`edit-event/${item.eventId}`}>
 													<button
 														type="button"

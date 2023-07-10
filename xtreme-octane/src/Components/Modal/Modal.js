@@ -37,7 +37,7 @@ function ModalDeleteEvent(props) {
 	return (
 		<div>
 			<ToastContainer />
-			<button type="button" class="btn btn-danger">
+			<button type="button" className="btn btn-danger">
 				<i className="table-icons" onClick={toggle}>
 					<FaRegTrashAlt />
 				</i>

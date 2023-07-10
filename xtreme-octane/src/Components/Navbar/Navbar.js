@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
-import { Link } from "react-router-dom";
 import { SidebarData } from "./SidebarData";
 import { IconContext } from "react-icons";
 import "./Navbar.css";
 import logo from "../../Images/Logo_light_transparent.png";
+import { Link, useLocation } from "react-router-dom";
 
 function Navbar({ toggleSidebar }) {
 	const [sidebar, setSidebar] = useState(true);
+	const location = useLocation();
 
 	const handleToggleSidebar = () => {
 		setSidebar(!sidebar);
@@ -34,8 +35,12 @@ function Navbar({ toggleSidebar }) {
 							<img src={logo} alt="" className="xtreme-octane-logo" />
 						</div>
 						{SidebarData.map((item, index) => {
+							const isActive = item.path === location.pathname;
 							return (
-								<li key={index} className="nav-text">
+								<li
+									key={index}
+									className={isActive ? "nav-text active" : "nav-text"}
+								>
 									<Link to={item.path}>
 										{item.icon}
 										<span>{item.title}</span>

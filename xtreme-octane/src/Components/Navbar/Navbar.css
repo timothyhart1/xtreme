@@ -91,3 +91,8 @@ span {
 	border: none;
 	margin: 0;
 }
+
+.nav-text.active a {
+	background-color: #3273b5;
+	color: #fff;
+}

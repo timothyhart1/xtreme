@@ -5,7 +5,7 @@
         public int MemberTrackTimeId { get; set; }
         public int MemberId { get; set; }
         public int VehicleId { get; set; }
-        public decimal LapTime { get; set; }
+        public TimeSpan LapTime { get; set; }
         public string Conditions { get; set; }
         public string Tyre { get; set; }
         public string VehicleClass { get; set; }

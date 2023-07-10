@@ -18,6 +18,8 @@ namespace XtremeOctaneApi.Data
         public DbSet<MemberTrackTime> MemberTrackTime { get; set; }
         public DbSet<User> User { get; set; }
         public DbSet<EventVote> EventVote { get; set; }
+        public DbSet<EventExpenses> EventExpenses { get; set; }
+
     }
 }
 

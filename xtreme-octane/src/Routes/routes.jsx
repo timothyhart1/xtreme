@@ -10,6 +10,8 @@ import EditProfile from "../Components/EditProfile/EditProfile";
 import Login from "../Components/Auth/Login/Login";
 import Register from "../Components/Auth/Register/Register";
 import VoteEvent from "../Components/VoteEvent/VoteEvents";
+import ViewEventVotes from "../Components/ViewEventVotes/ViewEvents";
+import EventExpenses from "../Components/EventExpenses/EventExpenses";
 
 const routes = [
 	{
@@ -59,6 +61,14 @@ const routes = [
 	{
 		path: "vote-event/:eventId",
 		Component: VoteEvent,
+	},
+	{
+		path: "events/event-votes/:eventId",
+		Component: ViewEventVotes,
+	},
+	{
+		path: "add-event-expense/:eventId",
+		Component: EventExpenses,
 	},
 ];
 
