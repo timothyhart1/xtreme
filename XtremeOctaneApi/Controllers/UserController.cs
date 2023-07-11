@@ -36,6 +36,7 @@ namespace XtremeOctaneApi.Controllers
             var hashedPassword = sha.ComputeHash(asByteArray);
             return Convert.ToBase64String(hashedPassword);
         }
+
         [HttpPost("Register")]
         [AllowAnonymous]
         public async Task<IActionResult> Register(User user)

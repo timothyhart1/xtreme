@@ -11,10 +11,12 @@ function ModalDeleteEvent(props) {
 	const toggle = () => setModal(!modal);
 	const eventId = props.eventId;
 	const eventName = props.eventName;
+	const deleteId = props.deleteId;
 
-	const deleteHandler = () => {
-		props.onDelete();
+	const deleteHandler = async () => {
 		toggle();
+		await props.onDelete(deleteId);
+		props.updateData();
 	};
 
 	const directiontoaster = (toastname) => {

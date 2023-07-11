@@ -22,7 +22,7 @@ const EditEvent = () => {
 	const API = window.appConfig.API;
 	const [data, setData] = useState([]);
 	const { eventId } = useParams();
-
+	const [imageFile, setImageFile] = useState(null);
 	const [event, setEvent] = useState({
 		eventName: "",
 		eventDesc: "",
@@ -46,20 +46,30 @@ const EditEvent = () => {
 	const submitEvent = async (e) => {
 		try {
 			e.preventDefault();
-			const requestData = {
-				eventName: eventName,
-				eventDesc: eventDesc,
-				eventImage: "",
-			};
-			let requestUrl = `${API}/Event/Edit-Event/${eventId}`;
-			const req = await axios.put(requestUrl, requestData);
+			const requestData = new FormData();
+			requestData.append("eventName", eventName);
+			requestData.append("eventDesc", eventDesc);
+			requestData.append("eventImage", imageFile);
+
+			const requestUrl = `${API}/Event/Edit-Event/${eventId}?eventName=${eventName}&eventDesc=${eventDesc}&deleted=false`;
+			await axios.put(requestUrl, requestData, {
+				headers: {
+					"Content-Type": "multipart/form-data",
+				},
+			});
+
+			directiontoaster("directionssuccessToast");
 		} catch {
-			return directiontoaster("directionsdangerToast");
+			directiontoaster("directionsdangerToast");
 		}
 	};
 
 	const onInputChange = (e) => {
 		setEvent({ ...event, [e.target.name]: e.target.value });
+	};
+
+	const handleImageChange = (e) => {
+		setImageFile(e.target.files[0]);
 	};
 
 	const directiontoaster = (toastname) => {
@@ -139,6 +149,7 @@ const EditEvent = () => {
 											type="file"
 											className="form-control image-input"
 											id="event-image-input"
+											onChange={handleImageChange}
 										/>
 									</FormGroup>
 								</Row>

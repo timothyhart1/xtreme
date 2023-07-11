@@ -13,7 +13,7 @@ namespace XtremeOctaneApi.Controllers
     [Route("[controller]")]
     public class EventController : ControllerBase
     {
-        private readonly ILogger<EventController> _logger; 
+        private readonly ILogger<EventController> _logger;
         private readonly DataContext _db;
 
         public EventController(DataContext db, ILogger<EventController> logger)
@@ -27,7 +27,7 @@ namespace XtremeOctaneApi.Controllers
         {
             try
             {
-                var events = await _db.Event.ToListAsync();
+                var events = await _db.Event.Where(e => e.Deleted != true).ToListAsync();
 
                 if (events == null)
                 {
@@ -108,13 +108,14 @@ namespace XtremeOctaneApi.Controllers
                     EventDesc = eventDesc,
                     EventDate = DateTime.Now,
                     EventImage = fileName,
+                    Deleted = true
                 };
 
                 await _db.Event.AddAsync(xtremeEvent);
                 await _db.SaveChangesAsync();
                 return Ok(xtremeEvent);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while posting the event");
                 return StatusCode(500, "An error occurred while posting the event");
@@ -122,7 +123,7 @@ namespace XtremeOctaneApi.Controllers
         }
 
         [HttpPut("Edit-Event/{id}")]
-        public ActionResult EditEvent(int id, [FromBody] Event eventModel)
+        public async Task<IActionResult> EditEvent(int id, IFormFile eventImage, string eventName, string eventDesc, DateTime eventDate, bool deleted)
         {
             try
             {
@@ -130,14 +131,30 @@ namespace XtremeOctaneApi.Controllers
 
                 if (xtremeEvent != null)
                 {
-                    xtremeEvent.EventName = eventModel.EventName;
-                    xtremeEvent.EventDesc = eventModel.EventDesc;
+                    if (eventImage != null)
+                    {
+                        string fileName = Guid.NewGuid() + Path.GetExtension(eventImage.FileName);
+                        string uploadFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Documents\\Events", fileName);
+
+                        using (var fileStream = new FileStream(uploadFilePath, FileMode.Create))
+                        {
+                            await eventImage.CopyToAsync(fileStream);
+                            await fileStream.FlushAsync();
+                        }
+
+                        xtremeEvent.EventImage = fileName; // Store the file name or path in the database
+                    }
+
+                    xtremeEvent.EventName = eventName;
+                    xtremeEvent.EventDesc = eventDesc;
                     xtremeEvent.EventDate = DateTime.Now;
+                    xtremeEvent.Deleted = false;
 
                     _db.SaveChanges();
 
                     return Ok(xtremeEvent.EventId);
                 }
+
                 return NotFound($"Could not find the event with the id {id}");
             }
             catch (Exception ex)
@@ -148,21 +165,21 @@ namespace XtremeOctaneApi.Controllers
         }
 
 
-        [HttpDelete("Delete-Event")]
-        [AllowAnonymous]
 
+        [HttpDelete("Delete-Event/{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> DeleteEvent(int id)
         {
             try
             {
                 var xtremeEvent = await _db.Event.FindAsync(id);
 
-                if(xtremeEvent == null)
+                if (xtremeEvent == null)
                 {
-                    return BadRequest($"No event was found with the id {id}");
+                    return NotFound($"No event was found with the id {id}");
                 }
 
-                _db.Event.Remove(xtremeEvent);
+                xtremeEvent.Deleted = true;
                 await _db.SaveChangesAsync();
 
                 return Ok();

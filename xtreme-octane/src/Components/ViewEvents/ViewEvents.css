@@ -42,3 +42,7 @@
 	justify-content: center;
 	margin: auto;
 }
+
+.event-centre {
+	text-align: center !important;
+}

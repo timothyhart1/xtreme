@@ -49,10 +49,9 @@ const ViewEvents = () => {
 										className="event-image"
 									/>
 									<CardBody>
-										<CardSubtitle className="mb-2 event-header">
+										<CardSubtitle className="mb-2 event-header event-centre">
 											{item.eventName} - {item.eventDate.slice(0, 10)}
 										</CardSubtitle>
-										<CardText>{item.eventDesc}</CardText>
 										<div className="event-btn-container">
 											<Link to={`/view-event-${item.eventId}`}>
 												<Button id="event-btn-card">View Event</Button>

@@ -19,7 +19,6 @@
 #event-btn {
 	font-size: 12px;
 	width: 8%;
-	font-weight: 600;
 	padding: 7px;
 }
 
@@ -77,7 +76,6 @@
 #event-btn {
 	font-size: 12px;
 	width: 8%;
-	font-weight: 600;
 	padding: 7px;
 	background-color: #3273b5;
 	border-color: #3273b5;
@@ -86,7 +84,6 @@
 #modal-event-btn {
 	font-size: 12px;
 	width: 20%;
-	font-weight: 600;
 	padding: 7px;
 }
 

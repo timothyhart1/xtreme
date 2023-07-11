@@ -4,7 +4,6 @@ import EditEvent from "../Components/EditEvent/EditEvent";
 import Members from "../Components/Members/Members";
 import Vehicles from "../Components/Vehicles/Vehicles";
 import Scribante from "../Components/Scribante/Scribante";
-import ViewVehicle from "../Components/ViewVehicle/Vehicles";
 import ViewEvents from "../Components/ViewEvents/ViewEvents";
 import EditProfile from "../Components/EditProfile/EditProfile";
 import Login from "../Components/Auth/Login/Login";
@@ -12,6 +11,9 @@ import Register from "../Components/Auth/Register/Register";
 import VoteEvent from "../Components/VoteEvent/VoteEvents";
 import ViewEventVotes from "../Components/ViewEventVotes/ViewEvents";
 import EventExpenses from "../Components/EventExpenses/EventExpenses";
+import AddVehicle from "../Components/AddVehicle/AddVehicle";
+import EditEventExpenses from "../Components/EditEventExpense/EditEventExpenses";
+import ViewVehicle from "../Components/ViewVehicle/ViewVehicle";
 
 const routes = [
 	{
@@ -69,6 +71,14 @@ const routes = [
 	{
 		path: "add-event-expense/:eventId",
 		Component: EventExpenses,
+	},
+	{
+		path: "edit-event-expense/:eventExpenseId/event/:eventId",
+		Component: EditEventExpenses,
+	},
+	{
+		path: "add-vehicle",
+		Component: AddVehicle,
 	},
 ];
 

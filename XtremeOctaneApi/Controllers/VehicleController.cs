@@ -45,10 +45,10 @@ namespace XtremeOctaneApi.Controllers
             }
         }
 
-        [HttpGet("MemberVehicle/id")]
-        public IActionResult GetVehicle (int vehicleId)
+        [HttpGet("MemberVehicle/{id}")]
+        public IActionResult GetVehicle(int id)
         {
-            var vehicle = _db.Vehicle.Find(vehicleId);
+            var vehicle = _db.Vehicle.Include(v => v.Member).FirstOrDefault(v => v.VehicleId == id);
 
             if (vehicle == null)
             {
@@ -57,6 +57,7 @@ namespace XtremeOctaneApi.Controllers
 
             return Ok(vehicle);
         }
+
 
         [HttpGet("MemberVehicles/id")]
         public IActionResult GetVehiclesByMember (int memberId)
@@ -101,17 +102,17 @@ namespace XtremeOctaneApi.Controllers
 
         [HttpPost("Add-Vehicle")]
         [AllowAnonymous]
-        public async Task<ActionResult<Vehicle>> AddVehicle(int vehicleId, int memberId, string manufacturer, string model, string year, int mileage, 
-        string plate, string color, IFormFile vehicleImage)
+        public async Task<ActionResult<Vehicle>> AddVehicle(IFormFile image, int vehicleId, int memberId, string manufacturer, string model, string year, int mileage, 
+        string plate, string color)
         {
             try
             {
-                string fileName = Guid.NewGuid() + Path.GetExtension(vehicleImage.FileName);
+                string fileName = Guid.NewGuid() + Path.GetExtension(image.FileName);
                 string uploadfilepath = Path.Combine(Directory.GetCurrentDirectory(), "Documents\\Cars", fileName);
 
                 using (var fileStream = new FileStream(uploadfilepath, FileMode.Create))
                 {
-                    await vehicleImage.CopyToAsync(fileStream);
+                    await image.CopyToAsync(fileStream);
                     await fileStream.FlushAsync();
                 };
 

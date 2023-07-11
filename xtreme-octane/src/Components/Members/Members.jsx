@@ -90,17 +90,6 @@ const Members = () => {
 												className="event-items-icons text-center align-middle"
 												id="event-actions"
 											>
-												<Link to={`/edit-member/${member.memberId}`}>
-													<button
-														type="button"
-														class="btn btn-primary"
-														id="event-btns"
-													>
-														<i className="table-icons">
-															<FaRegEdit />
-														</i>
-													</button>
-												</Link>
 												<ModalDeleteEvent
 													eventName={member.name}
 													eventId={member.memberId}

@@ -12,15 +12,17 @@ import {
 	CartesianGrid,
 	Bar,
 } from "recharts";
+import { Link, useParams } from "react-router-dom";
 
 const ViewEventVotes = () => {
 	const API = window.appConfig.API;
 	const [data, setData] = useState([]);
+	const { eventId } = useParams();
 
 	useEffect(() => {
 		async function fetchData() {
 			try {
-				const res = await axios.get(`${API}/EventVote/EventVotes/10`);
+				const res = await axios.get(`${API}/EventVote/EventVotes/${eventId}`);
 				const { yesVotes, noVotes, maybeVotes } = res.data;
 				const formattedData = [
 					{ name: "Yes", votes: yesVotes },

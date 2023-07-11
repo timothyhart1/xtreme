@@ -1,0 +1,13 @@
+.vehicle-card-item {
+	text-align: center;
+	width: 25% !important;
+}
+
+.card-vehicle {
+	text-align: center;
+}
+
+.card-container {
+	justify-content: center !important;
+	text-align: center !important;
+}

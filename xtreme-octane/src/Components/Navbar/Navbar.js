@@ -20,36 +20,43 @@ function Navbar({ toggleSidebar }) {
 		<>
 			<IconContext.Provider value={{ color: "undefined" }}>
 				<div className="navbar">
+					{" "}
+					{/* Move the navbar class here */}
 					<Link to="#" className="menu-bars" onClick={handleToggleSidebar}>
 						<FaIcons.FaBars />
 					</Link>
-				</div>
-				<nav className={sidebar ? "nav-menu active" : "nav-menu"}>
-					<ul className="nav-menu-items">
-						<li className="navbar-toggle">
-							<Link to="#" className="menu-bars" onClick={handleToggleSidebar}>
-								<AiIcons.AiOutlineClose />
-							</Link>
-						</li>
-						<div className="logo-container">
-							<img src={logo} alt="" className="xtreme-octane-logo" />
-						</div>
-						{SidebarData.map((item, index) => {
-							const isActive = item.path === location.pathname;
-							return (
-								<li
-									key={index}
-									className={isActive ? "nav-text active" : "nav-text"}
+					<nav className={sidebar ? "nav-menu active" : "nav-menu"}>
+						<ul className="nav-menu-items">
+							<li className="navbar-toggle">
+								<Link
+									to="#"
+									className="menu-bars"
+									onClick={handleToggleSidebar}
 								>
-									<Link to={item.path}>
-										{item.icon}
-										<span>{item.title}</span>
-									</Link>
-								</li>
-							);
-						})}
-					</ul>
-				</nav>
+									<AiIcons.AiOutlineClose />
+								</Link>
+							</li>
+							<div className="logo-container">
+								<img src={logo} alt="" className="xtreme-octane-logo" />
+							</div>
+							{SidebarData.map((item, index) => {
+								const isActive = item.path === location.pathname;
+								return (
+									<li
+										key={index}
+										className={isActive ? "nav-text active" : "nav-text"}
+									>
+										<Link to={item.path}>
+											{item.icon}
+											<span>{item.title}</span>
+										</Link>
+									</li>
+								);
+							})}
+						</ul>
+					</nav>
+				</div>{" "}
+				{/* Close the navbar class */}
 			</IconContext.Provider>
 		</>
 	);

@@ -18,15 +18,13 @@
 
 #event-btn {
 	font-size: 12px;
-	width: 8%;
-	font-weight: 600;
+	width: 130px !important;
 	padding: 7px;
 }
 
 #modal-event-btn {
 	font-size: 12px;
 	width: 20%;
-	font-weight: 600;
 	padding: 7px;
 }
 
@@ -77,10 +75,10 @@
 #event-btn {
 	font-size: 12px;
 	width: 8%;
-	font-weight: 600;
 	padding: 7px;
 	background-color: #3273b5;
 	border-color: #3273b5;
+	margin: auto 5px;
 }
 
 #modal-event-btn {
@@ -133,4 +131,8 @@
 
 #event-image-input {
 	border: 2px solid #e6edef !important;
+}
+
+.btn-container {
+	display: inline-flex;
 }

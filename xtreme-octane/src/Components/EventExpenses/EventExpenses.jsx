@@ -25,19 +25,52 @@ const EventExpenses = () => {
 	const API = window.appConfig.API;
 	const [data, setData] = useState([]);
 	const { eventId } = useParams();
+	const [total, setTotal] = useState("");
+	const [expenseName, setExpenseName] = useState("");
+	const [expenseAmount, setExpenseAmount] = useState();
+
+	const getTotalExpenses = async () => {
+		const res = await axios
+			.get(`${API}/EventExpense/EventExpenseTotal/${eventId}`)
+			.then((response) => {
+				setTotal(response.data.totalExpenses);
+			});
+	};
+
+	const fetchData = async () => {
+		try {
+			const res = await axios.get(
+				`${API}/EventExpense/GetEventExpenses/${eventId}`
+			);
+			setData(res.data);
+			console.log(res.data);
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	useEffect(() => {
-		async function fetchData() {
-			try {
-				const res = await axios.get(`${API}/EventExpenses/${eventId}`);
-				setData(res.data);
-				console.log(res.data);
-			} catch (error) {
-				console.log(error);
-			}
-		}
 		fetchData();
-	}, []);
+		getTotalExpenses();
+	}, [eventId]);
+
+	const addExpense = async (e) => {
+		e.preventDefault();
+
+		const res = await axios.post(`${API}/EventExpense/AddNewEventExpense`, {
+			eventId: eventId,
+			expenseName: expenseName,
+			expenseAmount: expenseAmount,
+			addedBy: "tim",
+		});
+		fetchData();
+	};
+
+	const deleteEventExpense = async (eventId) => {
+		const res = await axios.delete(
+			`${API}/EventExpense/DeleteExpense/${eventId}`
+		);
+	};
 
 	return (
 		<Fragment>
@@ -47,12 +80,12 @@ const EventExpenses = () => {
 				<Card id="card-container">
 					<CardTitle title="Add Expense" />
 					<Row>
-						<Form id="event-form">
+						<Form id="event-form" onSubmit={addExpense}>
 							<div className="event-container">
 								<Row>
 									<FormGroup id="event-form-group">
 										<Label className="form-label" id="event-label">
-											Event Name
+											Expense Name
 										</Label>
 										<Input
 											className="form-control event-input"
@@ -60,40 +93,34 @@ const EventExpenses = () => {
 											type="text"
 											name="name"
 											autoComplete="off"
+											onChange={(e) => setExpenseName(e.target.value)}
 										/>
 									</FormGroup>
 								</Row>
 								<Row>
 									<FormGroup id="event-form-group">
 										<Label for="examplePassword" id="event-label">
-											Event Description
-										</Label>
-										<textarea
-											type="text"
-											rows="10"
-											className="form-control event-input"
-											required={true}
-											autoComplete="off"
-										/>
-									</FormGroup>
-								</Row>
-								<Row>
-									<FormGroup id="event-form-group">
-										<Label for="examplePassword" id="event-label">
-											Event Image
+											Expense Amount
 										</Label>
 										<Input
-											type="file"
-											className="form-control image-input"
-											required={true}
-											id="event-image-input"
+											className="form-control event-input"
+											required
+											type="text"
+											name="name"
+											autoComplete="off"
+											onChange={(e) => setExpenseAmount(e.target.value)}
 										/>
 									</FormGroup>
 								</Row>
 								<Row>
-									<Button type="submit" id="event-btn">
-										Add Event
-									</Button>
+									<div className="btn-container">
+										<Link to={"/events"}>
+											<Button id="event-btn">Back</Button>
+										</Link>
+										<Button type="submit" id="event-btn">
+											Add Expense
+										</Button>
+									</div>
 								</Row>
 							</div>
 						</Form>
@@ -101,6 +128,7 @@ const EventExpenses = () => {
 				</Card>
 				<Card id="card-container" className="card-spacing">
 					<CardTitle title="Event Expenses" />
+					<p>{`Total expenses = R${total}`}</p>
 					<CardBody>
 						<Table id="event-table" bordered responsive>
 							<thead>
@@ -111,6 +139,7 @@ const EventExpenses = () => {
 										Event Description
 									</th>
 									<th className="text-center align-middle">Added By</th>
+									<th className="text-center align-middle">Date Added</th>
 									<th className="text-center align-middle">Actions</th>
 								</tr>
 							</thead>
@@ -130,12 +159,16 @@ const EventExpenses = () => {
 											<td className="event-items text-center align-middle">
 												{item.addedBy}
 											</td>
-
+											<td className="event-items text-center align-middle">
+												{item.createDate.slice(0, 10)}
+											</td>
 											<td
 												className="event-items-icons text-center align-middle"
 												id="event-actions"
 											>
-												<Link to={`edit-event/${item.eventId}`}>
+												<Link
+													to={`/edit-event-expense/${item.eventExpenseId}/event/${item.eventId}`}
+												>
 													<button
 														type="button"
 														className="btn btn-primary"
@@ -147,9 +180,12 @@ const EventExpenses = () => {
 													</button>
 												</Link>
 												<ModalDeleteEvent
-													eventName={item.eventName}
-													eventId={item.eventId}
+													expenseName={item.expenseName}
+													deleteId={item.eventExpenseId}
+													onDelete={deleteEventExpense}
+													updateData={fetchData}
 													id="event-btns"
+													modalTitle={`Are you sure you want to delete ${item.expenseName}?`}
 												/>
 											</td>
 										</tr>

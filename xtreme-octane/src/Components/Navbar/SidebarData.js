@@ -46,4 +46,10 @@ export const SidebarData = [
 		icon: <FaIcons.FaNewspaper />,
 		cName: "nav-text",
 	},
+	{
+		title: "Add Vehicle",
+		path: "/add-vehicle",
+		icon: <FaIcons.FaCar />,
+		cName: "nav-text",
+	},
 ];

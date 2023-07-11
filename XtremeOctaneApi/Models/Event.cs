@@ -10,5 +10,6 @@ namespace XtremeOctaneApi.Models
         public string EventDesc { get; set; }
         public DateTime EventDate { get; set; }
         public string EventImage { get; set; }
+        public Boolean? Deleted { get; set; }
     }
 };

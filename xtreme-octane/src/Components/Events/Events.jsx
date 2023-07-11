@@ -105,6 +105,10 @@ const Events = () => {
 		console.log(e.target.files[0]);
 	};
 
+	const deleteEvent = async (eventId) => {
+		const res = await axios.delete(`${API}/Event/Delete-Event/${eventId}`);
+	};
+
 	return (
 		<Fragment>
 			<Container fluid={true}>
@@ -238,9 +242,11 @@ const Events = () => {
 												</Link>
 												<ModalDeleteEvent
 													eventName={item.eventName}
-													eventId={item.eventId}
-													updateEventData={updateEventData}
+													deleteId={item.eventId}
+													updateData={updateEventData}
+													onDelete={deleteEvent}
 													id="event-btns"
+													modalTitle={`Are you sure you want to delete ${item.eventName}?`}
 												/>
 											</td>
 										</tr>

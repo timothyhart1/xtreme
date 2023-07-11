@@ -75,12 +75,7 @@ const Vehicles = () => {
 												{vehicle.manufacturer}
 											</td>
 											<td className="event-items text-center align-middle">
-												<Link
-													to={`view-vehicle/:${vehicle.vehicleId}`}
-													id="vehicle-model"
-												>
-													{vehicle.model}
-												</Link>
+												{vehicle.model}
 											</td>
 											<td className="event-items text-center align-middle">
 												{vehicle.year}
@@ -96,7 +91,7 @@ const Vehicles = () => {
 											</td>
 											<td id="event-actions">
 												<Link
-													to={`view-vehicle/:${vehicle.vehicleId}`}
+													to={`view-vehicle/${vehicle.vehicleId}`}
 													id="vehicle-model"
 												>
 													<button type="button" class="btn btn-info">
