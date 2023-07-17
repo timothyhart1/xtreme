@@ -7,10 +7,9 @@ namespace XtremeOctaneApi.Models
     public class User
     {
         [Key]
-        public int ID { get; set; }
-        public string? Email { get; set; }
-        public string? Password { get; set; }
-        public string Token { get; set; } = string.Empty;
-        public int? MemberId { get; set; }
+        public int UserID { get; set; }
+        public string? Email { get; set; } = String.Empty;
+        public string? PasswordHash { get; set; } = String.Empty;
+        public Member Member { get; set; }
     }
 }

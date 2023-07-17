@@ -1,0 +1,19 @@
+{
+  "Version": 1,
+  "Hash": "tGNoAHoVX32P5OPO/2fF33sPHhRUKik/KISTHwvdgOo=",
+  "Source": "XtremeOctaneApi",
+  "BasePath": "_content/XtremeOctaneApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "XtremeOctaneApi\\wwwroot",
+      "Source": "XtremeOctaneApi",
+      "ContentRoot": "C:\\Users\\Timothy\\Documents\\GitHub\\xtreme\\XtremeOctaneApi\\wwwroot\\",
+      "BasePath": "_content/XtremeOctaneApi",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": []
+}

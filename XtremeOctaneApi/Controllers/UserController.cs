@@ -1,17 +1,13 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Text.Json;
+﻿using Microsoft.AspNetCore.Mvc;
 using XtremeOctaneApi.Data;
 using XtremeOctaneApi.Models;
+using XtremeOctaneApi.Dtos;
+using BCrypt.Net;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.EntityFrameworkCore;
 
 namespace XtremeOctaneApi.Controllers
 {
@@ -19,123 +15,88 @@ namespace XtremeOctaneApi.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        private IConfiguration _config;
         private readonly DataContext _db;
+        private readonly IConfiguration _configuration;
 
 
-        public UserController(IConfiguration configuration, DataContext db)
+        public UserController(DataContext db, IConfiguration configuration)
         {
-            _config = configuration;
             _db = db;
+            _configuration = configuration; 
         }
 
-        private string HashPassword(string password)
-        {
-            var sha = SHA256.Create();
-            var asByteArray = Encoding.Default.GetBytes(password);
-            var hashedPassword = sha.ComputeHash(asByteArray);
-            return Convert.ToBase64String(hashedPassword);
-        }
-
+        public static User user = new User();
+        
         [HttpPost("Register")]
-        [AllowAnonymous]
-        public async Task<IActionResult> Register(User user)
+        public async Task<ActionResult<User>> RegisterAsync([FromBody] UserDto request)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (await _db.User.AnyAsync(u => u.Email == user.Email))
+            if (await _db.User.AnyAsync(u => u.Email == request.Email))
             {
                 ModelState.AddModelError("Email", "Email is already registered");
                 return BadRequest(ModelState);
             }
 
-            try
+            string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
+
+            User user = new User
             {
-                user.Password = HashPassword(user.Password);
-
-                user.Token = GenerateToken(user);
-
-                Member member = new Member
+                Email = request.Email,
+                PasswordHash = passwordHash,
+                Member = new Member
                 {
-                    Email = user.Email,
-                    Name = null,
-                    Surname = null,
-                    City = null,
-                    PhoneNumber = null,
-                    Gender = null,
+                    Email = request.Email,
                     CreateDate = DateTime.Now
-                };
+                }
+            };
 
-                await _db.Member.AddAsync(member);
-                await _db.SaveChangesAsync();
+            _db.User.Add(user);
+            await _db.SaveChangesAsync();
 
-                user.MemberId = member.MemberId; 
-
-                await _db.User.AddAsync(user);
-                await _db.SaveChangesAsync();
-
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex);
-            }
+            return Ok(user);
         }
 
-        private string GenerateToken(User user)
+
+        [HttpPost("Login")]
+        public ActionResult<string> Login(UserDto request)
+        {
+            User user = _db.User.FirstOrDefault(u => u.Email == request.Email);
+
+            if (user == null)
+            {
+                return BadRequest("User not found");
+            }
+
+            if (!BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
+            {
+                return BadRequest("Wrong password");
+            }
+
+            string token = CreateToken(user);
+
+            return Ok(token);
+        }
+
+        private string CreateToken (User user)
         {
             List<Claim> claims = new List<Claim>
-            {       
-                new Claim(ClaimTypes.Email, user.Email),
+            {
+                new Claim(ClaimTypes.Email, user.Email)
             };
 
-            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_config.
-                GetSection("AppSettings:Token").Value));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
+                _configuration.GetSection("AppSettings:Token").Value!));
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
-            var serializerOptions = new JsonSerializerOptions
-            {
-                ReferenceHandler = ReferenceHandler.Preserve,
-            };
 
             var token = new JwtSecurityToken(
                 claims: claims,
                 expires: DateTime.Now.AddDays(1),
-                signingCredentials: creds);
+                signingCredentials: creds
+            );
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+
             return jwt;
         }
-
-
-        [AllowAnonymous]
-        [HttpPost("login")]
-        public async Task<IActionResult> Login(User user)
-        {
-            IActionResult response = Unauthorized();
-            var existingUser = await _db.User.SingleOrDefaultAsync(u => u.Email == user.Email);
-            if (existingUser != null && VerifyPassword(user.Password, existingUser.Password))
-            {
-                var token = GenerateToken(existingUser);
-                response = Ok(new { token = token, memberId = existingUser.MemberId, email = existingUser.Email });
-            }
-            else
-            {
-                response = BadRequest(new { message = "Invalid email or password." });
-            }
-            return response;
-        }
-
-        private bool VerifyPassword(string enteredPassword, string storedHashedPassword)
-        {
-            string hashedEnteredPassword = HashPassword(enteredPassword);
-
-            return hashedEnteredPassword == storedHashedPassword;
-        }
-
     }
 }
