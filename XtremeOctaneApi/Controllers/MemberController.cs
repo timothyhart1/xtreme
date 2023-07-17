@@ -63,33 +63,36 @@ namespace XtremeOctaneApi.Controllers
 
         [HttpPut("Edit-Profile/{id}")]
         [AllowAnonymous]
-
-        public ActionResult EditProfile (int id, [FromBody] Member member)
+        public ActionResult EditProfile(int id, [FromBody] Member member)
         {
             try
             {
                 var memberProfile = _db.Member.FirstOrDefault(e => e.MemberId == id);
 
-                if(memberProfile != null) 
+                if (memberProfile != null)
                 {
                     memberProfile.Name = member.Name;
                     memberProfile.Surname = member.Surname;
                     memberProfile.City = member.City;
                     memberProfile.PhoneNumber = member.PhoneNumber;
                     memberProfile.Gender = member.Gender;
-                    memberProfile.CreateDate = member.CreateDate;
+                    memberProfile.CreateDate = _db.Member.Where(e => e.MemberId == id).Select(e => e.CreateDate).FirstOrDefault();
                     memberProfile.Deleted = false;
                 }
 
                 _db.SaveChanges();
 
                 return Ok(memberProfile);
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 _logger.LogError(ex, "There was an error editing your profile");
                 return BadRequest(ex.Message);
             }
         }
+
+
+
 
         [HttpPost("Add-Member")]
         [AllowAnonymous]

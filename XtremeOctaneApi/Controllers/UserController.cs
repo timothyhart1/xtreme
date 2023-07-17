@@ -57,9 +57,9 @@ namespace XtremeOctaneApi.Controllers
 
 
         [HttpPost("Login")]
-        public ActionResult<string> Login(UserDto request)
+        public ActionResult<object> Login(UserDto request)
         {
-            User user = _db.User.FirstOrDefault(u => u.Email == request.Email);
+            User user = _db.User.Include(u => u.Member).FirstOrDefault(u => u.Email == request.Email);
 
             if (user == null)
             {
@@ -73,8 +73,13 @@ namespace XtremeOctaneApi.Controllers
 
             string token = CreateToken(user);
 
-            return Ok(token);
+            return new
+            {
+                Token = token,
+                User = user,
+            };
         }
+
 
         private string CreateToken (User user)
         {

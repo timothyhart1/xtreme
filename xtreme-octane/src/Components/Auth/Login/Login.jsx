@@ -1,4 +1,5 @@
 import React, { useState, Fragment } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
 	Row,
@@ -10,12 +11,16 @@ import {
 	Button,
 	FormGroup,
 } from "reactstrap";
+import { useAuth } from "../Auth";
 
 const Login = () => {
 	const API = window.appConfig.API;
 
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [user, setUser] = useState("");
+	const navigate = useNavigate();
+	const auth = useAuth();
 
 	const postLogin = async (e) => {
 		e.preventDefault();
@@ -28,8 +33,14 @@ const Login = () => {
 				.then((response) => {
 					console.log(response);
 					sessionStorage.setItem("Token", response.data.token);
-					sessionStorage.setItem("Email", response.data.email);
-					sessionStorage.setItem("MemberId", response.data.memberId);
+					sessionStorage.setItem("Email", response.data.user.email);
+					sessionStorage.setItem(
+						"MemberId",
+						response.data.user.member.memberId
+					);
+					setUser(response.data);
+					auth.login(response.data);
+					navigate("/", { replace: true });
 				});
 		} catch (error) {
 			console.log(error);
