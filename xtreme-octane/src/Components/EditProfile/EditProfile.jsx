@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import "./EditProfile.css";
 import {
 	Card,
@@ -12,6 +12,7 @@ import {
 } from "reactstrap";
 import PageHeader from "../PageHeader/PageHeader";
 import axios from "axios";
+import CardTitle from "../CardTitle/CardTitle";
 
 function EditProfile() {
 	const API = window.appConfig.API;
@@ -63,98 +64,105 @@ function EditProfile() {
 	};
 
 	return (
-		<Container fluid={true}>
-			<PageHeader header="Edit Profile" />
-			<Card id="card-container">
-				<Form onSubmit={updateProfile}>
+		<Fragment>
+			<Container fluid={true}>
+				<PageHeader header="Edit Profile" />
+				<Card id="card-container">
+					<CardTitle title="Profile Details" />
 					<Row>
-						<FormGroup id="event-form-group">
-							<Label className="form-label" id="event-label">
-								First Name
-							</Label>
-							<Input
-								className="form-control event-input"
-								required
-								type="text"
-								name="name"
-								autoComplete="off"
-								value={name}
-								onChange={(e) => onInputChange(e)}
-							/>
-						</FormGroup>
+						<Form onSubmit={updateProfile} id="event-form">
+							<div className="event-container">
+								<Row>
+									<FormGroup id="event-form-group">
+										<Label className="form-label" id="event-label">
+											First Name
+										</Label>
+										<Input
+											className="form-control event-input"
+											required
+											type="text"
+											name="name"
+											autoComplete="off"
+											value={name}
+											onChange={(e) => onInputChange(e)}
+										/>
+									</FormGroup>
+								</Row>
+								<Row>
+									<FormGroup id="event-form-group">
+										<Label className="form-label" id="event-label">
+											Last Name
+										</Label>
+										<Input
+											className="form-control event-input"
+											required
+											type="text"
+											name="surname"
+											autoComplete="off"
+											value={surname}
+											onChange={(e) => onInputChange(e)}
+										/>
+									</FormGroup>
+								</Row>
+								<Row>
+									<FormGroup id="event-form-group">
+										<Label className="form-label" id="event-label">
+											City
+										</Label>
+										<Input
+											className="form-control event-input"
+											required
+											type="text"
+											name="city"
+											autoComplete="off"
+											value={city}
+											onChange={(e) => onInputChange(e)}
+										/>
+									</FormGroup>
+								</Row>
+								<Row>
+									<FormGroup id="event-form-group">
+										<Label className="form-label" id="event-label">
+											Phone Number
+										</Label>
+										<Input
+											className="form-control event-input"
+											required
+											type="text"
+											name="phoneNumber"
+											autoComplete="off"
+											value={phoneNumber}
+											onChange={(e) => onInputChange(e)}
+										/>
+									</FormGroup>
+								</Row>
+								<Row>
+									<FormGroup id="event-form-group">
+										<Label className="form-label" id="event-label">
+											Gender
+										</Label>
+										<Input
+											className="form-control event-input"
+											required
+											type="text"
+											name="gender"
+											autoComplete="off"
+											value={gender}
+											onChange={(e) => onInputChange(e)}
+										/>
+									</FormGroup>
+								</Row>
+								<Row>
+									<Button type="submit" id="event-btn-card">
+										Update Profile
+									</Button>
+								</Row>
+							</div>
+						</Form>
 					</Row>
-					<Row>
-						<FormGroup id="event-form-group">
-							<Label className="form-label" id="event-label">
-								Last Name
-							</Label>
-							<Input
-								className="form-control event-input"
-								required
-								type="text"
-								name="surname"
-								autoComplete="off"
-								value={surname}
-								onChange={(e) => onInputChange(e)}
-							/>
-						</FormGroup>
-					</Row>
-					<Row>
-						<FormGroup id="event-form-group">
-							<Label className="form-label" id="event-label">
-								City
-							</Label>
-							<Input
-								className="form-control event-input"
-								required
-								type="text"
-								name="city"
-								autoComplete="off"
-								value={city}
-								onChange={(e) => onInputChange(e)}
-							/>
-						</FormGroup>
-					</Row>
-					<Row>
-						<FormGroup id="event-form-group">
-							<Label className="form-label" id="event-label">
-								Phone Number
-							</Label>
-							<Input
-								className="form-control event-input"
-								required
-								type="text"
-								name="phoneNumber"
-								autoComplete="off"
-								value={phoneNumber}
-								onChange={(e) => onInputChange(e)}
-							/>
-						</FormGroup>
-					</Row>
-					<Row>
-						<FormGroup id="event-form-group">
-							<Label className="form-label" id="event-label">
-								Gender
-							</Label>
-							<Input
-								className="form-control event-input"
-								required
-								type="text"
-								name="gender"
-								autoComplete="off"
-								value={gender}
-								onChange={(e) => onInputChange(e)}
-							/>
-						</FormGroup>
-					</Row>
-					<Row>
-						<Button type="submit" id="event-btn-card">
-							Update Profile
-						</Button>
-					</Row>
-				</Form>
-			</Card>
-		</Container>
+				</Card>
+			</Container>
+		</Fragment>
 	);
 }
 

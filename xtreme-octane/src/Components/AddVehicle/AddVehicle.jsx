@@ -204,10 +204,6 @@ const AddVehicle = () => {
 						</Form>
 					</Row>
 				</Card>
-				<Card id="card-container">
-					<CardTitle title="Your Vehicles" />
-					<Row></Row>
-				</Card>
 			</Container>
 		</Fragment>
 	);
