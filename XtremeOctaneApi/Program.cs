@@ -1,9 +1,18 @@
-using Microsoft.EntityFrameworkCore;
-using XtremeOctaneApi.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using Microsoft.OpenApi.Models;
+using System.Text;
+using XtremeOctaneApi.Data;
+using XtremeOctaneApi.Security.Models;
+using AutoMapper;
+using WebApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,7 +38,16 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(connectionString);
 });
 
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<DataContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.AddScoped<UserManager<ApplicationUser>>();
+
+builder.Services.AddScoped<IUserService, UserService>();
+
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -55,7 +73,7 @@ builder.Services.AddSwaggerGen(c =>
                     Id = "Bearer"
                 }
             },
-            new string[] {} 
+            new string[] {}
         }
     });
 });
@@ -70,6 +88,14 @@ builder.Services.AddCors(options =>
     });
 });
 
+// Register AutoMapper
+var mapperConfig = new MapperConfiguration(config =>
+{
+    // Add your AutoMapper configuration here
+    // For example: config.CreateMap<Source, Destination>();
+});
+builder.Services.AddSingleton<IMapper>(mapperConfig.CreateMapper());
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -78,7 +104,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "dotnetClaimAuthorization v1");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Xtreme Octane API v1");
     });
 }
 

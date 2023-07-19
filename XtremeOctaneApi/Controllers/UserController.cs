@@ -8,6 +8,13 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.EntityFrameworkCore;
+using BlindsTool.Web.Security.Models;
+using Microsoft.AspNetCore.Identity;
+using System;
+using AutoMapper;
+using WebApi.Services;
+using Microsoft.AspNetCore.Http;
+using XtremeOctaneApi.Security.Models;
 
 namespace XtremeOctaneApi.Controllers
 {
@@ -16,92 +23,90 @@ namespace XtremeOctaneApi.Controllers
     public class UserController : ControllerBase
     {
         private readonly DataContext _db;
-        private readonly IConfiguration _configuration;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IUserService _userService;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IMapper _mapper;
 
 
-        public UserController(DataContext db, IConfiguration configuration)
+        public UserController(DataContext db, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IMapper mapper, IHttpContextAccessor httpContextAccessor, IUserService userService, RoleManager<IdentityRole> roleManager)
         {
             _db = db;
-            _configuration = configuration; 
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _httpContextAccessor = httpContextAccessor;
+            _userService = userService;
+            _roleManager = roleManager;
+            _mapper = mapper;
         }
 
-        public static User user = new User();
-        
-        [HttpPost("Register")]
-        public async Task<ActionResult<User>> RegisterAsync([FromBody] UserDto request)
+
+        [HttpPost, Route("CreateNewUser")]
+        public async Task<IActionResult> CreateNewUser([FromBody] User userModel)
         {
-            if (await _db.User.AnyAsync(u => u.Email == request.Email))
-            {
-                ModelState.AddModelError("Email", "Email is already registered");
-                return BadRequest(ModelState);
-            }
 
-            string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
+            var user = new ApplicationUser { UserName = userModel.EmailAddress };
+            var result = await _userManager.CreateAsync(user, userModel.Password);
+            string userRole = String.Empty;
 
-            User user = new User
+            if (result.Succeeded)
             {
-                Email = request.Email,
-                PasswordHash = passwordHash,
-                Member = new Member
+                try
                 {
-                    Email = request.Email,
-                    CreateDate = DateTime.Now
+                    if (!await _roleManager.RoleExistsAsync(userRole))
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole(userRole));
+                    }
+                    if (await _roleManager.RoleExistsAsync(UserRoles.Admin))
+                    {
+                        await _userManager.AddToRoleAsync(user, UserRoles.User);
+                    }
+
+                    return Ok();
                 }
-            };
-
-            _db.User.Add(user);
-            await _db.SaveChangesAsync();
-
-            return Ok(user);
+                catch
+                {
+                    await _userManager.DeleteAsync(user);
+                }
+            }
+            
+            return BadRequest();
         }
 
-
-        [HttpPost("Login")]
-        public ActionResult<object> Login(UserDto request)
+        [HttpPost, Route("Login")]
+        public async Task<IActionResult> Login([FromBody] User userModel)
         {
-            User user = _db.User.Include(u => u.Member).FirstOrDefault(u => u.Email == request.Email);
 
-            if (user == null)
+            try
             {
-                return BadRequest("User not found");
+                var result = await _signInManager.PasswordSignInAsync(userModel.EmailAddress, userModel.Password, false, lockoutOnFailure: true);
+
+                //if (result.Succeeded)
+                //{
+                //    var token = _userService.GenerateToken(userModel.EmailAddress);
+                //    return Ok(token);
+                //}
+                if (result.IsLockedOut)
+                {
+                    return BadRequest("User is locked out");
+                }
+            }
+            catch (Exception ex)
+            {
+                //ToDp: Log error
             }
 
-            if (!BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
-            {
-                return BadRequest("Wrong password");
-            }
-
-            string token = CreateToken(user);
-
-            return new
-            {
-                Token = token,
-                User = user,
-            };
+            return BadRequest();
         }
 
-
-        private string CreateToken (User user)
+        [HttpPost, Route("Logout")]
+        [Authorize]
+        public async Task<IActionResult> Logout()
         {
-            List<Claim> claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Email, user.Email)
-            };
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-                _configuration.GetSection("AppSettings:Token").Value!));
-
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
-            var token = new JwtSecurityToken(
-                claims: claims,
-                expires: DateTime.Now.AddDays(1),
-                signingCredentials: creds
-            );
-
-            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-
-            return jwt;
+            await _signInManager.SignOutAsync();
+            return Ok();
         }
     }
 }

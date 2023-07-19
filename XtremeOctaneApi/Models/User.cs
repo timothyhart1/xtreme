@@ -6,10 +6,14 @@ namespace XtremeOctaneApi.Models
     [Table("User")]
     public class User
     {
-        [Key]
-        public int UserID { get; set; }
-        public string? Email { get; set; } = String.Empty;
-        public string? PasswordHash { get; set; } = String.Empty;
-        public Member Member { get; set; }
+        [Required]
+        public string EmailAddress { get; set; }
+
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        [Required]
+        public string Password { get; set; }
     }
 }
