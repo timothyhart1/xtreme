@@ -5,7 +5,7 @@ namespace XtremeOctaneApi.Models
 {
     public class UserModel
     {
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         [Required]
         public string EmailAddress { get; set; }
 

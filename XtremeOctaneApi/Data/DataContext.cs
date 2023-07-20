@@ -19,6 +19,7 @@ namespace XtremeOctaneApi.Data
         public DbSet<MemberTrackTimeModel> MemberTrackTime { get; set; }
         public DbSet<EventVoteModel> EventVote { get; set; }
         public DbSet<EventExpenseModel> EventExpenses { get; set; }
+        public DbSet<ApplicationUser> AspNetUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
