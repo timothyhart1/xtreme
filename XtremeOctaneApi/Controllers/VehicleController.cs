@@ -102,7 +102,7 @@ namespace XtremeOctaneApi.Controllers
 
         [HttpPost("Add-Vehicle")]
         [AllowAnonymous]
-        public async Task<ActionResult<Vehicle>> AddVehicle(IFormFile image, int vehicleId, int memberId, string manufacturer, string model, string year, int mileage, 
+        public async Task<ActionResult<VehicleModel>> AddVehicle(IFormFile image, int vehicleId, int memberId, string manufacturer, string model, string year, int mileage, 
         string plate, string color)
         {
             try
@@ -116,7 +116,7 @@ namespace XtremeOctaneApi.Controllers
                     await fileStream.FlushAsync();
                 };
 
-                var vehicle = new Vehicle
+                var vehicle = new VehicleModel
                 {
                     MemberId = memberId,
                     Manufacturer = manufacturer,

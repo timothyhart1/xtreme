@@ -43,7 +43,7 @@ namespace XtremeOctaneApi.Controllers
         }
 
         [HttpGet("Single-Event/{id}")]
-        public async Task<ActionResult<Event>> GetEventById(int id)
+        public async Task<ActionResult<EventModel>> GetEventById(int id)
         {
             try
             {
@@ -89,7 +89,7 @@ namespace XtremeOctaneApi.Controllers
         [HttpPost("Add-Event")]
         [AllowAnonymous]
 
-        public async Task<ActionResult<Event>> AddEvent(IFormFile image, string eventName, string eventDesc)
+        public async Task<ActionResult<EventModel>> AddEvent(IFormFile image, string eventName, string eventDesc)
         {
             try
             {
@@ -102,7 +102,7 @@ namespace XtremeOctaneApi.Controllers
                     await fileStream.FlushAsync();
                 };
 
-                var xtremeEvent = new Event
+                var xtremeEvent = new EventModel
                 {
                     EventName = eventName,
                     EventDesc = eventDesc,

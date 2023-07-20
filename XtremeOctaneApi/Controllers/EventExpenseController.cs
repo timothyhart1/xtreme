@@ -78,11 +78,11 @@ namespace XtremeOctaneApi.Controllers
         [HttpPost("EventExpense/AddNewEventExpense")]
         [AllowAnonymous]
 
-        public async Task<ActionResult<EventExpenses>> AddTrackTime([FromBody] EventExpenses model)
+        public async Task<ActionResult<EventExpenseModel>> AddTrackTime([FromBody] EventExpenseModel model)
         {
             try
             {
-                var eventExpenses = new EventExpenses
+                var eventExpenses = new EventExpenseModel
                 {
                     EventId = model.EventId,
                     ExpenseName = model.ExpenseName,
@@ -106,7 +106,7 @@ namespace XtremeOctaneApi.Controllers
         [HttpPut("EventExpense/EditEventExpense/{id}")]
         [AllowAnonymous]
 
-        public async Task<IActionResult> EditEventExpense (int id, [FromBody] EventExpenses model)
+        public async Task<IActionResult> EditEventExpense (int id, [FromBody] EventExpenseModel model)
         {
             try
             {

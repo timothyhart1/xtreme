@@ -42,7 +42,7 @@ namespace XtremeOctaneApi.Controllers
 
 
         [HttpGet("Single-Member/{id}")]
-        public async Task<ActionResult<Member>> GetMemberById(int id)
+        public async Task<ActionResult<MemberModel>> GetMemberById(int id)
         {
             try
             {
@@ -63,7 +63,7 @@ namespace XtremeOctaneApi.Controllers
 
         [HttpPut("Edit-Profile/{id}")]
         [AllowAnonymous]
-        public ActionResult EditProfile(int id, [FromBody] Member member)
+        public ActionResult EditProfile(int id, [FromBody] MemberModel member)
         {
             try
             {
@@ -97,7 +97,7 @@ namespace XtremeOctaneApi.Controllers
         [HttpPost("Add-Member")]
         [AllowAnonymous]
 
-        public async Task<ActionResult<Member>> AddMember(Member memberModel)
+        public async Task<ActionResult<MemberModel>> AddMember(MemberModel memberModel)
         {
             if (!ModelState.IsValid)
             {
@@ -106,7 +106,7 @@ namespace XtremeOctaneApi.Controllers
 
             try
             {
-                var member = new Member
+                var member = new MemberModel
                 {
                     Email= memberModel.Email,
                     Name = memberModel.Name,

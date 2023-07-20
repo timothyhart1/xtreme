@@ -24,14 +24,14 @@ namespace XtremeOctaneApi.Controllers
         
         [HttpGet("EventVotes/{id}")]
         [AllowAnonymous]
-        public async Task<ActionResult<VoteResults>> GetEventVotes(int id)
+        public async Task<ActionResult<VoteResultsModel>> GetEventVotes(int id)
         {
             try
             {
                 var voteResults = await _db.EventVote
                     .Where(ev => ev.EventId == id)
                     .GroupBy(ev => ev.EventId)
-                    .Select(g => new VoteResults
+                    .Select(g => new VoteResultsModel
                     {
                         EventId = g.Key,
                         TotalVotes = g.Count(),
@@ -57,7 +57,7 @@ namespace XtremeOctaneApi.Controllers
 
         [HttpGet("MemberEventVote/{id}")]
         [AllowAnonymous]
-        public async Task<ActionResult<List<EventVote>>> GetEventVotes(int id, int memberId)
+        public async Task<ActionResult<List<EventVoteModel>>> GetEventVotes(int id, int memberId)
         {
             try
             {
@@ -77,7 +77,7 @@ namespace XtremeOctaneApi.Controllers
 
         [HttpPost("Add-Event-Vote/{id}")]
         [AllowAnonymous]
-        public async Task<ActionResult<Event>> AddEventVote(int id, EventVote eventVote)
+        public async Task<ActionResult<EventModel>> AddEventVote(int id, EventVoteModel eventVote)
         {
             if (!ModelState.IsValid)
             {
@@ -93,7 +93,7 @@ namespace XtremeOctaneApi.Controllers
                     _db.EventVote.Remove(existingVote);
                 }
 
-                var newEventVote = new EventVote
+                var newEventVote = new EventVoteModel
                 {
                     EventId = id,
                     MemberId = eventVote.MemberId,

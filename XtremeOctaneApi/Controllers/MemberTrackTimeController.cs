@@ -45,11 +45,11 @@ namespace XtremeOctaneApi.Controllers
         [HttpPost("Add-Track-Time")]
         [AllowAnonymous]
 
-        public async Task<ActionResult<MemberTrackTime>> AddTrackTime(MemberTrackTime model)
+        public async Task<ActionResult<MemberTrackTimeModel>> AddTrackTime(MemberTrackTimeModel model)
         {
             try
             {
-                var trackTime = new MemberTrackTime
+                var trackTime = new MemberTrackTimeModel
                 {
                     MemberTrackTimeId = model.MemberTrackTimeId,
                     MemberId = model.MemberId,
