@@ -68,38 +68,32 @@ namespace XtremeOctaneApi.Controllers
         }
 
 
-[HttpPost, Route("Login")]
-public async Task<IActionResult> Login([FromBody] UserModel userModel)
-{
-    if (!ModelState.IsValid)
-    {
-        return BadRequest(ModelState);
-    }
-
-    try
-    {
-        var result = await _signInManager.PasswordSignInAsync(userModel.EmailAddress, userModel.Password, false, lockoutOnFailure: true);
-
-        if (result.Succeeded)
+        [HttpPost, Route("Login")]
+        public async Task<IActionResult> Login([FromBody] UserModel userModel)
         {
-            return Ok("Login successful");
+
+            try
+            {
+                var result = await _signInManager.PasswordSignInAsync(userModel.EmailAddress, userModel.Password, false, lockoutOnFailure: true);
+
+                //if (result.Succeeded)
+                //{
+                //    var token = _userService.GenerateToken(userModel.EmailAddress);
+                //    return Ok(token);
+                //}
+
+                if (result.IsLockedOut)
+                {
+                    return BadRequest("User is locked out");
+                }
+            }
+            catch (Exception ex)
+            {
+                //ToDp: Log error
+            }
+            return BadRequest();
+
         }
-
-        if (result.IsLockedOut)
-        {
-            return BadRequest("User is locked out");
-        }
-
-        return BadRequest("Invalid email or password");
-    }
-    catch (Exception ex)
-    {
-        // Log the exception using a logging framework like Serilog or NLog
-        // logger.Error(ex, "An error occurred during login");
-
-        return StatusCode(500, "An error occurred during login");
-    }
-}
 
         [HttpPost, Route("Logout")]
         [Authorize]
