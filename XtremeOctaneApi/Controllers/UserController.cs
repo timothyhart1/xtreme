@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Identity;
 using AutoMapper;
 using WebApi.Services;
 using XtremeOctaneApi.Security.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace XtremeOctaneApi.Controllers
 {
@@ -20,9 +22,13 @@ namespace XtremeOctaneApi.Controllers
         private readonly IUserService _userService;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IMapper _mapper;
+        private readonly ILogger<UserController> _logger;
 
 
-        public UserController(DataContext db, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IMapper mapper, IHttpContextAccessor httpContextAccessor, IUserService userService, RoleManager<IdentityRole> roleManager)
+
+        public UserController(DataContext db, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
+            IMapper mapper, IHttpContextAccessor httpContextAccessor, IUserService userService, RoleManager<IdentityRole> roleManager,
+            ILogger<UserController> logger)
         {
             _db = db;
             _userManager = userManager;
@@ -31,6 +37,7 @@ namespace XtremeOctaneApi.Controllers
             _userService = userService;
             _roleManager = roleManager;
             _mapper = mapper;
+            _logger = logger;
         }
 
 
@@ -76,11 +83,25 @@ namespace XtremeOctaneApi.Controllers
             {
                 var result = await _signInManager.PasswordSignInAsync(userModel.EmailAddress, userModel.Password, false, lockoutOnFailure: true);
 
-                //if (result.Succeeded)
-                //{
-                //    var token = _userService.GenerateToken(userModel.EmailAddress);
-                //    return Ok(token);
-                //}
+                if (result.Succeeded)
+                {
+                    var user = await _db.AspNetUsers.SingleOrDefaultAsync(u => u.UserName == userModel.EmailAddress);
+                    var userId = await _db.AspNetUsers
+                        .Where(u => u.UserName == userModel.EmailAddress)
+                        .Select(u => u.Id)
+                        .SingleOrDefaultAsync();
+
+
+                    if (user != null)
+                    {
+                        var token = _userService.GenerateToken(userId);
+                        return Ok(token);
+                    }
+                    else
+                    {
+                        return BadRequest("User not found.");
+                    }
+                }
 
                 if (result.IsLockedOut)
                 {
@@ -89,10 +110,10 @@ namespace XtremeOctaneApi.Controllers
             }
             catch (Exception ex)
             {
-                //ToDp: Log error
+                _logger.LogError(ex, "An error occurred while fetching the member with ID");
             }
-            return BadRequest();
 
+            return Ok();
         }
 
         [HttpPost, Route("Logout")]

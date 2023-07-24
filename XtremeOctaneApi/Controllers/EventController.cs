@@ -22,7 +22,8 @@ namespace XtremeOctaneApi.Controllers
             _logger = logger;
         }
 
-        [HttpGet("All-Events")]
+        // Get all events.
+        [HttpGet("GetAllEvents")]
         public async Task<IActionResult> GetAllEvents()
         {
             try
@@ -42,7 +43,8 @@ namespace XtremeOctaneApi.Controllers
             }
         }
 
-        [HttpGet("Single-Event/{id}")]
+        // Get a single event.
+        [HttpGet("GetSingleEvent/{id}")]
         public async Task<ActionResult<EventModel>> GetEventById(int id)
         {
             try
@@ -62,12 +64,12 @@ namespace XtremeOctaneApi.Controllers
             }
         }
 
-
-        [HttpGet("Get-Event-Image/{eventId}")]
+        // Get the image for a single event.
+        [HttpGet("GetEventImage/{id}")]
         [AllowAnonymous]
-        public IActionResult GetEventImage(int eventId)
+        public IActionResult GetEventImage(int id)
         {
-            var xtremeEvent = _db.Event.FirstOrDefault(e => e.EventId == eventId);
+            var xtremeEvent = _db.Event.FirstOrDefault(e => e.EventId == id);
 
             if (xtremeEvent == null || string.IsNullOrEmpty(xtremeEvent.EventImage))
             {
@@ -85,10 +87,9 @@ namespace XtremeOctaneApi.Controllers
             return File(fileBytes, "image/jpeg");
         }
 
-
-        [HttpPost("Add-Event")]
+        // Add a new event.
+        [HttpPost("AddNewEvent")]
         [AllowAnonymous]
-
         public async Task<ActionResult<EventModel>> AddEvent(IFormFile image, string eventName, string eventDesc)
         {
             try
@@ -108,7 +109,7 @@ namespace XtremeOctaneApi.Controllers
                     EventDesc = eventDesc,
                     EventDate = DateTime.Now,
                     EventImage = fileName,
-                    Deleted = true
+                    Deleted = false
                 };
 
                 await _db.Event.AddAsync(xtremeEvent);
@@ -122,7 +123,8 @@ namespace XtremeOctaneApi.Controllers
             }
         }
 
-        [HttpPut("Edit-Event/{id}")]
+        // Edit an event.
+        [HttpPut("EditEvent/{id}")]
         public async Task<IActionResult> EditEvent(int id, IFormFile eventImage, string eventName, string eventDesc, DateTime eventDate, bool deleted)
         {
             try
@@ -142,7 +144,7 @@ namespace XtremeOctaneApi.Controllers
                             await fileStream.FlushAsync();
                         }
 
-                        xtremeEvent.EventImage = fileName; // Store the file name or path in the database
+                        xtremeEvent.EventImage = fileName;
                     }
 
                     xtremeEvent.EventName = eventName;
@@ -163,10 +165,9 @@ namespace XtremeOctaneApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-
-
-        [HttpDelete("Delete-Event/{id}")]
+        
+        // Delete an event.
+        [HttpDelete("DeleteEvent/{id}")]
         [AllowAnonymous]
         public async Task<IActionResult> DeleteEvent(int id)
         {

@@ -20,7 +20,8 @@ namespace XtremeOctaneApi.Controllers
         }
 
 
-        [HttpGet("All-Track-Times")]
+        // Get all track times.
+        [HttpGet("GetAllTrackTimes")]
         public async Task<IActionResult> GetAllVehicle()
         {
             try
@@ -41,10 +42,9 @@ namespace XtremeOctaneApi.Controllers
             }
         }
 
-
-        [HttpPost("Add-Track-Time")]
+        // Add a new track time.
+        [HttpPost("AddNewTrackTime")]
         [AllowAnonymous]
-
         public async Task<ActionResult<MemberTrackTimeModel>> AddTrackTime(MemberTrackTimeModel model)
         {
             try
@@ -73,9 +73,9 @@ namespace XtremeOctaneApi.Controllers
             }
         }
 
-        [HttpDelete("Delete-Track-Time/{id}")]
+        // Delete a track time
+        [HttpDelete("DeleteTrackTime/{id}")]
         [AllowAnonymous]
-
         public async Task<IActionResult> DeleteTrackTime(int id)
         {
             try
@@ -97,8 +97,5 @@ namespace XtremeOctaneApi.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex);
             }
         }
-
-
-
     }
 }

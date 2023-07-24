@@ -16,6 +16,7 @@ namespace XtremeOctaneApi.Controllers
             _logger = logger;
         }
 
+        // Get all expenses of an event.
         [HttpGet("EventExpense/GetEventExpenses/{id}")]
         [AllowAnonymous]
         public async Task<IActionResult> GetEventExpenses(int id)
@@ -33,6 +34,7 @@ namespace XtremeOctaneApi.Controllers
             }
         }
 
+        // Get a single event expense.
         [HttpGet("EventExpense/GetExpenseSingle/{id}")]
         [AllowAnonymous]
         public async Task<IActionResult> GetEventExpenseById (int id)
@@ -55,7 +57,7 @@ namespace XtremeOctaneApi.Controllers
             }
         }
 
-
+        // Get total amount of expenses for an event.
         [HttpGet("EventExpense/EventExpenseTotal/{id}")]
         [AllowAnonymous]
         public async Task<IActionResult> GetEventExpensesTotal(int id)
@@ -74,10 +76,9 @@ namespace XtremeOctaneApi.Controllers
             }
         }
 
-
+        // Add an expense for an event.
         [HttpPost("EventExpense/AddNewEventExpense")]
         [AllowAnonymous]
-
         public async Task<ActionResult<EventExpenseModel>> AddTrackTime([FromBody] EventExpenseModel model)
         {
             try
@@ -98,14 +99,14 @@ namespace XtremeOctaneApi.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while posting the vehicle");
-                return StatusCode(500, "An error occurred while posting the lap time");
+                _logger.LogError(ex, "An error occurred while adding the event expense.");
+                return StatusCode(500, "An error occurred while posting the event expense");
             }
         }
 
+        // Edit an event expense.
         [HttpPut("EventExpense/EditEventExpense/{id}")]
         [AllowAnonymous]
-
         public async Task<IActionResult> EditEventExpense (int id, [FromBody] EventExpenseModel model)
         {
             try
@@ -124,14 +125,14 @@ namespace XtremeOctaneApi.Controllers
                 return Ok(eventExpense);
             } catch (Exception ex)
             {
-                _logger.LogError(ex, "There was an error editing the expense");
+                _logger.LogError(ex, "There was an error editing the event expense.");
                 return BadRequest(ex.Message);
             }
         }
 
+        // Delete an event expense.
         [HttpDelete("EventExpense/DeleteExpense/{id}")]
         [AllowAnonymous]
-
         public async Task<IActionResult> DeleteEvent (int id)
         {
             try
@@ -140,7 +141,7 @@ namespace XtremeOctaneApi.Controllers
 
                 if (expense == null)
                 {
-                    return BadRequest("No vehicle was found with a matching ID!");
+                    return BadRequest("No event expense was found with a matching ID!");
                 }
 
                 _db.EventExpenses.Remove(expense);
@@ -150,7 +151,7 @@ namespace XtremeOctaneApi.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while deleting the event");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while deleting the event expense.");
             }
         }
     }

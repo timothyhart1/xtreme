@@ -21,8 +21,8 @@ namespace XtremeOctaneApi.Controllers
 
         }
         
-        
-        [HttpGet("EventVotes/{id}")]
+        // Get all votes for an event.
+        [HttpGet("GetEventVotes/{id}")]
         [AllowAnonymous]
         public async Task<ActionResult<VoteResultsModel>> GetEventVotes(int id)
         {
@@ -52,9 +52,8 @@ namespace XtremeOctaneApi.Controllers
                 return StatusCode(500, "An error occurred while fetching the event with ID");
             }
         }
-
-
-
+        
+        // Get votes made by a member
         [HttpGet("MemberEventVote/{id}")]
         [AllowAnonymous]
         public async Task<ActionResult<List<EventVoteModel>>> GetEventVotes(int id, int memberId)
@@ -74,8 +73,8 @@ namespace XtremeOctaneApi.Controllers
             }
         }
 
-
-        [HttpPost("Add-Event-Vote/{id}")]
+        // Add a new vote for an event.
+        [HttpPost("AddEventVote/{id}")]
         [AllowAnonymous]
         public async Task<ActionResult<EventModel>> AddEventVote(int id, EventVoteModel eventVote)
         {
@@ -112,6 +111,5 @@ namespace XtremeOctaneApi.Controllers
                 return StatusCode(500, "An error occurred while posting the event");
             }
         }
-
     }
 }

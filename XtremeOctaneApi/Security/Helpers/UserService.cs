@@ -9,7 +9,7 @@ namespace WebApi.Services
 {
     public interface IUserService
     {
-        string GenerateToken(int userId);
+        string GenerateToken(string userId);
 
     }
 
@@ -22,14 +22,13 @@ namespace WebApi.Services
             _appSettings = appSettings.Value;
         }
 
-        public string GenerateToken(int userId)
+        public string GenerateToken(string userId)
         {
-            // generate token that is valid for 1 day
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] { new Claim("id", userId.ToString()) }),
+                Subject = new ClaimsIdentity(new[] { new Claim("id", userId) }),
                 Expires = DateTime.UtcNow.AddDays(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };

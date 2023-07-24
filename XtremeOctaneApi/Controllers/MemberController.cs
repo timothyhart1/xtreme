@@ -20,7 +20,8 @@ namespace XtremeOctaneApi.Controllers
             _logger = logger;
         }
 
-        [HttpGet("All-Members")]
+        // Get all members.
+        [HttpGet("GetAllMembers")]
         public async Task<IActionResult> GetAllMembers()
         {
             try
@@ -40,8 +41,8 @@ namespace XtremeOctaneApi.Controllers
             }
         }
 
-
-        [HttpGet("Single-Member/{id}")]
+        // Get a single member
+        [HttpGet("GetSingleMember/{id}")]
         public async Task<ActionResult<MemberModel>> GetMemberById(int id)
         {
             try
@@ -61,7 +62,8 @@ namespace XtremeOctaneApi.Controllers
             }
         }
 
-        [HttpPut("Edit-Profile/{id}")]
+        // Edit a member.
+        [HttpPut("EditProfile/{id}")]
         [AllowAnonymous]
         public ActionResult EditProfile(int id, [FromBody] MemberModel member)
         {
@@ -90,13 +92,10 @@ namespace XtremeOctaneApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-
-
-
-        [HttpPost("Add-Member")]
+        
+        // Create a new member.
+        [HttpPost("AddNewMember")]
         [AllowAnonymous]
-
         public async Task<ActionResult<MemberModel>> AddMember(MemberModel memberModel)
         {
             if (!ModelState.IsValid)
@@ -128,7 +127,8 @@ namespace XtremeOctaneApi.Controllers
             }
         }
 
-        [HttpDelete("Delete-Member")]
+        // Delete a member
+        [HttpDelete("DeleteMember/{id}")]
         [AllowAnonymous]
         public async Task<IActionResult> DeleteMember(int id)
         {
@@ -152,6 +152,5 @@ namespace XtremeOctaneApi.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while deleting the member");
             }
         }
-
     }
 }

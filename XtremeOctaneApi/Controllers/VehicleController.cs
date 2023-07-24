@@ -8,7 +8,6 @@ namespace XtremeOctaneApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-
     public class VehicleController : Controller
     {
         private readonly ILogger<VehicleController> _logger;
@@ -20,8 +19,8 @@ namespace XtremeOctaneApi.Controllers
             _logger = logger;
         }
 
-
-        [HttpGet("All-Vehicles")]
+        // Get all vehicles.
+        [HttpGet, Route("GetAllVehicles")]
         public async Task<IActionResult> GetAllVehicles()
         {
             try
@@ -45,7 +44,8 @@ namespace XtremeOctaneApi.Controllers
             }
         }
 
-        [HttpGet("MemberVehicle/{id}")]
+        // Get a single vehicle.
+        [HttpGet, Route("GetMemberVehicle/{id}")]
         public IActionResult GetVehicle(int id)
         {
             var vehicle = _db.Vehicle.Include(v => v.Member).FirstOrDefault(v => v.VehicleId == id);
@@ -58,11 +58,11 @@ namespace XtremeOctaneApi.Controllers
             return Ok(vehicle);
         }
 
-
-        [HttpGet("MemberVehicles/id")]
-        public IActionResult GetVehiclesByMember (int memberId)
+        // Get all vehicles owned by a member.
+        [HttpGet, Route("GetAllMemberVehicles/{id}")]
+        public IActionResult GetVehiclesByMember (int id)
         {
-            var member = _db.Member.Find(memberId);
+            var member = _db.Member.Find(id);
 
             if (member == null)
             {
@@ -70,17 +70,18 @@ namespace XtremeOctaneApi.Controllers
             }
 
             var vehicles = _db.Vehicle
-                .Where(v => v.MemberId == memberId)
+                .Where(v => v.MemberId == id)
                 .ToList();
 
             return Ok(vehicles);
         }
 
-        [HttpGet("Get-Vehicle-Image/{VehicleId}")]
+        // Get the image of a vehicle.
+        [HttpGet("GetVehicleImage/{id}")]
         [AllowAnonymous]
-        public IActionResult GetEventImage(int VehicleId)
+        public IActionResult GetEventImage(int id)
         {
-            var vehicle = _db.Vehicle.FirstOrDefault(e => e.VehicleId == VehicleId);
+            var vehicle = _db.Vehicle.FirstOrDefault(e => e.VehicleId == id);
 
             if (vehicle == null || string.IsNullOrEmpty(vehicle.VehicleImage))
             {
@@ -98,9 +99,8 @@ namespace XtremeOctaneApi.Controllers
             return File(fileBytes, "image/jpeg");
         }
 
-
-
-        [HttpPost("Add-Vehicle")]
+        // Add a new vehicle.
+        [HttpPost("AddVehicle")]
         [AllowAnonymous]
         public async Task<ActionResult<VehicleModel>> AddVehicle(IFormFile image, int vehicleId, int memberId, string manufacturer, string model, string year, int mileage, 
         string plate, string color)
@@ -140,9 +140,9 @@ namespace XtremeOctaneApi.Controllers
             }
         }
 
-        [HttpDelete("Delete-Vehicle")]
+        // Delete a vehicle.
+        [HttpDelete("DeleteVehicle/{id}")]
         [AllowAnonymous]
-
         public async Task<IActionResult> Delete(int id)
         {
             try
