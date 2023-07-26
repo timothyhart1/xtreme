@@ -49,10 +49,9 @@ const Scribante = () => {
 		<Fragment>
 			<Container fluid={true}>
 				<ToastContainer />
-				<PageHeader header="Events" />
-
+				<PageHeader header="Aldo Scribante Racetrack" />
 				<Card id="card-container" className="card-spacing">
-					<CardTitle title="All Events" />
+					<CardTitle title="All Lap Times" />
 					<CardBody>
 						<Table id="event-table" bordered responsive>
 							<thead>

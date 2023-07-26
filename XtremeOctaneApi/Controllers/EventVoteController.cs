@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using XtremeOctaneApi.Data;
+using XtremeOctaneApi.Dtos;
 using XtremeOctaneApi.Models;
 
 namespace XtremeOctaneApi.Controllers
@@ -71,6 +72,32 @@ namespace XtremeOctaneApi.Controllers
                 _logger.LogError(ex, $"An error occurred while fetching the event with ID {id}");
                 return StatusCode(500, "An error occurred while fetching the event with ID");
             }
+        }
+
+        // Get votes + details of member who voted.
+        [HttpGet("GetMemberVoteDetails/{id}")]
+        public ActionResult<object> GetVotesForEvent(int id)
+        {
+            var eventDetails = _db.Event.FirstOrDefault(e => e.EventId == id);
+            if (eventDetails == null)
+            {
+                return NotFound(); // Event not found
+            }
+
+            var voteDetails = from ev in _db.EventVote
+                              join m in _db.Member on ev.MemberId equals m.MemberId
+                              where ev.EventId == id
+                              select new
+                              {
+                                  MemberName = m.Name,
+                                  MemberSurname = m.Surname,
+                                  MemberCity = m.City,
+                                  MemberId = m.MemberId,
+                                  Vote = ev.Vote,
+                                  VoteDate = ev.VoteDate
+                              };
+
+            return Ok(voteDetails);
         }
 
         // Add a new vote for an event.

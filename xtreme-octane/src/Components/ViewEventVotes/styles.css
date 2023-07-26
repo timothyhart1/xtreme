@@ -1,0 +1,6 @@
+.chart-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 300px; /* Set an appropriate height for the chart */
+}
