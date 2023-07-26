@@ -40,7 +40,7 @@ const VoteEvent = () => {
 		async function fetchData() {
 			try {
 				const res = await axios.get(
-					`${API}/Event/Single-Event/${eventId.slice(1)}`
+					`${API}/Event/GetSingleEvent/${eventId.slice(1)}`
 				);
 				setData(res.data);
 				console.log(res.data);
@@ -60,7 +60,7 @@ const VoteEvent = () => {
 		e.preventDefault();
 
 		const res = await axios.post(
-			`${API}/EventVote/Add-Event-Vote/${eventId.slice(1)}`,
+			`${API}/EventVote/AddEventVote/${eventId.slice(1)}`,
 			{
 				memberId: memberId,
 				vote: vote,
@@ -76,7 +76,7 @@ const VoteEvent = () => {
 				<Card id="card-container" className="card-spacing">
 					<img
 						alt="Sample"
-						src={`${API}/Event/Get-Event-Image/${eventId.slice(1)}`}
+						src={`${API}/Event/GetEventImage/${eventId.slice(1)}`}
 						className="event-image-vote"
 					/>
 					<h4 style={{ textAlign: "center", marginTop: "10px" }}>

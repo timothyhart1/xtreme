@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using XtremeOctaneApi.Security.Models;
 
 namespace XtremeOctaneApi.Models
 {
@@ -8,7 +9,8 @@ namespace XtremeOctaneApi.Models
     {
         [Key]
         public int MemberId { get; set; }
-        public string Email { get; set; }
+        public string? UserId { get; set; }
+        public string? Email { get; set; }
         public string? Name { get; set; }
         public string? Surname { get; set; }
         public string? City { get; set; }
@@ -16,5 +18,8 @@ namespace XtremeOctaneApi.Models
         public string? Gender { get; set; }
         public DateTime CreateDate { get; set; }
         public Boolean? Deleted { get; set; }
+
+        [ForeignKey("UserId")]
+        public ApplicationUser? User { get; set; }
     }
 }

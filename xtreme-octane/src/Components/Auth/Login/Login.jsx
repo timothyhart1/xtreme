@@ -27,17 +27,15 @@ const Login = () => {
 		try {
 			const res = await axios
 				.post(`${API}/User/login`, {
-					email: email,
+					EmailAddress: email,
 					password: password,
 				})
 				.then((response) => {
 					console.log(response);
 					sessionStorage.setItem("Token", response.data.token);
-					sessionStorage.setItem("Email", response.data.user.email);
-					sessionStorage.setItem(
-						"MemberId",
-						response.data.user.member.memberId
-					);
+					sessionStorage.setItem("UserId", response.data.userId);
+					sessionStorage.setItem("Email", response.data.email);
+					sessionStorage.setItem("MemberId", response.data.memberId);
 					setUser(response.data);
 					auth.login(response.data);
 					navigate("/", { replace: true });

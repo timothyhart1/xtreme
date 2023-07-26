@@ -8,8 +8,14 @@ using XtremeOctaneApi.Data;
 using XtremeOctaneApi.Security.Models;
 using AutoMapper;
 using WebApi.Services;
+using Microsoft.Extensions.Configuration;
+using WebApi.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var config = new ConfigurationBuilder()
+        .AddJsonFile("appsettings.json", optional: false)
+        .Build();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -30,6 +36,8 @@ builder.Services.AddDbContext<DataContext>(options =>
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
     options.UseSqlServer(connectionString);
 });
+
+builder.Services.Configure<AppSettings>(config.GetSection("appsettings"));
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<DataContext>()

@@ -3,8 +3,6 @@ import "../../App.css";
 import axios from "axios";
 import PageHeader from "../PageHeader/PageHeader";
 import CardTitle from "../CardTitle/CardTitle";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { useParams } from "react-router-dom";
 import "./EditEvent.css";
 import {
@@ -17,6 +15,8 @@ import {
 	Button,
 	FormGroup,
 } from "reactstrap";
+import { Toaster } from "react-hot-toast";
+import { toast } from "react-toastify";
 
 const EditEvent = () => {
 	const API = window.appConfig.API;
@@ -28,12 +28,14 @@ const EditEvent = () => {
 		eventDesc: "",
 	});
 
+	const notify = () => toast("Here is your toast.");
+
 	const { eventName, eventDesc } = event;
 
 	useEffect(() => {
 		async function fetchData() {
 			try {
-				const res = await axios.get(`${API}/Event/Single-Event/${eventId}`);
+				const res = await axios.get(`${API}/Event/GetSingleEvent/${eventId}`);
 				setEvent(res.data);
 				console.log(res.data);
 			} catch (error) {
@@ -51,17 +53,13 @@ const EditEvent = () => {
 			requestData.append("eventDesc", eventDesc);
 			requestData.append("eventImage", imageFile);
 
-			const requestUrl = `${API}/Event/Edit-Event/${eventId}?eventName=${eventName}&eventDesc=${eventDesc}&deleted=false`;
+			const requestUrl = `${API}/Event/EditEvent/${eventId}?eventName=${eventName}&eventDesc=${eventDesc}&deleted=false`;
 			await axios.put(requestUrl, requestData, {
 				headers: {
 					"Content-Type": "multipart/form-data",
 				},
 			});
-
-			directiontoaster("directionssuccessToast");
-		} catch {
-			directiontoaster("directionsdangerToast");
-		}
+		} catch {}
 	};
 
 	const onInputChange = (e) => {
@@ -72,27 +70,10 @@ const EditEvent = () => {
 		setImageFile(e.target.files[0]);
 	};
 
-	const directiontoaster = (toastname) => {
-		switch (toastname) {
-			case "directionssuccessToast":
-				toast.success("Event was successfully added!", {
-					position: toast.POSITION.TOP_CENTER,
-					autoClose: 1500,
-				});
-				break;
-			case "directionsdangerToast":
-				toast.error("There was an error adding the event!", {
-					position: toast.POSITION.TOP_CENTER,
-					autoClose: 1500,
-				});
-				break;
-		}
-	};
-
 	return (
 		<Fragment>
+			<Toaster />
 			<Container fluid={true}>
-				<ToastContainer />
 				<PageHeader header="Events" />
 				<Card id="card-container">
 					<CardTitle title="Event Details" />
@@ -139,7 +120,7 @@ const EditEvent = () => {
 										</Label>
 										<br />
 										<img
-											src={`${API}/Event/Get-Event-Image/${eventId}`}
+											src={`${API}/Event/GetEventImage/${eventId}`}
 											alt="event-image"
 											className="edit-event-image"
 										/>

@@ -22,7 +22,7 @@ const ViewEvents = () => {
 	useEffect(() => {
 		async function fetchData() {
 			try {
-				const res = await axios.get(`${API}/Event/All-Events`);
+				const res = await axios.get(`${API}/Event/GetAllEvents`);
 				setData(res.data);
 				console.log(res.data);
 			} catch (error) {
@@ -45,7 +45,7 @@ const ViewEvents = () => {
 								<Card className="event-card-item">
 									<img
 										alt="Sample"
-										src={`${API}/Event/Get-Event-Image/${item.eventId}`}
+										src={`${API}/Event/GetEventImage/${item.eventId}`}
 										className="event-image"
 									/>
 									<CardBody>

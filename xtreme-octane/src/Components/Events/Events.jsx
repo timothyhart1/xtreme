@@ -32,7 +32,7 @@ const Events = () => {
 	useEffect(() => {
 		async function fetchData() {
 			try {
-				const res = await axios.get(`${API}/Event/All-Events`);
+				const res = await axios.get(`${API}/Event/GetAllEvents`);
 				setData(res.data);
 				console.log(res.data);
 			} catch (error) {
@@ -44,7 +44,7 @@ const Events = () => {
 
 	const updateEventData = async () => {
 		try {
-			const res = await axios.get(`${API}/Event/All-Events`);
+			const res = await axios.get(`${API}/Event/GetAllEvents`);
 			setData(res.data);
 		} catch (error) {
 			console.log(error);
@@ -70,11 +70,15 @@ const Events = () => {
 		queryParameters.append("eventDesc", eventDesc);
 
 		axios
-			.post(`${API}/Event/Add-Event?${queryParameters.toString()}`, formData, {
-				headers: {
-					"Content-Type": "multipart/form-data",
-				},
-			})
+			.post(
+				`${API}/Event/AddNewEvent?${queryParameters.toString()}`,
+				formData,
+				{
+					headers: {
+						"Content-Type": "multipart/form-data",
+					},
+				}
+			)
 			.then((response) => {
 				const { data } = response;
 			})
@@ -106,7 +110,7 @@ const Events = () => {
 	};
 
 	const deleteEvent = async (eventId) => {
-		const res = await axios.delete(`${API}/Event/Delete-Event/${eventId}`);
+		const res = await axios.delete(`${API}/Event/DeleteEvent/${eventId}`);
 	};
 
 	return (

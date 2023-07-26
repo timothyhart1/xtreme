@@ -67,7 +67,7 @@ const AddVehicle = () => {
 
 		const res = await axios
 			.post(
-				`${API}/Vehicle/Add-Vehicle?${queryParameters.toString()}`,
+				`${API}/Vehicle/AddVehicle?${queryParameters.toString()}`,
 				formData,
 				{
 					headers: {

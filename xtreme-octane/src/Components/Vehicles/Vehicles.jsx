@@ -17,7 +17,7 @@ const Vehicles = () => {
 	useEffect(() => {
 		async function fetchData() {
 			try {
-				const res = await axios.get(`${API}/Vehicle/All-Vehicles`);
+				const res = await axios.get(`${API}/Vehicle/GetAllVehicles`);
 				setData(res.data);
 				console.log(res.data);
 			} catch (error) {

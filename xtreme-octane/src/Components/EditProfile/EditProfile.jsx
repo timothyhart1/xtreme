@@ -17,6 +17,7 @@ import CardTitle from "../CardTitle/CardTitle";
 function EditProfile() {
 	const API = window.appConfig.API;
 	const memberId = sessionStorage.getItem("MemberId");
+	const userId = sessionStorage.getItem("UserId");
 
 	const [profile, setProfile] = useState({
 		email: "",
@@ -36,7 +37,9 @@ function EditProfile() {
 	useEffect(() => {
 		async function fetchData() {
 			try {
-				const res = await axios.get(`${API}/Member/Single-Member/${memberId}`);
+				const res = await axios.get(
+					`${API}/Member/GetSingleMember/${memberId}`
+				);
 				setProfile(res.data);
 				console.log(res.data);
 			} catch (error) {
@@ -51,6 +54,8 @@ function EditProfile() {
 
 		const requestData = {
 			email: email,
+			memberId: memberId,
+			userId: userId,
 			name: name,
 			surname: surname,
 			city: city,
@@ -59,7 +64,7 @@ function EditProfile() {
 			deleted: false,
 		};
 
-		const requestUrl = `${API}/Member/Edit-Profile/${memberId}`;
+		const requestUrl = `${API}/Member/EditProfile/${memberId}`;
 		const req = await axios.put(requestUrl, requestData);
 	};
 

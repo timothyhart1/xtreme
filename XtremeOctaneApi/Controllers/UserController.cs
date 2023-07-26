@@ -8,6 +8,8 @@ using WebApi.Services;
 using XtremeOctaneApi.Security.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
+using AutoMapper.Execution;
+using XtremeOctaneApi.Dtos;
 
 namespace XtremeOctaneApi.Controllers
 {
@@ -64,7 +66,23 @@ namespace XtremeOctaneApi.Controllers
                 // Authenticate the newly created user
                 await _signInManager.SignInAsync(user, isPersistent: false);
 
-                return Ok();
+          
+                    MemberModel member = new MemberModel
+                    {
+                        Email = user.UserName,
+                        UserId = user.Id,
+                        Name = null,
+                        Surname = null,
+                        City = null,
+                        PhoneNumber = null,
+                        Gender = null,
+                        CreateDate = DateTime.Now
+                    };
+
+                    await _db.Member.AddAsync(member);
+                    await _db.SaveChangesAsync();
+
+                    return Ok();
             }
             else
             {
@@ -76,7 +94,7 @@ namespace XtremeOctaneApi.Controllers
 
 
         [HttpPost, Route("Login")]
-        public async Task<IActionResult> Login([FromBody] UserModel userModel)
+        public async Task<ActionResult> Login([FromBody] UserModel userModel)
         {
 
             try
@@ -91,29 +109,30 @@ namespace XtremeOctaneApi.Controllers
                         .Select(u => u.Id)
                         .SingleOrDefaultAsync();
 
+                    var member = await _db.Member.SingleOrDefaultAsync(m => m.UserId == userId);
 
-                    if (user != null)
+                    if (userId == null || string.IsNullOrEmpty(user.UserName))
                     {
-                        var token = _userService.GenerateToken(userId);
-                        return Ok(token);
+                        return BadRequest();
                     }
-                    else
-                    {
-                        return BadRequest("User not found.");
-                    }
-                }
 
-                if (result.IsLockedOut)
-                {
-                    return BadRequest("User is locked out");
+                    var token = _userService.GenerateToken(userId);
+
+                    var loginResponse = new LoginResponseDto
+                    {
+                        Token = token,
+                        UserId = userId,
+                        Email = user.UserName,
+                        MemberId = member.MemberId
+                    };
+                    return Ok(loginResponse);
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while fetching the member with ID");
             }
-
-            return Ok();
+            return BadRequest();
         }
 
         [HttpPost, Route("Logout")]

@@ -18,9 +18,8 @@ const Members = () => {
 	useEffect(() => {
 		async function fetchData() {
 			try {
-				const res = await axios.get(`${API}/Member/All-Members`);
+				const res = await axios.get(`${API}/Member/GetAllMembers`);
 				setData(res.data);
-				console.log(res.data);
 			} catch (error) {
 				console.log(error);
 			}

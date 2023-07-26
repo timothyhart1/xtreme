@@ -1,6 +1,5 @@
 import React, { useState, useEffect, Fragment } from "react";
 import axios from "axios";
-import { Container } from "reactstrap";
 import {
 	PieChart,
 	Pie,
@@ -13,6 +12,17 @@ import {
 	Bar,
 } from "recharts";
 import { Link, useParams } from "react-router-dom";
+import {
+	Row,
+	Card,
+	Form,
+	Label,
+	Input,
+	Container,
+	Button,
+	FormGroup,
+	Table,
+} from "reactstrap";
 
 const ViewEventVotes = () => {
 	const API = window.appConfig.API;
@@ -22,7 +32,9 @@ const ViewEventVotes = () => {
 	useEffect(() => {
 		async function fetchData() {
 			try {
-				const res = await axios.get(`${API}/EventVote/EventVotes/${eventId}`);
+				const res = await axios.get(
+					`${API}/EventVote/GetEventVotes/${eventId}`
+				);
 				const { yesVotes, noVotes, maybeVotes } = res.data;
 				const formattedData = [
 					{ name: "Yes", votes: yesVotes },
@@ -41,44 +53,55 @@ const ViewEventVotes = () => {
 	return (
 		<Fragment>
 			<Container fluid={true}>
-				<div style={{ textAlign: "center" }}>
-					<h1>Social Media Users</h1>
-					<div className="App">
-						{data.length > 0 ? (
-							<Fragment>
-								<BarChart
-									width={500}
-									height={300}
-									data={data}
-									margin={{
-										top: 5,
-										right: 30,
-										left: 80,
-										bottom: 5,
-									}}
-									barSize={20}
-								>
-									<XAxis
-										dataKey="name"
-										scale="point"
-										padding={{ left: 10, right: 10 }}
-									/>
-									<YAxis />
-									<Tooltip />
-									<Legend />
-									<CartesianGrid />
-									<Bar
-										dataKey="votes"
-										fill="#3273b5"
-										background={{ fill: "#eee" }}
-									/>
-								</BarChart>
-							</Fragment>
-						) : (
-							<p>Loading chart...</p>
-						)}
+				<Card id="card-container">
+					<div style={{ textAlign: "center" }}>
+						<div className="App">
+							{data.length > 0 ? (
+								<Fragment>
+									<BarChart
+										width={500}
+										height={300}
+										data={data}
+										margin={{
+											top: 5,
+											right: 30,
+											left: 80,
+											bottom: 5,
+										}}
+										barSize={20}
+									>
+										<XAxis
+											dataKey="name"
+											scale="point"
+											padding={{ left: 10, right: 10 }}
+										/>
+										<YAxis />
+										<Tooltip />
+										<Legend />
+										<CartesianGrid />
+										<Bar
+											dataKey="votes"
+											fill="#3273b5"
+											background={{ fill: "#eee" }}
+										/>
+									</BarChart>
+								</Fragment>
+							) : (
+								<p>Loading chart...</p>
+							)}
+						</div>
 					</div>
-				</div>
+					<Table id="event-table" bordered responsive>
+						<thead>
+							<tr>
+								<th className="text-center align-middle">#</th>
+								<th className="text-center align-middle">Vote</th>
+								<th className="text-center align-middle">Voter</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</Table>
+				</Card>
 			</Container>
 		</Fragment>
 	);

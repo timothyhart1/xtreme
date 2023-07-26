@@ -12,7 +12,7 @@ const HeroSection = () => {
 
 	const getMemberCount = async () => {
 		const res = await axios
-			.get(`${API}/Member/All-Members`)
+			.get(`${API}/Member/GetAllMembers`)
 			.then((response) => {
 				setMemberCount(response.data.length);
 				console.log(response.data.length);
@@ -21,7 +21,7 @@ const HeroSection = () => {
 
 	const getVehicleCount = async () => {
 		const res = await axios
-			.get(`${API}/Vehicle/All-Vehicles`)
+			.get(`${API}/Vehicle/GetAllVehicles`)
 			.then((response) => {
 				setVehicleCount(response.data.length);
 				console.log(response.data.length);
