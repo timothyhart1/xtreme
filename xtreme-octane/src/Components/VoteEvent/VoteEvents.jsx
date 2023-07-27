@@ -1,7 +1,6 @@
 import React, { useState, useEffect, Fragment } from "react";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
-import PageHeader from "../PageHeader/PageHeader";
 import CardTitle from "../CardTitle/CardTitle";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -72,7 +71,6 @@ const VoteEvent = () => {
 		<Fragment>
 			<Container fluid={true}>
 				<ToastContainer />
-				<PageHeader header="Events" />
 				<Card id="card-container" className="card-spacing">
 					<img
 						alt="Sample"

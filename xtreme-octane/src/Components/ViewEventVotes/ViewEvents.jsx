@@ -97,7 +97,7 @@ const ViewEventVotes = () => {
 							<tr>
 								<th className="text-center align-middle">#</th>
 								<th className="text-center align-middle">Vote</th>
-								<th className="text-center align-middle">Voter</th>
+								<th className="text-center align-middle">Voted By</th>
 								<th className="text-center align-middle"></th>
 							</tr>
 						</thead>

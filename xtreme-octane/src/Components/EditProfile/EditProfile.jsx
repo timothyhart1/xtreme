@@ -10,7 +10,6 @@ import {
 	Label,
 	Button,
 } from "reactstrap";
-import PageHeader from "../PageHeader/PageHeader";
 import axios from "axios";
 import CardTitle from "../CardTitle/CardTitle";
 
@@ -71,7 +70,6 @@ function EditProfile() {
 	return (
 		<Fragment>
 			<Container fluid={true}>
-				<PageHeader header="Edit Profile" />
 				<Card id="card-container">
 					<CardTitle title="Profile Details" />
 					<Row>

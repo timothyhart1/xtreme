@@ -27,7 +27,6 @@ namespace XtremeOctaneApi.Controllers
             {
                 var vehicles = await _db.Vehicle
                     .Include(v => v.Member)
-                    .OrderBy(v => v.Manufacturer)
                     .ToListAsync();
 
                 if (vehicles == null)

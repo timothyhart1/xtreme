@@ -3,7 +3,6 @@ import "../../App.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { Card, CardBody, Container, Table } from "reactstrap";
-import PageHeader from "../PageHeader/PageHeader";
 import ModalDeleteEvent from "../Modal/Modal";
 import { FaRegEdit } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
@@ -48,7 +47,6 @@ const Members = () => {
 		<Fragment>
 			<Container fluid={true}>
 				<ToastContainer />
-				<PageHeader header="Members" />
 				<Card id="card-container" className="card-spacing">
 					<CardBody>
 						<Table id="event-table" bordered responsive>

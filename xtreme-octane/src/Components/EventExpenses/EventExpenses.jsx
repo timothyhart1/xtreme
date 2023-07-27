@@ -2,7 +2,6 @@ import React, { useState, useEffect, Fragment } from "react";
 import "./EventExpenses.css";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
-import PageHeader from "../PageHeader/PageHeader";
 import CardTitle from "../CardTitle/CardTitle";
 import ModalDeleteEvent from "../Modal/Modal";
 import { FaRegEdit, FaRegEye, FaPlus } from "react-icons/fa";
@@ -76,7 +75,6 @@ const EventExpenses = () => {
 		<Fragment>
 			<Container fluid={true}>
 				<ToastContainer />
-				<PageHeader header="Events" />
 				<Card id="card-container">
 					<CardTitle title="Add Expense" />
 					<Row>

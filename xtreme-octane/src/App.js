@@ -20,6 +20,7 @@ import EventExpenses from "./Components/EventExpenses/EventExpenses";
 import AddVehicle from "./Components/AddVehicle/AddVehicle";
 import EditEventExpenses from "./Components/EditEventExpense/EditEventExpenses";
 import ViewVehicle from "./Components/ViewVehicle/ViewVehicle";
+import MemberVehicles from "./Components/MemberVehicles/MemberVehicles";
 
 function App() {
 	const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -145,6 +146,14 @@ function App() {
 							element={
 								<RequireAuth>
 									<AddVehicle />
+								</RequireAuth>
+							}
+						/>
+						<Route
+							path="member-vehicles"
+							element={
+								<RequireAuth>
+									<MemberVehicles />
 								</RequireAuth>
 							}
 						/>

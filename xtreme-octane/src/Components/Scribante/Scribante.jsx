@@ -3,7 +3,6 @@ import "./Scribante.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { Card, CardBody, Container, Table } from "reactstrap";
-import PageHeader from "../PageHeader/PageHeader";
 import CardTitle from "../CardTitle/CardTitle";
 import { FaRegEdit } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
@@ -49,7 +48,6 @@ const Scribante = () => {
 		<Fragment>
 			<Container fluid={true}>
 				<ToastContainer />
-				<PageHeader header="Aldo Scribante Racetrack" />
 				<Card id="card-container" className="card-spacing">
 					<CardTitle title="All Lap Times" />
 					<CardBody>
@@ -58,11 +56,9 @@ const Scribante = () => {
 								<tr>
 									<th className="text-center align-middle">#</th>
 									<th className="text-center align-middle">Time</th>
-									<th className="text-center align-middle">
-										Event Description
-									</th>
-									<th className="text-center align-middle">Event Date</th>
-									<th className="text-center align-middle">Actions</th>
+									<th className="text-center align-middle">Conditions</th>
+									<th className="text-center align-middle">Vehicle</th>
+									<th className="text-center align-middle">Driver</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -73,18 +69,17 @@ const Scribante = () => {
 												{index + 1}
 											</th>
 											<td className="event-items text-center align-middle">
-												{item.lapTime}
+												{item.lapTimeMinutes}:{item.lapTimeSeconds}
 											</td>
 											<td className="event-items text-center align-middle">
-												{item.eventDesc}
+												{item.conditions}
 											</td>
-
-											<td className="event-items-icons text-center align-middle">
-												<Link to={`edit-event/${item.eventId}`}>
-													<i className="table-icons">
-														<FaRegEdit />
-													</i>
-												</Link>
+											<td className="event-items text-center align-middle">
+												{item.vehicle.year} {item.vehicle.manufacturer}{" "}
+												{item.vehicle.model}
+											</td>
+											<td className="event-items text-center align-middle">
+												{item.vehicle.member.name} {item.vehicle.member.surname}
 											</td>
 										</tr>
 									);

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, Fragment } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import PageHeader from "../PageHeader/PageHeader";
 import ModalDeleteEvent from "../Modal/Modal";
 import { FaRegEdit } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
@@ -22,7 +21,6 @@ import CardTitle from "../CardTitle/CardTitle";
 
 const AddVehicle = () => {
 	const API = window.appConfig.API;
-	const [data, setData] = useState([]);
 	const [manufacturer, setManufacturer] = useState("");
 	const [model, setModel] = useState("");
 	const [year, setYear] = useState("");
@@ -31,7 +29,6 @@ const AddVehicle = () => {
 	const [colour, setColour] = useState("");
 	const [imageFile, setFile] = useState();
 	const memberId = sessionStorage.getItem("MemberId");
-	const [image, setImage] = useState("");
 
 	const getImage = (e) => {
 		setFile(e.target.files[0]);
@@ -85,7 +82,6 @@ const AddVehicle = () => {
 		<Fragment>
 			<Container fluid={true}>
 				<ToastContainer />
-				<PageHeader header="Vehicles" />
 				<Card id="card-container">
 					<CardTitle title="Add Vehicle" />
 					<Row>

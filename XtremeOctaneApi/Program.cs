@@ -118,6 +118,7 @@ if (app.Environment.IsDevelopment())
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Xtreme Octane API v1");
     });
 }
+app.UseCors();
 
 app.UseHttpsRedirection();
 
@@ -126,8 +127,6 @@ app.UseRouting();
 app.UseAuthentication();
 
 app.UseAuthorization();
-
-app.UseCors();
 
 app.MapControllers();
 

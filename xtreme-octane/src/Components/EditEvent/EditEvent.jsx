@@ -1,7 +1,6 @@
 import React, { useState, useEffect, Fragment } from "react";
 import "../../App.css";
 import axios from "axios";
-import PageHeader from "../PageHeader/PageHeader";
 import CardTitle from "../CardTitle/CardTitle";
 import { useParams } from "react-router-dom";
 import "./EditEvent.css";
@@ -74,7 +73,6 @@ const EditEvent = () => {
 		<Fragment>
 			<Toaster />
 			<Container fluid={true}>
-				<PageHeader header="Events" />
 				<Card id="card-container">
 					<CardTitle title="Event Details" />
 					<Row>

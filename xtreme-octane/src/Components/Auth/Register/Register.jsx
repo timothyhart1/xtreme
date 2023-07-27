@@ -19,7 +19,6 @@ import {
 	Table,
 	CardHeader,
 } from "reactstrap";
-import PageHeader from "../../PageHeader/PageHeader";
 import CardTitle from "../../CardTitle/CardTitle";
 import {
 	FaRegTrashAlt,
@@ -38,7 +37,6 @@ const Register = () => {
 		<Fragment>
 			<Container fluid={true}>
 				<ToastContainer />
-				<PageHeader header="Events" />
 				<Card id="card-container">
 					<CardTitle title="Event Details" />
 				</Card>

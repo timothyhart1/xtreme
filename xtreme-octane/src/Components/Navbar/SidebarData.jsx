@@ -52,4 +52,10 @@ export const SidebarData = [
 		icon: <FaIcons.FaCar />,
 		cName: "nav-text",
 	},
+	{
+		title: "My Vehicles",
+		path: "/member-vehicles",
+		icon: <FaIcons.FaCar />,
+		cName: "nav-text",
+	},
 ];

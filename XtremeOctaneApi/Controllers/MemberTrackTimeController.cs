@@ -22,18 +22,20 @@ namespace XtremeOctaneApi.Controllers
 
         // Get all track times.
         [HttpGet("GetAllTrackTimes")]
-        public async Task<IActionResult> GetAllVehicle()
+        [AllowAnonymous]
+        public ActionResult<IEnumerable<MemberTrackTimeModel>> GetAllTrackTimes()
         {
             try
             {
-                var times = await _db.MemberTrackTime.OrderBy(e => e.LapTime).ToListAsync();
+                List<MemberTrackTimeModel> trackTimes = _db.MemberTrackTime
+                    .Include(t => t.Vehicle)
+                    .ThenInclude(m => m.Member)
+                    .ToList();
 
-                if (times == null)
-                {
-                    return NotFound("No times are available!");
-                }
+                // Calculate the total time in seconds for each lap time and sort the list.
+                trackTimes = trackTimes.OrderBy(t => (t.LapTimeMinutes * 60) + t.LapTimeSeconds).ToList();
 
-                return Ok(times);
+                return Ok(trackTimes);
             }
             catch (Exception ex)
             {
@@ -49,12 +51,23 @@ namespace XtremeOctaneApi.Controllers
         {
             try
             {
+                bool enteredAlready = await _db.MemberTrackTime.AnyAsync(t => t.VehicleId == model.VehicleId);
+
+                if (enteredAlready)
+                {
+                    return BadRequest("A lap time for this vehicle already exists.");
+                }
+
+                // Convert LapTimeMinutes and LapTimeSeconds to totalSeconds before saving
+                int totalSeconds = (model.LapTimeMinutes * 60) + model.LapTimeSeconds;
+
                 var trackTime = new MemberTrackTimeModel
                 {
                     MemberTrackTimeId = model.MemberTrackTimeId,
                     MemberId = model.MemberId,
                     VehicleId = model.VehicleId,
-                    LapTime = model.LapTime,
+                    LapTimeMinutes = model.LapTimeMinutes,
+                    LapTimeSeconds = model.LapTimeSeconds,
                     Conditions = model.Conditions,
                     Tyre = model.Tyre,
                     VehicleClass = model.VehicleClass,
@@ -66,7 +79,7 @@ namespace XtremeOctaneApi.Controllers
 
                 return Ok(trackTime);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while posting the vehicle");
                 return StatusCode(500, "An error occurred while posting the lap time");

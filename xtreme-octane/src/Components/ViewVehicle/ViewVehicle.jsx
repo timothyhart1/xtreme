@@ -1,7 +1,6 @@
 import React, { useState, useEffect, Fragment } from "react";
 import "./ViewVehicles.css";
 import axios from "axios";
-import PageHeader from "../PageHeader/PageHeader";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useParams } from "react-router-dom";
@@ -56,7 +55,6 @@ const ViewVehicle = () => {
 		<Fragment>
 			<Container fluid={true}>
 				<ToastContainer />
-				<PageHeader header="Vehicles" />
 				<Card id="card-container" className="card-vehicle card-container">
 					<Row>
 						{data !== null ? (
