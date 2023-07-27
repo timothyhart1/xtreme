@@ -98,7 +98,10 @@ const MemberVehicles = () => {
 												{item.color}
 											</td>
 											<td id="event-actions">
-												<Link id="vehicle-model">
+												<Link
+													to={`/edit-vehicle/${item.vehicleId}`}
+													id="vehicle-model"
+												>
 													<button type="button" class="btn btn-info">
 														<i>
 															<FaRegEdit />

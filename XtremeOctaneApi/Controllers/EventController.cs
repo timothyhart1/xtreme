@@ -71,16 +71,16 @@ namespace XtremeOctaneApi.Controllers
         {
             var xtremeEvent = _db.Event.FirstOrDefault(e => e.EventId == id);
 
-            if (xtremeEvent == null || string.IsNullOrEmpty(xtremeEvent.EventImage))
+            if (xtremeEvent == null)
             {
-                return NotFound("Event or image not found.");
+                return NotFound("Event not found.");
             }
 
             string filePath = Path.Combine(Directory.GetCurrentDirectory(), "Documents", "Events", xtremeEvent.EventImage);
 
             if (!System.IO.File.Exists(filePath))
             {
-                return NotFound("Image file not found on the server.");
+                return NotFound("Image not found.");
             }
 
             var fileBytes = System.IO.File.ReadAllBytes(filePath);

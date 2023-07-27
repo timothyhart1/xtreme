@@ -1,0 +1,135 @@
+.event-input {
+	padding: 8px !important;
+	border: 2px solid #e6edef !important;
+	font-size: 14px !important;
+	font-weight: 400 !important;
+}
+
+#event-label {
+	color: #59667a !important;
+	font-size: 13px !important;
+	letter-spacing: 0.2px !important;
+	font-weight: 500 !important;
+}
+
+#image-input {
+	padding: 20px;
+}
+
+#event-btn {
+	font-size: 12px;
+	width: 8%;
+	padding: 7px;
+}
+
+#modal-event-btn {
+	font-size: 12px;
+	width: 20%;
+	font-weight: 600;
+	padding: 7px;
+}
+
+#event-table {
+	width: 75%;
+	margin: auto !important;
+	text-align: left !important;
+}
+
+.event-container {
+	margin: 20px !important;
+}
+
+.event-items {
+	font-size: 14px;
+	color: #444444 !important;
+}
+
+#event-form {
+	padding: 0 !important;
+}
+
+#event-form-group {
+	padding: 0 !important;
+}
+
+.candidate-icons {
+	margin: auto 5px auto 5px !important;
+	color: var(--theme-default) !important;
+	transition: 0.3s;
+	cursor: pointer;
+}
+
+.event-input {
+	padding: 8px !important;
+	border: 2px solid #e6edef !important;
+	font-size: 14px !important;
+	font-weight: 400 !important;
+}
+
+#event-label {
+	color: #59667a !important;
+	font-size: 13px !important;
+	letter-spacing: 0.2px !important;
+	font-weight: 500 !important;
+}
+
+#event-btn {
+	font-size: 12px;
+	width: 8%;
+	font-weight: 0 !important;
+	padding: 7px;
+	background-color: #3273b5;
+	border-color: #3273b5;
+}
+
+#modal-event-btn {
+	font-size: 12px;
+	width: 20%;
+	font-weight: 600;
+	padding: 7px;
+}
+
+#event-table {
+	width: 75%;
+	margin: auto !important;
+	text-align: left !important;
+}
+
+.event-container {
+	margin: 20px !important;
+}
+
+.event-items {
+	font-size: 14px;
+	color: #444444 !important;
+}
+
+#event-form {
+	padding: 0 !important;
+}
+
+#event-form-group {
+	padding: 0 !important;
+}
+
+.candidate-icons {
+	margin: auto 5px auto 5px !important;
+	color: var(--theme-default) !important;
+	transition: 0.3s;
+	cursor: pointer;
+}
+
+#event-actions {
+	display: inline-flex;
+	width: 100%;
+	align-items: center;
+	justify-content: center;
+}
+
+#event-btns {
+	margin: auto 5px auto 5px;
+}
+
+#event-image-input {
+	border: 2px solid #e6edef !important;
+}

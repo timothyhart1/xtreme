@@ -17,6 +17,6 @@ namespace XtremeOctaneApi.Models
         public string? VehicleImage { get; set; }
 
         [ForeignKey(nameof(MemberId))]
-        public MemberModel Member { get; set; }
+        public MemberModel? Member { get; set; }
     }
 }

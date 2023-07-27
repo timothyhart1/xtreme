@@ -1,10 +1,10 @@
 @font-face {
-	font-family: Montserrat;
-	src: url(../public/Montserrat-Medium.ttf);
+	font-family: Poppins;
+	src: url(../public/Poppins-Medium.ttf);
 }
 
 * {
-	font-family: "Montserrat", sans-serif !important;
+	font-family: "Poppins", sans-serif !important;
 	box-sizing: border-box !important;
 	margin: 0;
 }
@@ -31,7 +31,7 @@ body {
 .my-card-title {
 	font-weight: 600 !important;
 	font-size: 24px !important;
-	text-align: left !important;
+	text-align: center !important;
 	margin: 0px 0 30px 0 !important;
 }
 

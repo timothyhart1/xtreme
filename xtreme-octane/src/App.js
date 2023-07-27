@@ -21,6 +21,7 @@ import AddVehicle from "./Components/AddVehicle/AddVehicle";
 import EditEventExpenses from "./Components/EditEventExpense/EditEventExpenses";
 import ViewVehicle from "./Components/ViewVehicle/ViewVehicle";
 import MemberVehicles from "./Components/MemberVehicles/MemberVehicles";
+import EditVehicle from "./Components/EditVehicle/EditVehicle";
 
 function App() {
 	const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -154,6 +155,14 @@ function App() {
 							element={
 								<RequireAuth>
 									<MemberVehicles />
+								</RequireAuth>
+							}
+						/>
+						<Route
+							path="edit-vehicle/:vehicleId"
+							element={
+								<RequireAuth>
+									<EditVehicle />
 								</RequireAuth>
 							}
 						/>

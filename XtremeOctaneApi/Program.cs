@@ -122,11 +122,16 @@ app.UseCors();
 
 app.UseHttpsRedirection();
 
-app.UseRouting();
-
 app.UseAuthentication();
 
+app.UseRouting();
+
 app.UseAuthorization();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 
 app.MapControllers();
 

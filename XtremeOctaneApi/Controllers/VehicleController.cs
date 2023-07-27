@@ -91,11 +91,58 @@ namespace XtremeOctaneApi.Controllers
 
             if (!System.IO.File.Exists(filePath))
             {
-                return NotFound("Image file not found on the server.");
+                return NotFound("Image not found.");
             }
 
             var fileBytes = System.IO.File.ReadAllBytes(filePath);
             return File(fileBytes, "image/jpeg");
+        }
+
+        // Edit a vehicle.
+        [HttpPut("EditVehicle/{id}")]
+        public async Task<ActionResult> EditVehicle(int id, IFormFile vehicleImage, int memberId, string manufacturer, string model,
+            string year, int mileage, string plate, string color)
+        {
+            try
+            {
+                var vehicle = _db.Vehicle.FirstOrDefault(e => e.VehicleId == id);
+
+                if (vehicle != null)
+                {
+                    if (vehicleImage != null)
+                    {
+                        string fileName = Guid.NewGuid() + Path.GetExtension(vehicleImage.FileName);
+                        string uploadFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Documents\\Cars", fileName);
+
+                        using (var fileStream = new FileStream(uploadFilePath, FileMode.Create))
+                        {
+                            await vehicleImage.CopyToAsync(fileStream);
+                            await fileStream.FlushAsync();
+                        }
+
+                        vehicle.VehicleImage = fileName;
+                    }
+
+                    vehicle.MemberId = memberId;
+                    vehicle.Manufacturer = manufacturer;
+                    vehicle.Model = model;  
+                    vehicle.Year = year;
+                    vehicle.Mileage = mileage;
+                    vehicle.Plate = plate;
+                    vehicle.Color = color;
+
+                    _db.SaveChanges();
+
+                    return Ok();
+                }
+
+                return NotFound($"Could not find the event with the id {id}");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "There was an error editing the event");
+                return BadRequest(ex.Message);
+            }
         }
 
         // Add a new vehicle.
