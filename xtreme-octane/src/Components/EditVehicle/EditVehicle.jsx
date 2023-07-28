@@ -3,8 +3,6 @@ import "./styles.css";
 import axios from "axios";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import CardTitle from "../CardTitle/CardTitle";
-import ModalDeleteEvent from "../Modal/Modal";
-import { FaRegEdit, FaRegEye, FaPlus } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -23,6 +21,7 @@ const EditVehicle = () => {
 	const { vehicleId } = useParams();
 	const [imageFile, setImageFile] = useState(null);
 	const navigate = useNavigate();
+	const memberId = sessionStorage.getItem("MemberId");
 
 	const [vehicle, setVehicle] = useState({
 		manufacturer: "",
@@ -59,17 +58,31 @@ const EditVehicle = () => {
 		try {
 			e.preventDefault();
 			const requestData = new FormData();
-			requestData.append("eventName", eventName);
-			requestData.append("eventDesc", eventDesc);
-			requestData.append("eventImage", imageFile);
+			requestData.append("manufacturer", manufacturer);
+			requestData.append("memberId", memberId);
+			requestData.append("model", model);
+			requestData.append("year", year);
+			requestData.append("mileage", mileage);
+			requestData.append("plate", plate);
+			requestData.append("color", color);
 
-			const requestUrl = `${API}/Event/EditEvent/${eventId}?eventName=${eventName}&eventDesc=${eventDesc}&deleted=false`;
+			// Check if imageFile is not null before appending it to FormData
+			if (imageFile) {
+				requestData.append("vehicleImage", imageFile);
+			}
+
+			const queryParams = `manufacturer=${manufacturer}&memberId=${memberId}&model=${model}&year=${year}&color=${color}&mileage=${mileage}&plate=${plate}`;
+			const requestUrl = `${API}/Vehicle/EditVehicle/${vehicleId}?${queryParams}`;
 			await axios.put(requestUrl, requestData, {
 				headers: {
 					"Content-Type": "multipart/form-data",
 				},
 			});
-		} catch {}
+
+			// Handle success notification or navigation to another page
+		} catch (error) {
+			// Handle error and show error notification if needed
+		}
 	};
 
 	const handleImageChange = (e) => {
@@ -94,7 +107,7 @@ const EditVehicle = () => {
 											className="form-control event-input"
 											required
 											type="text"
-											name="expenseName"
+											name="manufacturer"
 											autoComplete="off"
 											value={manufacturer}
 											onChange={(e) => onInputChange(e)}
@@ -110,7 +123,7 @@ const EditVehicle = () => {
 											className="form-control event-input"
 											required
 											type="text"
-											name="expenseAmount"
+											name="model"
 											autoComplete="off"
 											value={model}
 											onChange={(e) => onInputChange(e)}
@@ -126,7 +139,7 @@ const EditVehicle = () => {
 											className="form-control event-input"
 											required
 											type="text"
-											name="expenseAmount"
+											name="year"
 											autoComplete="off"
 											value={year}
 											onChange={(e) => onInputChange(e)}
@@ -142,7 +155,7 @@ const EditVehicle = () => {
 											className="form-control event-input"
 											required
 											type="text"
-											name="expenseAmount"
+											name="mileage"
 											autoComplete="off"
 											value={mileage}
 											onChange={(e) => onInputChange(e)}
@@ -158,7 +171,7 @@ const EditVehicle = () => {
 											className="form-control event-input"
 											required
 											type="text"
-											name="expenseAmount"
+											name="color"
 											autoComplete="off"
 											value={color}
 											onChange={(e) => onInputChange(e)}
