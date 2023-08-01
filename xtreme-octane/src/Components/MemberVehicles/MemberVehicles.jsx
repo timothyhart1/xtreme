@@ -7,7 +7,6 @@ import CardTitle from "../CardTitle/CardTitle";
 import { FaRegEdit } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { FaEye } from "react-icons/fa";
 
 const MemberVehicles = () => {
 	const API = window.appConfig.API;
@@ -26,14 +25,13 @@ const MemberVehicles = () => {
 						},
 					}
 				);
-				console.log(res.data);
 				setData(res.data);
 			} catch (error) {
 				console.log(error);
 			}
 		}
 		fetchData();
-	}, []);
+	}, [API, memberId, token]);
 
 	const directiontoaster = (toastname) => {
 		switch (toastname) {
@@ -58,6 +56,11 @@ const MemberVehicles = () => {
 				<ToastContainer />
 				<Card id="card-container" className="card-spacing">
 					<CardTitle title="Your Vehicles" />
+					<Link to={`/add-vehicle`} id="vehicle-model">
+						<button type="button" class="btn btn-info">
+							Add Vehicle
+						</button>
+					</Link>
 					<CardBody>
 						<Table id="event-table" bordered responsive>
 							<thead>

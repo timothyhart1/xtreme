@@ -135,16 +135,11 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 
-app.UseRouting();
-
 app.UseAuthorization();
 
-app.UseMiddleware<JwtMiddleware>();
+app.UseRouting();
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-});
+app.UseMiddleware<JwtMiddleware>();
 
 app.UseSession();
 

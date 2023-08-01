@@ -24,6 +24,7 @@ namespace XtremeOctaneApi.Controllers
 
         // Get all events.
         [HttpGet("GetAllEvents")]
+        [Authorize]
         public async Task<IActionResult> GetAllEvents()
         {
             try

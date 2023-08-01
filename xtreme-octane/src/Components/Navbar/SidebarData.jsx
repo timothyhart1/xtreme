@@ -1,8 +1,3 @@
-import React from "react";
-import * as FaIcons from "react-icons/fa";
-import * as AiIcons from "react-icons/ai";
-import * as IoIcons from "react-icons/io";
-
 export const SidebarData = [
 	{
 		title: "Dashboard",
@@ -37,11 +32,6 @@ export const SidebarData = [
 	{
 		title: "Edit Profile",
 		path: "/edit-profile",
-		cName: "nav-text",
-	},
-	{
-		title: "Add Vehicle",
-		path: "/add-vehicle",
 		cName: "nav-text",
 	},
 	{

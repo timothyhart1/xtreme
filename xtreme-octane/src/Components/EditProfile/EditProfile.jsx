@@ -81,7 +81,7 @@ function EditProfile() {
 											First Name
 										</Label>
 										<Input
-											className="form-control event-input"
+											className="form-control dark-event-input"
 											required
 											type="text"
 											name="name"
@@ -97,7 +97,7 @@ function EditProfile() {
 											Last Name
 										</Label>
 										<Input
-											className="form-control event-input"
+											className="form-control dark-event-input"
 											required
 											type="text"
 											name="surname"
@@ -113,7 +113,7 @@ function EditProfile() {
 											City
 										</Label>
 										<Input
-											className="form-control event-input"
+											className="form-control dark-event-input"
 											required
 											type="text"
 											name="city"
@@ -129,7 +129,7 @@ function EditProfile() {
 											Phone Number
 										</Label>
 										<Input
-											className="form-control event-input"
+											className="form-control dark-event-input"
 											required
 											type="text"
 											name="phoneNumber"
@@ -145,7 +145,7 @@ function EditProfile() {
 											Gender
 										</Label>
 										<Input
-											className="form-control event-input"
+											className="form-control dark-event-input"
 											required
 											type="text"
 											name="gender"
