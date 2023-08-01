@@ -4,7 +4,7 @@ import * as AiIcons from "react-icons/ai";
 import { SidebarData } from "./SidebarData";
 import { IconContext } from "react-icons";
 import "./Navbar.css";
-import logo from "../../Images/Logo_light_transparent.png";
+import logo from "../../Images/Logo_transparent.png";
 import { Link, useLocation } from "react-router-dom";
 
 function Navbar({ toggleSidebar }) {
@@ -18,10 +18,8 @@ function Navbar({ toggleSidebar }) {
 
 	return (
 		<>
-			<IconContext.Provider value={{ color: "undefined" }}>
+			<IconContext.Provider value={{ color: "#fff" }}>
 				<div className="navbar">
-					{" "}
-					{/* Move the navbar class here */}
 					<Link to="#" className="menu-bars" onClick={handleToggleSidebar}>
 						<FaIcons.FaBars />
 					</Link>
@@ -47,7 +45,6 @@ function Navbar({ toggleSidebar }) {
 										className={isActive ? "nav-text active" : "nav-text"}
 									>
 										<Link to={item.path}>
-											{item.icon}
 											<span>{item.title}</span>
 										</Link>
 									</li>
@@ -56,7 +53,6 @@ function Navbar({ toggleSidebar }) {
 						</ul>
 					</nav>
 				</div>{" "}
-				{/* Close the navbar class */}
 			</IconContext.Provider>
 		</>
 	);

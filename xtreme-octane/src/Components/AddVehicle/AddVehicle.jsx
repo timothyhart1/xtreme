@@ -93,7 +93,7 @@ const AddVehicle = () => {
 											Manufacturer
 										</Label>
 										<Input
-											className="form-control event-input"
+											className="form-control dark-event-input"
 											required
 											type="text"
 											name="name"
@@ -108,7 +108,7 @@ const AddVehicle = () => {
 											Model
 										</Label>
 										<Input
-											className="form-control event-input"
+											className="form-control dark-event-input"
 											required
 											type="text"
 											name="name"
@@ -123,7 +123,7 @@ const AddVehicle = () => {
 											Year
 										</Label>
 										<Input
-											className="form-control event-input"
+											className="form-control dark-event-input"
 											required
 											type="text"
 											name="name"
@@ -138,7 +138,7 @@ const AddVehicle = () => {
 											Mileage
 										</Label>
 										<Input
-											className="form-control event-input"
+											className="form-control dark-event-input"
 											required
 											type="text"
 											name="name"
@@ -153,7 +153,7 @@ const AddVehicle = () => {
 											Plate
 										</Label>
 										<Input
-											className="form-control event-input"
+											className="form-control dark-event-input"
 											required
 											type="text"
 											name="name"
@@ -168,7 +168,7 @@ const AddVehicle = () => {
 											Color
 										</Label>
 										<Input
-											className="form-control event-input"
+											className="form-control dark-event-input"
 											required
 											type="text"
 											name="name"
@@ -193,7 +193,7 @@ const AddVehicle = () => {
 								</Row>
 								<Row>
 									<Button type="submit" id="event-btn">
-										Add Event
+										Add Vehicle
 									</Button>
 								</Row>
 							</div>

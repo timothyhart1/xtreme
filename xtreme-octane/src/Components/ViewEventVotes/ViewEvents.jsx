@@ -23,6 +23,7 @@ import {
 	FormGroup,
 	Table,
 } from "reactstrap";
+import { FaRegEye } from "react-icons/fa";
 import "./styles.css";
 
 const ViewEventVotes = () => {
@@ -114,14 +115,16 @@ const ViewEventVotes = () => {
 										<td className="event-items text-center align-middle">
 											{item.memberName} {item.memberSurname}
 										</td>
-										<td>
+										<td className="event-items-icons text-center align-middle">
 											<Link to={`/view-member/${item.memberId}`}>
 												<button
 													type="button"
-													className="btn btn-primary"
+													class="btn btn-info"
 													id="event-btns"
 												>
-													<i className="candidate-icons"></i>
+													<i className="candidate-icons">
+														<FaRegEye />
+													</i>
 												</button>
 											</Link>
 										</td>

@@ -66,7 +66,6 @@ const EditVehicle = () => {
 			requestData.append("plate", plate);
 			requestData.append("color", color);
 
-			// Check if imageFile is not null before appending it to FormData
 			if (imageFile) {
 				requestData.append("vehicleImage", imageFile);
 			}
@@ -78,10 +77,8 @@ const EditVehicle = () => {
 					"Content-Type": "multipart/form-data",
 				},
 			});
-
-			// Handle success notification or navigation to another page
 		} catch (error) {
-			// Handle error and show error notification if needed
+			console.error(error);
 		}
 	};
 

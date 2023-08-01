@@ -35,6 +35,7 @@
 
 .event-header {
 	font-weight: 600;
+	color: #fff;
 }
 
 .event-btn-container {
@@ -45,4 +46,8 @@
 
 .event-centre {
 	text-align: center !important;
+}
+
+#event-card-container {
+	background-color: #161616;
 }

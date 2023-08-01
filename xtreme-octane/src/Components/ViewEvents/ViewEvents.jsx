@@ -40,7 +40,7 @@ const ViewEvents = () => {
 					<CardBody id="event-card-body">
 						{data.map((item, index) => {
 							return (
-								<Card className="event-card-item">
+								<Card id="event-card-container" className="event-card-item">
 									<img
 										alt="Sample"
 										src={`${API}/Event/GetEventImage/${item.eventId}`}

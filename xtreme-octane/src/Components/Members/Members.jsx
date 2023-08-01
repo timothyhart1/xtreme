@@ -7,6 +7,7 @@ import ModalDeleteEvent from "../Modal/Modal";
 import { FaRegEdit } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "./styles.css";
 
 const Members = () => {
 	const API = window.appConfig.API;
@@ -43,6 +44,10 @@ const Members = () => {
 		}
 	};
 
+	const deleteEvent = async (vehicleId) => {
+		const res = await axios.delete(`${API}/Member/DeleteMember/${vehicleId}`);
+	};
+
 	return (
 		<Fragment>
 			<Container fluid={true}>
@@ -52,12 +57,22 @@ const Members = () => {
 						<Table id="event-table" bordered responsive>
 							<thead>
 								<tr>
-									<th className="text-center align-middle">#</th>
-									<th className="text-center align-middle">Name</th>
-									<th className="text-center align-middle">Surname</th>
-									<th className="text-center align-middle">Cell</th>
-									<th className="text-center align-middle">City</th>
-									<th className="text-center align-middle">Date Joined</th>
+									<th className="text-center align-middle light-headers">#</th>
+									<th className="text-center align-middle light-headers">
+										Name
+									</th>
+									<th className="text-center align-middle light-headers">
+										Surname
+									</th>
+									<th className="text-center align-middle light-headers">
+										Cell
+									</th>
+									<th className="text-center align-middle light-headers">
+										City
+									</th>
+									<th className="text-center align-middle light-headers">
+										Date Joined
+									</th>
 									<th className="text-center align-middle"></th>
 								</tr>
 							</thead>
@@ -65,22 +80,25 @@ const Members = () => {
 								{data.map((member, index) => {
 									return (
 										<tr key={index}>
-											<th scope="row" className="text-center align-middle">
+											<th
+												scope="row"
+												className="text-center align-middle light-headers"
+											>
 												{index + 1}
 											</th>
-											<td className="event-items text-center align-middle">
+											<td className="event-items text-center align-middle light-headers">
 												{member.name}
 											</td>
-											<td className="event-items text-center align-middle">
+											<td className="event-items text-center align-middle light-headers">
 												{member.surname}
 											</td>
-											<td className="event-items text-center align-middle">
+											<td className="event-items text-center align-middle light-headers">
 												{member.phoneNumber}
 											</td>
-											<td className="event-items text-center align-middle">
+											<td className="event-items text-center align-middle light-headers">
 												{member.city}
 											</td>
-											<td className="event-items text-center align-middle">
+											<td className="event-items text-center align-middle light-headers">
 												{member.createDate.slice(0, 10)}
 											</td>
 											<td
@@ -90,6 +108,10 @@ const Members = () => {
 												<ModalDeleteEvent
 													eventName={member.name}
 													eventId={member.memberId}
+													deleteId={member.memberId}
+													onDelete={deleteEvent}
+													id="event-btns"
+													modalTitle={`Are you sure you want to delete ${member.name}?`}
 												/>
 											</td>
 										</tr>

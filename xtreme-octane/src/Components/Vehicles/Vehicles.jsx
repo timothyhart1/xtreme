@@ -52,13 +52,25 @@ const Vehicles = () => {
 						<Table id="event-table" bordered responsive>
 							<thead>
 								<tr>
-									<th className="text-center align-middle">#</th>
-									<th className="text-center align-middle">Manufacturer</th>
-									<th className="text-center align-middle">Model</th>
-									<th className="text-center align-middle">Year</th>
-									<th className="text-center align-middle">Colour</th>
-									<th className="text-center align-middle">Mileage</th>
-									<th className="text-center align-middle">Owned By</th>
+									<th className="text-center align-middle light-headers">#</th>
+									<th className="text-center align-middle light-headers">
+										Manufacturer
+									</th>
+									<th className="text-center align-middle light-headers">
+										Model
+									</th>
+									<th className="text-center align-middle light-headers">
+										Year
+									</th>
+									<th className="text-center align-middle light-headers">
+										Colour
+									</th>
+									<th className="text-center align-middle light-headers">
+										Mileage
+									</th>
+									<th className="text-center align-middle light-headers">
+										Owned By
+									</th>
 									<th className="text-center align-middle"></th>
 								</tr>
 							</thead>
@@ -66,23 +78,26 @@ const Vehicles = () => {
 								{data.map((vehicle, index) => {
 									return (
 										<tr key={index}>
-											<th scope="row" className="text-center align-middle">
+											<th
+												scope="row"
+												className="text-center align-middle light-headers"
+											>
 												{index + 1}
 											</th>
-											<td className="event-items text-center align-middle">
+											<td className="event-items text-center align-middle light-headers">
 												{vehicle.manufacturer}
 											</td>
-											<td className="event-items text-center align-middle">
+											<td className="event-items text-center align-middle light-headers">
 												{vehicle.model}
 											</td>
-											<td className="event-items text-center align-middle">
+											<td className="event-items text-center align-middle light-headers">
 												{vehicle.year}
 											</td>
-											<td className="event-items text-center align-middle">
+											<td className="event-items text-center align-middle light-headers">
 												{vehicle.color}
 											</td>
-											<td className="event-items text-center align-middle">
-												{vehicle.mileage}
+											<td className="event-items text-center align-middle light-headers">
+												{vehicle.mileage.toLocaleString()}
 											</td>
 											<td className="event-items text-center align-middle">
 												{vehicle.member.name} {vehicle.member.surname}

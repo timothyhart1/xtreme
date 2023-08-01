@@ -127,7 +127,7 @@ const Events = () => {
 											Event Name
 										</Label>
 										<Input
-											className="form-control event-input"
+											className="form-control dark-event-input"
 											required
 											type="text"
 											name="name"
@@ -144,7 +144,7 @@ const Events = () => {
 										<textarea
 											type="text"
 											rows="10"
-											className="form-control event-input"
+											className="form-control dark-event-input"
 											required={true}
 											autoComplete="off"
 											onChange={(e) => setEventDesc(e.target.value)}
@@ -180,20 +180,29 @@ const Events = () => {
 						<Table id="event-table" bordered responsive>
 							<thead>
 								<tr>
-									<th className="text-center align-middle">#</th>
-									<th className="text-center align-middle">Event Name</th>
-									<th className="text-center align-middle">
+									<th className="text-center align-middle light-headers">#</th>
+									<th className="text-center align-middle light-headers">
+										Event Name
+									</th>
+									<th className="text-center align-middle light-headers">
 										Event Description
 									</th>
-									<th className="text-center align-middle">Event Date</th>
-									<th className="text-center align-middle">Actions</th>
+									<th className="text-center align-middle light-headers">
+										Event Date
+									</th>
+									<th className="text-center align-middle light-headers">
+										Actions
+									</th>
 								</tr>
 							</thead>
 							<tbody>
 								{data.map((item, index) => {
 									return (
 										<tr key={index}>
-											<th scope="row" className="text-center align-middle">
+											<th
+												scope="row"
+												className="text-center align-middle light-headers"
+											>
 												{index + 1}
 											</th>
 											<td className="event-items text-center align-middle">
@@ -247,7 +256,6 @@ const Events = () => {
 													deleteId={item.eventId}
 													updateData={updateEventData}
 													onDelete={deleteEvent}
-													id="event-btns"
 													modalTitle={`Are you sure you want to delete ${item.eventName}?`}
 												/>
 											</td>

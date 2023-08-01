@@ -36,7 +36,7 @@ const HeroSection = () => {
 		<Fragment>
 			<Container fluid={true}>
 				<Card id="card-container">
-					<CardTitle title="Event Details" />
+					<CardTitle title="Dashboard" />
 					<h5>Member count: {memberCount}</h5>
 					<h5>Vehicle count: {vehicleCount}</h5>
 				</Card>

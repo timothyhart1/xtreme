@@ -54,18 +54,32 @@ const Scribante = () => {
 						<Table id="event-table" bordered responsive>
 							<thead>
 								<tr>
-									<th className="text-center align-middle">#</th>
-									<th className="text-center align-middle">Time</th>
-									<th className="text-center align-middle">Conditions</th>
-									<th className="text-center align-middle">Vehicle</th>
-									<th className="text-center align-middle">Driver</th>
+									<th className="text-center align-middle light-headers">#</th>
+									<th className="text-center align-middle light-headers">
+										Time
+									</th>
+									<th className="text-center align-middle light-headers">
+										Conditions
+									</th>
+									<th className="text-center align-middle light-headers">
+										Vehicle
+									</th>
+									<th className="text-center align-middle light-headers">
+										Plate
+									</th>
+									<th className="text-center align-middle light-headers">
+										Driver
+									</th>
 								</tr>
 							</thead>
 							<tbody>
 								{data.map((item, index) => {
 									return (
 										<tr key={index}>
-											<th scope="row" className="text-center align-middle">
+											<th
+												scope="row"
+												className="text-center align-middle light-headers"
+											>
 												{index + 1}
 											</th>
 											<td className="event-items text-center align-middle">
@@ -77,6 +91,9 @@ const Scribante = () => {
 											<td className="event-items text-center align-middle">
 												{item.vehicle.year} {item.vehicle.manufacturer}{" "}
 												{item.vehicle.model}
+											</td>
+											<td className="event-items text-center align-middle">
+												{item.vehicle.plate}
 											</td>
 											<td className="event-items text-center align-middle">
 												{item.vehicle.member.name} {item.vehicle.member.surname}
