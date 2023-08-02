@@ -1,11 +1,14 @@
 ﻿using XtremeOctaneApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.StaticFiles;
-using XtremeOctaneApi.Data;
-using Microsoft.Extensions.Logging; 
-
+using Microsoft.Extensions.Logging;
+using XtremeOctaneApi.Services.EventService;
+using Microsoft.AspNetCore.Http;
+using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace XtremeOctaneApi.Controllers
 {
@@ -14,27 +17,27 @@ namespace XtremeOctaneApi.Controllers
     public class EventController : ControllerBase
     {
         private readonly ILogger<EventController> _logger;
-        private readonly DataContext _db;
+        private readonly IEventService _eventService;
 
-        public EventController(DataContext db, ILogger<EventController> logger)
+        public EventController(ILogger<EventController> logger, IEventService eventService)
         {
-            _db = db;
             _logger = logger;
+            _eventService = eventService;
         }
 
-        // Get all events.
         [HttpGet("GetAllEvents")]
         [Authorize]
         public async Task<IActionResult> GetAllEvents()
         {
             try
             {
-                var events = await _db.Event.Where(e => e.Deleted != true).ToListAsync();
+                var events = await _eventService.GetAllEvents();
 
-                if (events == null)
+                if (events == null || !events.Any())
                 {
                     return NotFound("No events are available!");
                 }
+
                 return Ok(events);
             }
             catch (Exception ex)
@@ -44,78 +47,71 @@ namespace XtremeOctaneApi.Controllers
             }
         }
 
-        // Get a single event.
         [HttpGet("GetSingleEvent/{id}")]
-        public async Task<ActionResult<EventModel>> GetEventById(int id)
+        [Authorize]
+        public async Task<IActionResult> GetEventById(int id)
         {
             try
             {
-                var xtremeEvent = await _db.Event.SingleOrDefaultAsync(e => e.EventId == id);
+                var xtremeEvent = await _eventService.GetEventById(id);
 
                 if (xtremeEvent == null)
                 {
                     return NotFound();
                 }
-                return xtremeEvent;
+
+                return Ok(xtremeEvent);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while fetching the event with ID {id}", id);
-                return StatusCode(500, "An error occurred while fetching the event with ID {id}");
+                return StatusCode(500, $"An error occurred while fetching the event with ID {id}");
             }
         }
 
-        // Get the image for a single event.
         [HttpGet("GetEventImage/{id}")]
-        [AllowAnonymous]
+        [Authorize]
         public IActionResult GetEventImage(int id)
-        {
-            var xtremeEvent = _db.Event.FirstOrDefault(e => e.EventId == id);
-
-            if (xtremeEvent == null)
-            {
-                return NotFound("Event not found.");
-            }
-
-            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "Documents", "Events", xtremeEvent.EventImage);
-
-            if (!System.IO.File.Exists(filePath))
-            {
-                return NotFound("Image not found.");
-            }
-
-            var fileBytes = System.IO.File.ReadAllBytes(filePath);
-            return File(fileBytes, "image/jpeg");
-        }
-
-        // Add a new event.
-        [HttpPost("AddNewEvent")]
-        [AllowAnonymous]
-        public async Task<ActionResult<EventModel>> AddEvent(IFormFile image, string eventName, string eventDesc)
         {
             try
             {
-                string fileName = Guid.NewGuid() + Path.GetExtension(image.FileName);
-                string uploadfilepath = Path.Combine(Directory.GetCurrentDirectory(), "Documents\\Events", fileName);
+                var xtremeEvent = _eventService.GetEventById(id).Result;
 
-                using (var fileStream = new FileStream(uploadfilepath, FileMode.Create))
+                if (xtremeEvent == null)
                 {
-                    await image.CopyToAsync(fileStream);
-                    await fileStream.FlushAsync();
-                };
+                    return NotFound("Event not found.");
+                }
 
-                var xtremeEvent = new EventModel
+                string filePath = Path.Combine(Directory.GetCurrentDirectory(), "Documents", "Events", xtremeEvent.EventImage);
+
+                if (!System.IO.File.Exists(filePath))
                 {
-                    EventName = eventName,
-                    EventDesc = eventDesc,
-                    EventDate = DateTime.Now,
-                    EventImage = fileName,
-                    Deleted = false
-                };
+                    return NotFound("Image not found.");
+                }
 
-                await _db.Event.AddAsync(xtremeEvent);
-                await _db.SaveChangesAsync();
-                return Ok(xtremeEvent);
+                var fileBytes = System.IO.File.ReadAllBytes(filePath);
+                return File(fileBytes, "image/jpeg");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while fetching the event image for ID {id}", id);
+                return StatusCode(500, $"An error occurred while fetching the event image for ID {id}");
+            }
+        }
+
+        [HttpPost("AddNewEvent")]
+        [Authorize]
+        public async Task<IActionResult> AddEvent(IFormFile image, string eventName, string eventDesc)
+        {
+            try
+            {
+                var eventId = await _eventService.AddEvent(image, eventName, eventDesc);
+                if (eventId == 0)
+                {
+                    return StatusCode(500, "Failed to add event.");
+                }
+
+                return Ok(eventId);
             }
             catch (Exception ex)
             {
@@ -124,41 +120,21 @@ namespace XtremeOctaneApi.Controllers
             }
         }
 
-        // Edit an event.
         [HttpPut("EditEvent/{id}")]
+        [Authorize]
         public async Task<IActionResult> EditEvent(int id, IFormFile eventImage, string eventName, string eventDesc, DateTime eventDate, bool deleted)
         {
             try
             {
-                var xtremeEvent = _db.Event.FirstOrDefault(e => e.EventId == id);
-
-                if (xtremeEvent != null)
+                var success = await _eventService.EditEvent(id, eventImage, eventName, eventDesc, eventDate, deleted);
+                if (success)
                 {
-                    if (eventImage != null)
-                    {
-                        string fileName = Guid.NewGuid() + Path.GetExtension(eventImage.FileName);
-                        string uploadFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Documents\\Events", fileName);
-
-                        using (var fileStream = new FileStream(uploadFilePath, FileMode.Create))
-                        {
-                            await eventImage.CopyToAsync(fileStream);
-                            await fileStream.FlushAsync();
-                        }
-
-                        xtremeEvent.EventImage = fileName;
-                    }
-
-                    xtremeEvent.EventName = eventName;
-                    xtremeEvent.EventDesc = eventDesc;
-                    xtremeEvent.EventDate = DateTime.Now;
-                    xtremeEvent.Deleted = false;
-
-                    _db.SaveChanges();
-
-                    return Ok(xtremeEvent.EventId);
+                    return Ok(id);
                 }
-
-                return NotFound($"Could not find the event with the id {id}");
+                else
+                {
+                    return NotFound($"Could not find the event with the id {id}");
+                }
             }
             catch (Exception ex)
             {
@@ -166,25 +142,22 @@ namespace XtremeOctaneApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        
-        // Delete an event.
+
         [HttpDelete("DeleteEvent/{id}")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<IActionResult> DeleteEvent(int id)
         {
             try
             {
-                var xtremeEvent = await _db.Event.FindAsync(id);
-
-                if (xtremeEvent == null)
+                var success = await _eventService.DeleteEvent(id);
+                if (success)
+                {
+                    return Ok();
+                }
+                else
                 {
                     return NotFound($"No event was found with the id {id}");
                 }
-
-                xtremeEvent.Deleted = true;
-                await _db.SaveChangesAsync();
-
-                return Ok();
             }
             catch (Exception ex)
             {
@@ -192,7 +165,4 @@ namespace XtremeOctaneApi.Controllers
             }
         }
     }
-};
-
-
-
+}
