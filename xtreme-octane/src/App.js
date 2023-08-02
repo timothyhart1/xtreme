@@ -1,27 +1,28 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import React, { useState } from "react";
-import Navbar from "./Components/Navbar/Navbar";
-import { AuthProvider } from "./Components/Auth/Auth";
-import { RequireAuth } from "./Components/Auth/RequireAuth";
-import HeroSection from "./Components/HeroSection/HeroSection";
-import Events from "./Components/Events/Events";
-import EditEvent from "./Components/EditEvent/EditEvent";
-import Members from "./Components/Members/Members";
-import Vehicles from "./Components/Vehicles/Vehicles";
-import Scribante from "./Components/Scribante/Scribante";
-import ViewEvents from "./Components/ViewEvents/ViewEvents";
-import EditProfile from "./Components/EditProfile/EditProfile";
-import Login from "./Components/Auth/Login/Login";
-import Register from "./Components/Auth/Register/Register";
-import VoteEvent from "./Components/VoteEvent/VoteEvents";
-import ViewEventVotes from "./Components/ViewEventVotes/ViewEvents";
-import EventExpenses from "./Components/EventExpenses/EventExpenses";
-import AddVehicle from "./Components/AddVehicle/AddVehicle";
-import EditEventExpenses from "./Components/EditEventExpense/EditEventExpenses";
-import ViewVehicle from "./Components/ViewVehicle/ViewVehicle";
-import MemberVehicles from "./Components/MemberVehicles/MemberVehicles";
-import EditVehicle from "./Components/EditVehicle/EditVehicle";
+import Navbar from "./Pages/Navbar/Navbar";
+import { AuthProvider } from "./Pages/Auth/Auth";
+import { RequireAuth } from "./Pages/Auth/RequireAuth";
+import HeroSection from "./Pages/HeroSection/HeroSection";
+import Events from "./Pages/Events/Events";
+import EditEvent from "./Pages/EditEvent/EditEvent";
+import Members from "./Pages/Members/Members";
+import Vehicles from "./Pages/Vehicles/Vehicles";
+import Scribante from "./Pages/Scribante/Scribante";
+import ViewEvents from "./Pages/ViewEvents/ViewEvents";
+import EditProfile from "./Pages/EditProfile/EditProfile";
+import Login from "./Pages/Auth/Login/Login";
+import Register from "./Pages/Auth/Register/Register";
+import VoteEvent from "./Pages/VoteEvent/VoteEvents";
+import ViewEventVotes from "./Pages/ViewEventVotes/ViewEvents";
+import EventExpenses from "./Pages/EventExpenses/EventExpenses";
+import AddVehicle from "./Pages/AddVehicle/AddVehicle";
+import EditEventExpenses from "./Pages/EditEventExpense/EditEventExpenses";
+import ViewVehicle from "./Pages/ViewVehicle/ViewVehicle";
+import MemberVehicles from "./Pages/MemberVehicles/MemberVehicles";
+import EditVehicle from "./Pages/EditVehicle/EditVehicle";
+import ViewSingleEvent from "./Pages/ViewSingleEvent/ViewSingleEvent";
 
 function App() {
 	const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -97,6 +98,14 @@ function App() {
 							element={
 								<RequireAuth>
 									<ViewEvents />
+								</RequireAuth>
+							}
+						/>
+						<Route
+							path="view-event/:eventId"
+							element={
+								<RequireAuth>
+									<ViewSingleEvent />
 								</RequireAuth>
 							}
 						/>

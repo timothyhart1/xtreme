@@ -10,6 +10,8 @@ using AutoMapper;
 using WebApi.Services;
 using Microsoft.Extensions.Configuration;
 using WebApi.Helpers;
+using XtremeOctaneApi.Services.EventService;
+using XtremeOctaneApi.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,11 +42,13 @@ builder.Services.AddDbContext<DataContext>(options =>
 builder.Services.Configure<AppSettings>(config.GetSection("appsettings"));
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-    .AddEntityFrameworkStores<DataContext>()
+.AddEntityFrameworkStores<DataContext>()
     .AddDefaultTokenProviders();
 
+// Dependency Injection.
+builder.Services.AddScoped<IEventRepository, EventRepository>();
+builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddScoped<UserManager<ApplicationUser>>();
-
 builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddControllers();
