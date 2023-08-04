@@ -26,6 +26,7 @@ namespace XtremeOctaneApi.Controllers
         }
 
         [HttpGet("GetAllEvents")]
+        [Authorize]
         public async Task<IActionResult> GetAllEvents()
         {
             try
@@ -47,6 +48,7 @@ namespace XtremeOctaneApi.Controllers
         }
 
         [HttpGet("GetSingleEvent/{id}")]
+        [Authorize]
         public async Task<IActionResult> GetEventById(int id)
         {
             try
@@ -97,6 +99,7 @@ namespace XtremeOctaneApi.Controllers
         }
 
         [HttpPost("AddNewEvent")]
+        [Authorize]
         public async Task<IActionResult> AddEvent(IFormFile image, string eventName, string eventDesc)
         {
             try
@@ -117,6 +120,7 @@ namespace XtremeOctaneApi.Controllers
         }
 
         [HttpPut("EditEvent/{id}")]
+        [Authorize]
         public async Task<IActionResult> EditEvent(int id, IFormFile eventImage, string eventName, string eventDesc, DateTime eventDate, bool deleted)
         {
             try
@@ -139,6 +143,7 @@ namespace XtremeOctaneApi.Controllers
         }
 
         [HttpDelete("DeleteEvent/{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteEvent(int id)
         {
             try

@@ -4,7 +4,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { Card, CardBody, Container, Table } from "reactstrap";
 import ModalDeleteEvent from "../Modal/Modal";
-import { FaRegEdit } from "react-icons/fa";
+import { FaEye } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CardTitle from "../CardTitle/CardTitle";
@@ -106,6 +106,17 @@ const Members = () => {
 												className="event-items-icons text-center align-middle"
 												id="event-actions"
 											>
+												<Link to={`/view-member/${member.memberId}`}>
+													<button
+														type="button"
+														className="btn btn-info"
+														id="event-btns"
+													>
+														<i className="table-icons">
+															<FaEye />
+														</i>
+													</button>
+												</Link>
 												<ModalDeleteEvent
 													eventName={member.name}
 													eventId={member.memberId}

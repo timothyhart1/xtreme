@@ -3,6 +3,10 @@
 	color: #fff !important;
 }
 
+.white-text {
+	color: #fff;
+}
+
 /* Edit Event */
 .edit-event-image {
 	width: 200px;

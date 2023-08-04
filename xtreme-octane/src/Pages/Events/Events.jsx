@@ -27,11 +27,16 @@ const Events = () => {
 	const [eventDesc, setEventDesc] = useState("");
 	const [image, setImage] = useState("");
 	const [imageFile, setFile] = useState();
+	const token = sessionStorage.getItem("Token");
 
 	useEffect(() => {
 		async function fetchData() {
 			try {
-				const res = await axios.get(`${API}/Event/GetAllEvents`);
+				const res = await axios.get(`${API}/Event/GetAllEvents`, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				});
 				setData(res.data);
 				console.log(res.data);
 			} catch (error) {
@@ -43,7 +48,11 @@ const Events = () => {
 
 	const updateEventData = async () => {
 		try {
-			const res = await axios.get(`${API}/Event/GetAllEvents`);
+			const res = await axios.get(`${API}/Event/GetAllEvents`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
 			setData(res.data);
 		} catch (error) {
 			console.log(error);
@@ -75,6 +84,7 @@ const Events = () => {
 				{
 					headers: {
 						"Content-Type": "multipart/form-data",
+						Authorization: `Bearer ${token}`,
 					},
 				}
 			)

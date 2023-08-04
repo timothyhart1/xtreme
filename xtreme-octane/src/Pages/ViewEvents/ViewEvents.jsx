@@ -17,11 +17,16 @@ import {
 const ViewEvents = () => {
 	const API = window.appConfig.API;
 	const [data, setData] = useState([]);
+	const token = sessionStorage.getItem("Token");
 
 	useEffect(() => {
 		async function fetchData() {
 			try {
-				const res = await axios.get(`${API}/Event/GetAllEvents`);
+				const res = await axios.get(`${API}/Event/GetAllEvents`, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				});
 				setData(res.data);
 			} catch (error) {
 				console.log(error);

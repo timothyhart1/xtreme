@@ -23,6 +23,7 @@ import ViewVehicle from "./Pages/ViewVehicle/ViewVehicle";
 import MemberVehicles from "./Pages/MemberVehicles/MemberVehicles";
 import EditVehicle from "./Pages/EditVehicle/EditVehicle";
 import ViewSingleEvent from "./Pages/ViewSingleEvent/ViewSingleEvent";
+import ViewMember from "./Pages/ViewMember/viewMember";
 
 function App() {
 	const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -172,6 +173,14 @@ function App() {
 							element={
 								<RequireAuth>
 									<EditVehicle />
+								</RequireAuth>
+							}
+						/>
+						<Route
+							path="view-member/:memberId"
+							element={
+								<RequireAuth>
+									<ViewMember />
 								</RequireAuth>
 							}
 						/>
