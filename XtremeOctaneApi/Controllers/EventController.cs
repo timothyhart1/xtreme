@@ -120,7 +120,6 @@ namespace XtremeOctaneApi.Controllers
         }
 
         [HttpPut("EditEvent/{id}")]
-        [Authorize]
         public async Task<IActionResult> EditEvent(int id, IFormFile eventImage, string eventName, string eventDesc, DateTime eventDate, bool deleted)
         {
             try
