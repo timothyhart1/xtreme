@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using XtremeOctaneApi.Data;
 using XtremeOctaneApi.Models;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace XtremeOctaneApi.Controllers
 {
@@ -32,7 +33,6 @@ namespace XtremeOctaneApi.Controllers
                     .ThenInclude(m => m.Member)
                     .ToList();
 
-                // Calculate the total time in seconds for each lap time and sort the list.
                 trackTimes = trackTimes.OrderBy(t => (t.LapTimeMinutes * 60) + t.LapTimeSeconds).ToList();
 
                 return Ok(trackTimes);
@@ -47,31 +47,40 @@ namespace XtremeOctaneApi.Controllers
         // Add a new track time.
         [HttpPost("AddNewTrackTime")]
         [AllowAnonymous]
-        public async Task<ActionResult<MemberTrackTimeModel>> AddTrackTime(MemberTrackTimeModel model)
+        public async Task<ActionResult<MemberTrackTimeModel>> AddTrackTime(int memberId, int vehicleId, int lapTimeMinutes, int lapTimeSeconds,
+            string conditions, string tyre, string vehicleClass, IFormFile lapTimeScreenshot, bool? verified)
         {
             try
             {
-                bool enteredAlready = await _db.MemberTrackTime.AnyAsync(t => t.VehicleId == model.VehicleId);
+                string screenshotImage = $"{Guid.NewGuid()}{Path.GetExtension(lapTimeScreenshot.FileName)}";
+                string uploadFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Documents", "LapTimeScreenshots", screenshotImage);
+
+                using var stream = new FileStream(uploadFilePath, FileMode.Create);
+                await lapTimeScreenshot.CopyToAsync(stream);
+                await stream.FlushAsync();
+
+
+                bool enteredAlready = await _db.MemberTrackTime.AnyAsync(t => t.VehicleId == vehicleId);
 
                 if (enteredAlready)
                 {
                     return BadRequest("A lap time for this vehicle already exists.");
                 }
 
-                // Convert LapTimeMinutes and LapTimeSeconds to totalSeconds before saving
-                int totalSeconds = (model.LapTimeMinutes * 60) + model.LapTimeSeconds;
+                int totalSeconds = (lapTimeMinutes * 60) + lapTimeSeconds;
 
                 var trackTime = new MemberTrackTimeModel
                 {
-                    MemberTrackTimeId = model.MemberTrackTimeId,
-                    MemberId = model.MemberId,
-                    VehicleId = model.VehicleId,
-                    LapTimeMinutes = model.LapTimeMinutes,
-                    LapTimeSeconds = model.LapTimeSeconds,
-                    Conditions = model.Conditions,
-                    Tyre = model.Tyre,
-                    VehicleClass = model.VehicleClass,
+                    MemberId = memberId,
+                    VehicleId = vehicleId,
+                    LapTimeMinutes = lapTimeMinutes,
+                    LapTimeSeconds = lapTimeSeconds,
+                    Conditions = conditions,
+                    Tyre = tyre,
+                    VehicleClass = vehicleClass,
                     TrackDate = DateTime.Now,
+                    LapTimeScreenshot = screenshotImage,
+                    Verified = false
                 };
 
                 await _db.MemberTrackTime.AddAsync(trackTime);
