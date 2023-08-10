@@ -14,7 +14,7 @@
 
 # Dependency folders
 /obj/
-/XtremeOctaneApi/bin/
+/XtremeOctaneApi/bin
 
 # testing
 /coverage
