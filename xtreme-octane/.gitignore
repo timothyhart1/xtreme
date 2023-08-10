@@ -4,9 +4,14 @@
 /node_modules
 /.pnp
 .pnp.js
-.vsidx
-.suo
-.bin
+*.vsidx
+*.suo
+*.bin
+
+# Dependency folders
+/obj/
+/bin/
+/.vscode/
 
 # testing
 /coverage
