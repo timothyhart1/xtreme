@@ -10,7 +10,7 @@
 
 # Dependency folders
 /obj/
-/bin/
+/XtremeOctaneApi/bin/
 
 # testing
 /coverage
