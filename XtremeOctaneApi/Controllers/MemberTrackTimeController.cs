@@ -44,6 +44,35 @@ namespace XtremeOctaneApi.Controllers
             }
         }
 
+        // Verify a lap time.
+        [HttpPut, Route("VerifyLaptime/{id}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<MemberTrackTimeModel>> VerifyLaptime(int id)
+        {
+            try
+            {
+
+                var trackTime = await _db.MemberTrackTime.FindAsync(id);
+
+                if (trackTime == null)
+                {
+                    return NotFound($"Laptime with {id} does not exist.");
+                }
+
+                trackTime.Verified = true;
+                _db.Entry(trackTime).State = EntityState.Modified;
+                await _db.SaveChangesAsync();
+
+                return Ok(trackTime);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while verifying the lap time");
+                return StatusCode(500, "An error occurred while verifying the lap time");
+            }
+
+        }
+
         // Add a new track time.
         [HttpPost("AddNewTrackTime")]
         [AllowAnonymous]
