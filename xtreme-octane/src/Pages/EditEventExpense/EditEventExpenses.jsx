@@ -24,6 +24,7 @@ const EditEventExpenses = () => {
 	const API = window.appConfig.API;
 	const { eventExpenseId, eventId } = useParams();
 	const navigate = useNavigate();
+	const memberId = sessionStorage.getItem("MemberId");
 
 	const [expense, setExpense] = useState({
 		expenseName: "",
@@ -63,6 +64,7 @@ const EditEventExpenses = () => {
 					expenseName: expenseName,
 					expenseAmount: expenseAmount,
 					addedBy: "tim",
+					memberId: memberId,
 				}
 			);
 			navigate(`/add-event-expense/${eventId}`);

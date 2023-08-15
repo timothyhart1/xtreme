@@ -542,6 +542,13 @@ span {
 	color: #444444;
 }
 
+.vehicle-image {
+	object-fit: cover;
+	width: 300px !important;
+	height: 200px;
+	border-radius: 20px !important;
+}
+
 /* View Events */
 .event-card-item {
 	width: 20rem;

@@ -20,6 +20,8 @@ namespace XtremeOctaneApi.Data
         public DbSet<EventVoteModel> EventVote { get; set; }
         public DbSet<EventExpenseModel> EventExpenses { get; set; }
         public DbSet<ApplicationUser> AspNetUsers { get; set; }
+        public DbSet<EventExpenseEditLog> EventExpenseEditLog { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

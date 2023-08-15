@@ -11,5 +11,6 @@ namespace XtremeOctaneApi.Models
         public decimal ExpenseAmount { get; set; }
         public string AddedBy { get; set; }
         public DateTime CreateDate { get; set; }
+        public int? MemberId { get; set; }
     }
 }

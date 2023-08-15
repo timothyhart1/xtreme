@@ -107,7 +107,7 @@ namespace XtremeOctaneApi.Controllers
         // Edit an event expense.
         [HttpPut("EventExpense/EditEventExpense/{id}")]
         [AllowAnonymous]
-        public async Task<IActionResult> EditEventExpense (int id, [FromBody] EventExpenseModel model)
+        public async Task<IActionResult> EditEventExpense(int id, [FromBody] EventExpenseModel model)
         {
             try
             {
@@ -115,20 +115,45 @@ namespace XtremeOctaneApi.Controllers
 
                 if (eventExpense != null)
                 {
+                    var previousEventExpense = new EventExpenseModel
+                    {
+                        EventId = eventExpense.EventId,
+                        ExpenseName = eventExpense.ExpenseName,
+                        ExpenseAmount = eventExpense.ExpenseAmount,
+                        AddedBy = eventExpense.AddedBy,
+                    };
+
                     eventExpense.EventId = model.EventId;
                     eventExpense.ExpenseName = model.ExpenseName;
                     eventExpense.ExpenseAmount = model.ExpenseAmount;
                     eventExpense.AddedBy = model.AddedBy;
 
-                    _db.SaveChanges();
+                    await _db.SaveChangesAsync();
+
+                    var editLog = new EventExpenseEditLog
+                    {
+                        EventExpenseId = id,
+                        EditedAt = DateTime.UtcNow,
+                        MemberId = model.MemberId ?? 0, 
+                        PreviousValue = previousEventExpense.ExpenseAmount,
+                        NewValue = model.ExpenseAmount,
+                        PreviousExpenseName = previousEventExpense.ExpenseName,
+                        NewExpenseName = model.ExpenseName,
+                    };
+
+                    _db.EventExpenseEditLog.Add(editLog);
+                    await _db.SaveChangesAsync();
                 }
+
                 return Ok(eventExpense);
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 _logger.LogError(ex, "There was an error editing the event expense.");
                 return BadRequest(ex.Message);
             }
         }
+
 
         // Delete an event expense.
         [HttpDelete("EventExpense/DeleteExpense/{id}")]

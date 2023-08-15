@@ -33,7 +33,7 @@ namespace XtremeOctaneApi.Controllers
                     .ThenInclude(m => m.Member)
                     .ToList();
 
-                trackTimes = trackTimes.OrderBy(t => (t.LapTimeMinutes * 60) + t.LapTimeSeconds).ToList();
+                trackTimes = trackTimes.OrderBy(t => (t.LapTimeMinutes * 60) + t.LapTimeSeconds + t.LapTimeMiliseconds).ToList();
 
                 return Ok(trackTimes);
             }
