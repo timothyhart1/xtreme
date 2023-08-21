@@ -4,7 +4,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { Card, CardBody, Container, Table } from "reactstrap";
 import ModalDeleteEvent from "../Modal/Modal";
-import { FaEye } from "react-icons/fa";
+import { FaEye, FaPlus } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CardTitle from "../CardTitle/CardTitle";
@@ -14,6 +14,7 @@ const Members = () => {
 	const [data, setData] = useState([]);
 	const [eventName, setEventName] = useState("");
 	const [eventDesc, setEventDesc] = useState("");
+	const [updateTrigger, setUpdateTrigger] = useState(0);
 
 	useEffect(() => {
 		async function fetchData() {
@@ -25,7 +26,7 @@ const Members = () => {
 			}
 		}
 		fetchData();
-	}, []);
+	}, [updateTrigger]);
 
 	const directiontoaster = (toastname) => {
 		switch (toastname) {
@@ -46,6 +47,16 @@ const Members = () => {
 
 	const deleteEvent = async (vehicleId) => {
 		const res = await axios.delete(`${API}/Member/DeleteMember/${vehicleId}`);
+		setUpdateTrigger(updateTrigger + 1);
+	};
+
+	const reinstateMember = async (memberId) => {
+		try {
+			const res = await axios.put(`${API}/Member/ReinstateMember/${memberId}`);
+			setUpdateTrigger(updateTrigger + 1);
+		} catch (e) {
+			console.error(e.message);
+		}
 	};
 
 	return (
@@ -117,14 +128,25 @@ const Members = () => {
 														</i>
 													</button>
 												</Link>
-												<ModalDeleteEvent
-													eventName={member.name}
-													eventId={member.memberId}
-													deleteId={member.memberId}
-													onDelete={deleteEvent}
-													id="event-btns"
-													modalTitle={`Are you sure you want to delete ${member.name}?`}
-												/>
+												{member.deleted ? (
+													<button
+														type="button"
+														className="btn btn-success"
+														id="event-btns"
+														onClick={() => reinstateMember(member.memberId)}
+													>
+														<FaPlus />
+													</button>
+												) : (
+													<ModalDeleteEvent
+														eventName={member.name}
+														eventId={member.memberId}
+														deleteId={member.memberId}
+														onDelete={deleteEvent}
+														id="event-btns"
+														modalTitle={`Are you sure you want to delete ${member.name}?`}
+													/>
+												)}
 											</td>
 										</tr>
 									);

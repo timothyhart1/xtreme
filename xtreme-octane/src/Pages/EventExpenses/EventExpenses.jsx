@@ -27,6 +27,7 @@ const EventExpenses = () => {
 	const [total, setTotal] = useState("");
 	const [expenseName, setExpenseName] = useState("");
 	const [expenseAmount, setExpenseAmount] = useState();
+	const [expenseCategory, setExpenseCategory] = useState("");
 
 	const getTotalExpenses = async () => {
 		const res = await axios
@@ -61,6 +62,7 @@ const EventExpenses = () => {
 			expenseName: expenseName,
 			expenseAmount: expenseAmount,
 			addedBy: "tim",
+			category: expenseCategory,
 		});
 		fetchData();
 		getTotalExpenses();
@@ -71,6 +73,15 @@ const EventExpenses = () => {
 			`${API}/EventExpense/DeleteExpense/${eventId}`
 		);
 	};
+
+	const expenseCategories = [
+		"",
+		"Food",
+		"Refreshments",
+		"Hiring",
+		"Lighting",
+		"Sound",
+	];
 
 	return (
 		<Fragment>
@@ -109,6 +120,30 @@ const EventExpenses = () => {
 											autoComplete="off"
 											onChange={(e) => setExpenseAmount(e.target.value)}
 										/>
+									</FormGroup>
+								</Row>
+								<Row>
+									<FormGroup id="event-form-group">
+										<Label for="examplePassword" id="event-label">
+											Expense Category
+										</Label>
+										<Input
+											className="form-control event-input"
+											required
+											type="select"
+											name="expenseCategory"
+											autoComplete="off"
+											onChange={(e) => setExpenseCategory(e.target.value)}
+										>
+											<option value="" disabled>
+												Select an option
+											</option>
+											{expenseCategories.map((category, index) => (
+												<option key={index} value={category}>
+													{category}
+												</option>
+											))}
+										</Input>
 									</FormGroup>
 								</Row>
 								<Row>

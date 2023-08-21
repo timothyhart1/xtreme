@@ -79,7 +79,7 @@ namespace XtremeOctaneApi.Controllers
         // Add an expense for an event.
         [HttpPost("EventExpense/AddNewEventExpense")]
         [AllowAnonymous]
-        public async Task<ActionResult<EventExpenseModel>> AddTrackTime([FromBody] EventExpenseModel model)
+        public async Task<ActionResult<EventExpenseModel>> AddEventExpense ([FromBody] EventExpenseModel model)
         {
             try
             {
@@ -89,7 +89,8 @@ namespace XtremeOctaneApi.Controllers
                     ExpenseName = model.ExpenseName,
                     ExpenseAmount = model.ExpenseAmount,
                     AddedBy = model.AddedBy,
-                    CreateDate = DateTime.Now
+                    CreateDate = DateTime.Now,
+                    Category = model.Category,
                 };
 
                 await _db.EventExpenses.AddAsync(eventExpenses);

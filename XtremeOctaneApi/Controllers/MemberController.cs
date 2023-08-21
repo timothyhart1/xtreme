@@ -26,7 +26,7 @@ namespace XtremeOctaneApi.Controllers
         {
             try
             {
-                var members = await _db.Member.Where(m => m.Deleted == false).OrderBy(m => m.Name).ToListAsync();
+                var members = await _db.Member.OrderBy(m => m.Name).ToListAsync();
 
                 if (members == null)
                 {
@@ -92,7 +92,35 @@ namespace XtremeOctaneApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        
+
+        // Edit a member.
+        [HttpPut("ReinstateMember/{memberId}")]
+        [AllowAnonymous]
+        public ActionResult ReinstateMember(int memberId)
+        {
+            try
+            {
+                var memberProfile = _db.Member.FirstOrDefault(e => e.MemberId == memberId);
+
+                if (memberProfile != null)
+                {
+                    memberProfile.Deleted = false;
+                    _db.SaveChanges();
+                    return Ok(memberProfile);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "There was an error reinstating the member");
+                return BadRequest(ex.Message);
+            }
+        }
+
+
         // Create a new member.
         [HttpPost("AddNewMember")]
         [AllowAnonymous]
