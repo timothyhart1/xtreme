@@ -70,7 +70,7 @@ const Login = () => {
 							name="password"
 							onChange={(e) => setPassword(e.target.value)}
 						/>
-						<Button>Login</Button>
+						<Button style={{ marginTop: "10px" }}>Login</Button>
 					</Form>
 				</Card>
 			</Container>

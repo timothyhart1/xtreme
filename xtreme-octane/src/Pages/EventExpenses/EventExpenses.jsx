@@ -43,7 +43,6 @@ const EventExpenses = () => {
 				`${API}/EventExpense/GetEventExpenses/${eventId}`
 			);
 			setData(res.data);
-			console.log(res.data);
 		} catch (error) {
 			console.log(error);
 		}
@@ -171,7 +170,7 @@ const EventExpenses = () => {
 				</Card>
 				<Card id="card-container" className="card-spacing">
 					<CardTitle title="Event Expenses" />
-					<p className="light-headers">{`Total expenses = R${total}`}</p>
+					<p className="light-headers">{`Total expenses = R${total.toLocaleString()}`}</p>
 					<CardBody>
 						<Table id="event-table" bordered responsive>
 							<thead>

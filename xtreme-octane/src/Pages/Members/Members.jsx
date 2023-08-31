@@ -12,8 +12,6 @@ import CardTitle from "../CardTitle/CardTitle";
 const Members = () => {
 	const API = window.appConfig.API;
 	const [data, setData] = useState([]);
-	const [eventName, setEventName] = useState("");
-	const [eventDesc, setEventDesc] = useState("");
 	const [updateTrigger, setUpdateTrigger] = useState(0);
 
 	useEffect(() => {

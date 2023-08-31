@@ -3,9 +3,11 @@ import { useAuth } from "./Auth";
 
 export const RequireAuth = ({ children }) => {
 	const auth = useAuth();
+	const user = sessionStorage.getItem("user");
 
-	if (!auth.user) {
-		// return <Navigate to="/login" />;
+	if (!user) {
+		return <Navigate to="/login" />;
 	}
+
 	return <>{children}</>;
 };

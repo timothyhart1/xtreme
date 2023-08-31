@@ -39,6 +39,7 @@ const ViewMember = () => {
 				console.log(error);
 			}
 		}
+
 		async function fetchMemberVehicles() {
 			try {
 				const res = await axios.get(

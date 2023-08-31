@@ -77,7 +77,7 @@ namespace XtremeOctaneApi.Controllers
         }
 
         // Add an expense for an event.
-        [HttpPost("EventExpense/AddNewEventExpense")]
+        [HttpPost, Route("EventExpense/AddNewEventExpense")]
         [AllowAnonymous]
         public async Task<ActionResult<EventExpenseModel>> AddEventExpense ([FromBody] EventExpenseModel model)
         {
