@@ -13,5 +13,6 @@ namespace XtremeOctaneApi.Models
         public DateTime CreateDate { get; set; }
         public int? MemberId { get; set; }
         public string? Category { get; set; } 
+        public bool? Active { get; set; }
     }
 }

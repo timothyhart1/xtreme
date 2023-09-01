@@ -24,6 +24,7 @@ namespace XtremeOctaneApi.Controllers
             try
             {
                 var eventExpenses = await _db.EventExpenses.Where(e => e.EventId == id)
+                    .Where(e => e.Active == true)
                     .OrderBy(e => e.ExpenseAmount)
                     .ToListAsync();
                 return Ok(eventExpenses);
@@ -136,8 +137,8 @@ namespace XtremeOctaneApi.Controllers
                         EventExpenseId = id,
                         EditedAt = DateTime.UtcNow,
                         MemberId = model.MemberId ?? 0, 
-                        PreviousValue = previousEventExpense.ExpenseAmount,
-                        NewValue = model.ExpenseAmount,
+                        PreviousValue = previousEventExpense.ExpenseAmount.ToString(),
+                        NewValue = model.ExpenseAmount.ToString(),
                         PreviousExpenseName = previousEventExpense.ExpenseName,
                         NewExpenseName = model.ExpenseName,
                     };
@@ -156,21 +157,44 @@ namespace XtremeOctaneApi.Controllers
         }
 
 
-        // Delete an event expense.
+        // Delete an event expense
         [HttpDelete("EventExpense/DeleteExpense/{id}")]
         [AllowAnonymous]
-        public async Task<IActionResult> DeleteEvent (int id)
+        public async Task<IActionResult> DeleteEventExpense(int id, [FromBody] EventExpenseModel model)
         {
             try
             {
-                var expense = await _db.EventExpenses.FindAsync(id);
+                var eventExpense = await _db.EventExpenses.FirstOrDefaultAsync(e => e.EventExpenseId == id);
 
-                if (expense == null)
+                if (eventExpense == null)
                 {
                     return BadRequest("No event expense was found with a matching ID!");
                 }
 
-                _db.EventExpenses.Remove(expense);
+                var previousEventExpense = new EventExpenseModel
+                {
+                    EventId = eventExpense.EventId,
+                    ExpenseName = eventExpense.ExpenseName,
+                    ExpenseAmount = eventExpense.ExpenseAmount,
+                    AddedBy = eventExpense.AddedBy,
+                };
+
+                eventExpense.Active = false;
+
+                await _db.SaveChangesAsync();
+
+                var editLog = new EventExpenseEditLog
+                {
+                    EventExpenseId = id,
+                    EditedAt = DateTime.UtcNow,
+                    MemberId = model.MemberId ?? 0,
+                    PreviousValue = previousEventExpense.ExpenseAmount.ToString(),
+                    NewValue = "Deleted",
+                    PreviousExpenseName = previousEventExpense.ExpenseName,
+                    NewExpenseName = model.ExpenseName,
+                };
+
+                _db.EventExpenseEditLog.Add(editLog);
                 await _db.SaveChangesAsync();
                 return Ok();
             }
@@ -180,5 +204,6 @@ namespace XtremeOctaneApi.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while deleting the event expense.");
             }
         }
+
     }
 }
