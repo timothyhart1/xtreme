@@ -26,7 +26,10 @@ namespace XtremeOctaneApi.Controllers
         {
             try
             {
-                var members = await _db.Member.OrderBy(m => m.Name).ToListAsync();
+                var members = await _db.Member
+                    .OrderBy(m => m.Deleted)
+                    .ThenBy(m => m.Name)
+                    .ToListAsync();
 
                 if (members == null)
                 {
