@@ -89,10 +89,22 @@ const EditVehicle = () => {
 	return (
 		<Fragment>
 			<Container fluid={true}>
-				<ToastContainer />
 				<Card id="card-container">
 					<CardTitle title="Edit Vehicle" />
 					<Row>
+						<div className="image-container">
+							<img
+								src={`${API}/Vehicle/GetVehicleImage/${vehicleId}`}
+								alt="event-image"
+								className="edit-vehicle-image"
+							/>
+							<div className="gradient-overlay"></div>
+							<div className="text-overlay">
+								<p>
+									{year} {manufacturer} {model}
+								</p>
+							</div>
+						</div>
 						<Form id="event-form" onSubmit={submitVehicle}>
 							<div className="event-container">
 								<Row>
@@ -197,7 +209,7 @@ const EditVehicle = () => {
 									</FormGroup>
 								</Row>
 								<Row>
-									<div className="btn-container">
+									<div className="btn-container" style={{ paddingLeft: "0" }}>
 										<Link to={"/member-vehicles"}>
 											<Button
 												id="event-btn"
@@ -205,6 +217,7 @@ const EditVehicle = () => {
 													backgroundColor: "#ffc107",
 													color: "#000",
 													borderColor: "#ffc107",
+													marginLeft: "0",
 												}}
 											>
 												Back

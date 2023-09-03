@@ -5,8 +5,6 @@ import { Link } from "react-router-dom";
 import CardTitle from "../CardTitle/CardTitle";
 import ModalDeleteEvent from "../Modal/Modal";
 import { FaRegEdit, FaRegEye, FaPlus } from "react-icons/fa";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import {
 	Row,
 	Card,
@@ -25,24 +23,23 @@ const Events = () => {
 	const [data, setData] = useState([]);
 	const [eventName, setEventName] = useState("");
 	const [eventDesc, setEventDesc] = useState("");
-	const [image, setImage] = useState("");
 	const [imageFile, setFile] = useState();
 	const token = sessionStorage.getItem("Token");
 
-	useEffect(() => {
-		async function fetchData() {
-			try {
-				const res = await axios.get(`${API}/Event/GetAllEvents`, {
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				});
-				setData(res.data);
-				console.log(res.data);
-			} catch (error) {
-				console.log(error);
-			}
+	const fetchData = async () => {
+		try {
+			const res = await axios.get(`${API}/Event/GetAllEvents`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
+			setData(res.data);
+		} catch (error) {
+			console.log(error);
 		}
+	};
+
+	useEffect(() => {
 		fetchData();
 	}, []);
 
@@ -89,43 +86,33 @@ const Events = () => {
 				}
 			)
 			.then((response) => {
-				const { data } = response;
+				fetchData();
+				setEventName("");
+				setEventDesc("");
+				setFile(null);
+				document.getElementById("event-image-input").value = null;
+				alert("Event Added.");
 			})
 			.catch((err) => {
 				console.log(err);
 			});
 	};
 
-	const directiontoaster = (toastname) => {
-		switch (toastname) {
-			case "directionssuccessToast":
-				toast.success("Event was successfully added!", {
-					position: toast.POSITION.TOP_CENTER,
-					autoClose: 1500,
-				});
-				break;
-			case "directionsdangerToast":
-				toast.error("There was an error adding the event!", {
-					position: toast.POSITION.TOP_CENTER,
-					autoClose: 1500,
-				});
-				break;
-		}
-	};
-
 	const getImage = (e) => {
 		setFile(e.target.files[0]);
-		console.log(e.target.files[0]);
 	};
 
 	const deleteEvent = async (eventId) => {
-		const res = await axios.delete(`${API}/Event/DeleteEvent/${eventId}`);
+		const res = await axios.delete(`${API}/Event/DeleteEvent/${eventId}`, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
 	};
 
 	return (
 		<Fragment>
 			<Container fluid={true}>
-				<ToastContainer />
 				<Card id="card-container">
 					<CardTitle title="Add Event" />
 					<Row>
@@ -141,6 +128,7 @@ const Events = () => {
 											required
 											type="text"
 											name="name"
+											value={eventName}
 											autoComplete="off"
 											onChange={(e) => setEventName(e.target.value)}
 										/>
@@ -158,6 +146,7 @@ const Events = () => {
 											required={true}
 											autoComplete="off"
 											onChange={(e) => setEventDesc(e.target.value)}
+											value={eventDesc}
 										/>
 									</FormGroup>
 								</Row>
@@ -231,7 +220,7 @@ const Events = () => {
 												<Link to={`/add-event-expense/${item.eventId}`}>
 													<button
 														type="button"
-														class="btn btn-success"
+														className="btn btn-success"
 														id="event-btns"
 													>
 														<i className="candidate-icons">
@@ -242,7 +231,7 @@ const Events = () => {
 												<Link to={`edit-event/${item.eventId}`}>
 													<button
 														type="button"
-														class="btn btn-primary"
+														className="btn btn-primary"
 														id="event-btns"
 													>
 														<i className="candidate-icons">
@@ -253,7 +242,7 @@ const Events = () => {
 												<Link to={`event-votes/${item.eventId}`}>
 													<button
 														type="button"
-														class="btn btn-info"
+														className="btn btn-info"
 														id="event-btns"
 													>
 														<i className="candidate-icons">

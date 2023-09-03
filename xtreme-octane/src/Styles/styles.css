@@ -116,6 +116,43 @@
 	font-weight: 400 !important;
 }
 
+.image-container {
+	position: relative;
+	padding: 0 !important;
+}
+
+.gradient-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(
+		to bottom,
+		rgba(0, 140, 255, 0),
+		rgba(50, 49, 49, 1) 90%
+	);
+	pointer-events: none;
+}
+
+.edit-vehicle-image {
+	width: 100% !important;
+	padding: 0 !important;
+	border-radius: 7px;
+	height: 400px;
+	object-fit: cover !important;
+}
+
+.text-overlay {
+	position: absolute;
+	bottom: 30px;
+	left: 10px;
+	color: white;
+	font-size: 16px;
+	font-weight: bold;
+	pointer-events: none;
+}
+
 #modal-event-btn {
 	font-size: 12px;
 	width: 20%;
