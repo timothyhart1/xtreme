@@ -67,7 +67,7 @@ const Members = () => {
 		},
 		{
 			name: "Date Joined",
-			selector: (row) => row.createDate,
+			selector: (row) => row.createDate.slice(0, 10),
 			sortable: true,
 		},
 	];
