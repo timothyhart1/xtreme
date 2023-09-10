@@ -214,10 +214,8 @@ const EditVehicle = () => {
 											<Button
 												id="event-btn"
 												style={{
-													backgroundColor: "#ffc107",
-													color: "#000",
-													borderColor: "#ffc107",
-													marginLeft: "0",
+													backgroundColor: "#3273b5",
+													borderColor: "#3273b5",
 												}}
 											>
 												Back

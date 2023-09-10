@@ -2,7 +2,7 @@ import React, { useState, useEffect, Fragment } from "react";
 import axios from "axios";
 import { Tooltip, BarChart, XAxis, YAxis, Bar } from "recharts";
 import { Link, useParams } from "react-router-dom";
-import { Card, Container, Table } from "reactstrap";
+import { Card, Container, Table, Button } from "reactstrap";
 import { FaRegEye } from "react-icons/fa";
 import "../../Styles/styles.css";
 import CardTitle from "../CardTitle/CardTitle";
@@ -120,6 +120,20 @@ const ViewEventVotes = () => {
 							})}
 						</tbody>
 					</Table>
+					<Link to={"/events"}>
+						<Button
+							style={{
+								margin: "5px",
+								width: "100px",
+								backgroundColor: "#3273b5",
+								borderColor: "#3273b5",
+							}}
+							type="button"
+							id="event-btn"
+						>
+							Back
+						</Button>
+					</Link>
 				</Card>
 			</Container>
 		</Fragment>

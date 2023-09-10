@@ -27,23 +27,6 @@ const Scribante = () => {
 		fetchData();
 	}, []);
 
-	const directiontoaster = (toastname) => {
-		switch (toastname) {
-			case "directionssuccessToast":
-				toast.success("Event was successfully added!", {
-					position: toast.POSITION.TOP_CENTER,
-					autoClose: 1500,
-				});
-				break;
-			case "directionsdangerToast":
-				toast.error("There was an error adding the event!", {
-					position: toast.POSITION.TOP_CENTER,
-					autoClose: 1500,
-				});
-				break;
-		}
-	};
-
 	return (
 		<Fragment>
 			<Container fluid={true}>
@@ -96,7 +79,17 @@ const Scribante = () => {
 												{item.vehicle.plate}
 											</td>
 											<td className="event-items text-center align-middle">
-												{item.vehicle.member.name} {item.vehicle.member.surname}
+												<Link
+													to={`/view-member/${item.memberId}`}
+													style={{
+														color: "#fff",
+														textDecoration: "none",
+														cursor: "pointer",
+													}}
+												>
+													{item.vehicle.member.name}{" "}
+													{item.vehicle.member.surname}
+												</Link>
 											</td>
 										</tr>
 									);

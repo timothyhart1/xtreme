@@ -135,6 +135,20 @@ const ViewSingleEvent = () => {
 								)}
 							</div>
 						</div>
+						<Link to={"/view-events"}>
+							<Button
+								style={{
+									margin: "5px",
+									width: "100px",
+									backgroundColor: "#3273b5",
+									borderColor: "#3273b5",
+								}}
+								type="button"
+								id="event-btn"
+							>
+								Back
+							</Button>
+						</Link>
 					</form>
 				</Card>
 			</Container>

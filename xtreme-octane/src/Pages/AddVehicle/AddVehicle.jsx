@@ -11,9 +11,11 @@ import {
 	Container,
 	Button,
 	FormGroup,
+	Col,
 } from "reactstrap";
 import CardTitle from "../CardTitle/CardTitle";
 import "../../Styles/styles.css";
+import { Link } from "react-router-dom";
 
 const AddVehicle = () => {
 	const API = window.appConfig.API;
@@ -187,11 +189,23 @@ const AddVehicle = () => {
 										/>
 									</FormGroup>
 								</Row>
-								<Row>
-									<Button type="submit" id="event-btn">
-										Add Vehicle
+								<Link to={"/member-vehicles"}>
+									<Button
+										style={{
+											margin: "5px",
+											width: "100px",
+											backgroundColor: "#3273b5",
+											borderColor: "#3273b5",
+										}}
+										type="button"
+										id="event-btn"
+									>
+										Back
 									</Button>
-								</Row>
+								</Link>
+								<Button type="submit" id="event-btn">
+									Add Vehicle
+								</Button>
 							</div>
 						</Form>
 					</Row>
