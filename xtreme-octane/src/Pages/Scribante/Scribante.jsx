@@ -7,18 +7,16 @@ import CardTitle from "../CardTitle/CardTitle";
 import { FaRegEdit } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import DataTable from "react-data-table-component";
 
 const Scribante = () => {
 	const API = window.appConfig.API;
 	const [data, setData] = useState([]);
-	const [eventName, setEventName] = useState("");
-	const [eventDesc, setEventDesc] = useState("");
 
 	useEffect(() => {
 		async function fetchData() {
 			try {
 				const res = await axios.get(`${API}/MemberTrackTime/GetAllTrackTimes`);
-				console.log(res.data);
 				setData(res.data);
 			} catch (error) {
 				console.log(error);
@@ -27,6 +25,58 @@ const Scribante = () => {
 		fetchData();
 	}, []);
 
+	const columns = [
+		{
+			name: "#",
+			cell: (row, index) => index + 1,
+		},
+		{
+			name: "Time",
+			selector: (row) => row.lapTimeMinutes + " " + row.lapTimeSeconds,
+			sortable: true,
+		},
+		{
+			name: "Conditions",
+			selector: (row) => row.conditions,
+			sortable: true,
+		},
+		{
+			name: "Vehicle",
+			selector: (row) =>
+				row.vehicle.year +
+				" " +
+				row.vehicle.manufacturer +
+				" " +
+				row.vehicle.model,
+			sortable: true,
+		},
+		{
+			name: "Plate",
+			selector: (row) => row.vehicle.plate,
+			sortable: true,
+		},
+		{
+			name: "Actions",
+			cell: (row) => (
+				<td
+					className="event-items-icons text-center align-middle"
+					id="event-actions"
+				>
+					<Link
+						to={`/view-member/${row.memberId}`}
+						style={{
+							color: "#fff",
+							textDecoration: "none",
+							cursor: "pointer",
+						}}
+					>
+						{row.vehicle.member.name} {row.vehicle.member.surname}
+					</Link>
+				</td>
+			),
+		},
+	];
+
 	return (
 		<Fragment>
 			<Container fluid={true}>
@@ -34,68 +84,13 @@ const Scribante = () => {
 				<Card id="card-container" className="card-spacing">
 					<CardTitle title="All Lap Times" />
 					<CardBody>
-						<Table id="event-table" bordered responsive>
-							<thead>
-								<tr>
-									<th className="text-center align-middle light-headers">#</th>
-									<th className="text-center align-middle light-headers">
-										Time
-									</th>
-									<th className="text-center align-middle light-headers">
-										Conditions
-									</th>
-									<th className="text-center align-middle light-headers">
-										Vehicle
-									</th>
-									<th className="text-center align-middle light-headers">
-										Plate
-									</th>
-									<th className="text-center align-middle light-headers">
-										Driver
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								{data.map((item, index) => {
-									return (
-										<tr key={index}>
-											<th
-												scope="row"
-												className="text-center align-middle light-headers"
-											>
-												{index + 1}
-											</th>
-											<td className="event-items text-center align-middle">
-												{item.lapTimeMinutes}:{item.lapTimeSeconds}
-											</td>
-											<td className="event-items text-center align-middle">
-												{item.conditions}
-											</td>
-											<td className="event-items text-center align-middle">
-												{item.vehicle.year} {item.vehicle.manufacturer}{" "}
-												{item.vehicle.model}
-											</td>
-											<td className="event-items text-center align-middle">
-												{item.vehicle.plate}
-											</td>
-											<td className="event-items text-center align-middle">
-												<Link
-													to={`/view-member/${item.memberId}`}
-													style={{
-														color: "#fff",
-														textDecoration: "none",
-														cursor: "pointer",
-													}}
-												>
-													{item.vehicle.member.name}{" "}
-													{item.vehicle.member.surname}
-												</Link>
-											</td>
-										</tr>
-									);
-								})}
-							</tbody>
-						</Table>
+						<DataTable
+							columns={columns}
+							data={data}
+							fixedHeader
+							pagination
+							className="data-table-xo"
+						/>
 					</CardBody>
 				</Card>
 			</Container>
