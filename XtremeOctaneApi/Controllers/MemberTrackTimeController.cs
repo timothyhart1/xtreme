@@ -77,7 +77,7 @@ namespace XtremeOctaneApi.Controllers
         [HttpPost("AddNewTrackTime")]
         [AllowAnonymous]
         public async Task<ActionResult<MemberTrackTimeModel>> AddTrackTime(int memberId, int vehicleId, int lapTimeMinutes, int lapTimeSeconds,
-            string conditions, string tyre, string vehicleClass, IFormFile lapTimeScreenshot, bool? verified)
+            int lapTimeMiliSeconds, string conditions, string tyre, string vehicleClass, IFormFile lapTimeScreenshot, bool? verified)
         {
             try
             {
@@ -104,6 +104,7 @@ namespace XtremeOctaneApi.Controllers
                     VehicleId = vehicleId,
                     LapTimeMinutes = lapTimeMinutes,
                     LapTimeSeconds = lapTimeSeconds,
+                    LapTimeMiliseconds = lapTimeMiliSeconds,
                     Conditions = conditions,
                     Tyre = tyre,
                     VehicleClass = vehicleClass,

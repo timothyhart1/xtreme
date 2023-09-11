@@ -32,7 +32,12 @@ const Scribante = () => {
 		},
 		{
 			name: "Time",
-			selector: (row) => row.lapTimeMinutes + " " + row.lapTimeSeconds,
+			selector: (row) =>
+				row.lapTimeMinutes +
+				":" +
+				row.lapTimeSeconds +
+				":" +
+				row.lapTimeMiliseconds,
 			sortable: true,
 		},
 		{
@@ -91,7 +96,7 @@ const Scribante = () => {
 					<CardTitle title="All Lap Times" />
 					<CardBody>
 						<Link
-							to={`/add-vehicle`}
+							to={`/add-lap-time`}
 							id="vehicle-model"
 							style={{ textAlign: "left" }}
 						>

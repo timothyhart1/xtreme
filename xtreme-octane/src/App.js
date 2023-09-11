@@ -24,6 +24,7 @@ import MemberVehicles from "./Pages/MemberVehicles/MemberVehicles";
 import EditVehicle from "./Pages/EditVehicle/EditVehicle";
 import ViewSingleEvent from "./Pages/ViewSingleEvent/ViewSingleEvent";
 import ViewMember from "./Pages/ViewMember/viewMember";
+import AddLapTime from "./Pages/AddLapTime/AddLapTime";
 
 function App() {
 	const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -157,6 +158,14 @@ function App() {
 							element={
 								<RequireAuth>
 									<AddVehicle />
+								</RequireAuth>
+							}
+						/>
+						<Route
+							path="add-lap-time"
+							element={
+								<RequireAuth>
+									<AddLapTime />
 								</RequireAuth>
 							}
 						/>
