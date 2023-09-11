@@ -8,6 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CardTitle from "../CardTitle/CardTitle";
 import DataTable from "react-data-table-component";
+import { Link } from "react-router-dom";
 
 const Members = () => {
 	const API = window.appConfig.API;
@@ -45,6 +46,7 @@ const Members = () => {
 	const columns = [
 		{
 			name: "#",
+			cell: (row, index) => index + 1,
 		},
 		{
 			name: "Name",
@@ -69,6 +71,42 @@ const Members = () => {
 			name: "Date Joined",
 			selector: (row) => row.createDate.slice(0, 10),
 			sortable: true,
+		},
+		{
+			name: "Actions",
+			cell: (row) => (
+				<td
+					className="event-items-icons text-center align-middle"
+					id="event-actions"
+				>
+					<Link to={`/view-member/${row.memberId}`}>
+						<button type="button" className="btn btn-info" id="event-btns">
+							<i className="table-icons">
+								<FaEye />
+							</i>
+						</button>
+					</Link>
+					{row.deleted ? (
+						<button
+							type="button"
+							className="btn btn-success"
+							id="event-btns"
+							onClick={() => reinstateMember(row.memberId)}
+						>
+							<FaPlus />
+						</button>
+					) : (
+						<ModalDeleteEvent
+							eventName={row.name}
+							eventId={row.memberId}
+							deleteId={row.memberId}
+							onDelete={deleteEvent}
+							id="event-btns"
+							modalTitle={`Are you sure you want to delete ${row.name}?`}
+						/>
+					)}
+				</td>
+			),
 		},
 	];
 

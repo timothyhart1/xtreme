@@ -21,6 +21,10 @@
 	min-height: 48px;
 }
 
+.hecapG {
+	color: #fff !important;
+}
+
 .buGObk {
 	display: flex;
 	align-items: stretch;
@@ -177,7 +181,7 @@
 
 #event-actions {
 	display: inline-flex;
-	width: 100%;
+	width: fit-content;
 	align-items: center;
 	justify-content: center;
 }
@@ -298,13 +302,6 @@
 	cursor: pointer;
 }
 
-#event-actions {
-	display: inline-flex;
-	width: 100%;
-	align-items: center;
-	justify-content: center;
-}
-
 /* Event Expense */
 .event-input {
 	padding: 8px !important;
@@ -394,13 +391,6 @@
 	color: var(--theme-default) !important;
 	transition: 0.3s;
 	cursor: pointer;
-}
-
-#event-actions {
-	display: inline-flex;
-	width: 100%;
-	align-items: center;
-	justify-content: center;
 }
 
 #event-btns {
@@ -509,13 +499,6 @@
 	color: var(--theme-default) !important;
 	transition: 0.3s;
 	cursor: pointer;
-}
-
-#event-actions {
-	display: inline-flex;
-	width: 100%;
-	align-items: center;
-	justify-content: center;
 }
 
 /* Hero Section */
