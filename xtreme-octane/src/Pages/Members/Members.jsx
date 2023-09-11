@@ -21,7 +21,7 @@ const Members = () => {
 			try {
 				const res = await axios.get(`${API}/Member/GetAllMembers`);
 				setData(res.data);
-				setFilteredData(res.data); // Initialize filtered data with the original data
+				setFilteredData(res.data);
 			} catch (error) {
 				console.log(error);
 			}

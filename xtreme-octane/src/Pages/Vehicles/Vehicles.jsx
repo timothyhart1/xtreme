@@ -7,19 +7,21 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaEye } from "react-icons/fa";
 import CardTitle from "../CardTitle/CardTitle";
+import DataTable from "react-data-table-component";
 
 const Vehicles = () => {
 	const API = window.appConfig.API;
 	const [data, setData] = useState([]);
 	const [eventName, setEventName] = useState("");
 	const [eventDesc, setEventDesc] = useState("");
+	const [filteredData, setFilteredData] = useState([]);
 
 	useEffect(() => {
 		async function fetchData() {
 			try {
 				const res = await axios.get(`${API}/Vehicle/GetAllVehicles`);
 				setData(res.data);
-				console.log(res.data);
+				setFilteredData(res.data);
 			} catch (error) {
 				console.log(error);
 			}
@@ -44,6 +46,58 @@ const Vehicles = () => {
 		}
 	};
 
+	const columns = [
+		{
+			name: "#",
+			cell: (row, index) => index + 1,
+		},
+		{
+			name: "Manufacturer",
+			selector: (row) => row.manufacturer,
+			sortable: true,
+		},
+		{
+			name: "Model",
+			selector: (row) => row.model,
+			sortable: true,
+		},
+		{
+			name: "Year",
+			selector: (row) => row.year,
+			sortable: true,
+		},
+		{
+			name: "Colour",
+			selector: (row) => row.color,
+		},
+		{
+			name: "Mileage",
+			selector: (row) => row.mileage.toLocaleString(),
+			sortable: true,
+		},
+		{
+			name: "Owned By",
+			selector: (row) => row.member.name + " " + row.member.surname,
+		},
+		{
+			name: "Actions",
+			cell: (row) => (
+				<td
+					className="event-items-icons text-center align-middle"
+					id="event-actions"
+				>
+					<Link to={`view-vehicle/${row.vehicleId}`} id="vehicle-model">
+						<button type="button" class="btn btn-info">
+							<i>
+								<FaEye />
+							</i>
+						</button>
+					</Link>
+				</td>
+			),
+		},
+	];
+
 	return (
 		<Fragment>
 			<Container fluid={true}>
@@ -51,76 +105,13 @@ const Vehicles = () => {
 				<Card id="card-container" className="card-spacing">
 					<CardTitle title="Vehicles" />
 					<CardBody>
-						<Table id="event-table" bordered responsive>
-							<thead>
-								<tr>
-									<th className="text-center align-middle light-headers">#</th>
-									<th className="text-center align-middle light-headers">
-										Manufacturer
-									</th>
-									<th className="text-center align-middle light-headers">
-										Model
-									</th>
-									<th className="text-center align-middle light-headers">
-										Year
-									</th>
-									<th className="text-center align-middle light-headers">
-										Colour
-									</th>
-									<th className="text-center align-middle light-headers">
-										Mileage
-									</th>
-									<th className="text-center align-middle light-headers">
-										Owned By
-									</th>
-									<th className="text-center align-middle"></th>
-								</tr>
-							</thead>
-							<tbody>
-								{data.map((vehicle, index) => {
-									return (
-										<tr key={index}>
-											<th
-												scope="row"
-												className="text-center align-middle light-headers"
-											>
-												{index + 1}
-											</th>
-											<td className="event-items text-center align-middle light-headers">
-												{vehicle.manufacturer}
-											</td>
-											<td className="event-items text-center align-middle light-headers">
-												{vehicle.model}
-											</td>
-											<td className="event-items text-center align-middle light-headers">
-												{vehicle.year}
-											</td>
-											<td className="event-items text-center align-middle light-headers">
-												{vehicle.color}
-											</td>
-											<td className="event-items text-center align-middle light-headers">
-												{vehicle.mileage.toLocaleString()}
-											</td>
-											<td className="event-items text-center align-middle">
-												{vehicle.member.name} {vehicle.member.surname}
-											</td>
-											<td id="event-actions">
-												<Link
-													to={`view-vehicle/${vehicle.vehicleId}`}
-													id="vehicle-model"
-												>
-													<button type="button" class="btn btn-info">
-														<i>
-															<FaEye />
-														</i>
-													</button>
-												</Link>
-											</td>
-										</tr>
-									);
-								})}
-							</tbody>
-						</Table>
+						<DataTable
+							columns={columns}
+							data={data}
+							fixedHeader
+							pagination
+							className="data-table-xo"
+						/>
 					</CardBody>
 				</Card>
 			</Container>
