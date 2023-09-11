@@ -14,6 +14,7 @@ import {
 	Container,
 	Button,
 	FormGroup,
+	CardBody,
 } from "reactstrap";
 
 const EditVehicle = () => {
@@ -89,145 +90,147 @@ const EditVehicle = () => {
 	return (
 		<Fragment>
 			<Container fluid={true}>
-				<Card id="card-container">
-					<CardTitle title="Edit Vehicle" />
-					<Row>
-						<div className="image-container">
-							<img
-								src={`${API}/Vehicle/GetVehicleImage/${vehicleId}`}
-								alt="event-image"
-								className="edit-vehicle-image"
-							/>
-							<div className="gradient-overlay"></div>
-							<div className="text-overlay">
-								<p>
-									{year} {manufacturer} {model}
-								</p>
-							</div>
+				<Card id="card-container-edit-vehicle">
+					<div className="image-container" style={{ marginTop: "-20px" }}>
+						<img
+							src={`${API}/Vehicle/GetVehicleImage/${vehicleId}`}
+							alt="event-image"
+							className="edit-vehicle-image"
+						/>
+						<div className="gradient-overlay"></div>
+						<div className="text-overlay">
+							<p>
+								{year} {manufacturer} {model}
+							</p>
 						</div>
-						<Form id="event-form" onSubmit={submitVehicle}>
-							<div className="event-container">
-								<Row>
-									<FormGroup id="event-form-group">
-										<Label className="form-label" id="event-label">
-											Manufacturer
-										</Label>
-										<Input
-											className="form-control event-input"
-											required
-											type="text"
-											name="manufacturer"
-											autoComplete="off"
-											value={manufacturer}
-											onChange={(e) => onInputChange(e)}
-										/>
-									</FormGroup>
-								</Row>
-								<Row>
-									<FormGroup id="event-form-group">
-										<Label for="examplePassword" id="event-label">
-											Model
-										</Label>
-										<Input
-											className="form-control event-input"
-											required
-											type="text"
-											name="model"
-											autoComplete="off"
-											value={model}
-											onChange={(e) => onInputChange(e)}
-										/>
-									</FormGroup>
-								</Row>
-								<Row>
-									<FormGroup id="event-form-group">
-										<Label for="examplePassword" id="event-label">
-											Year
-										</Label>
-										<Input
-											className="form-control event-input"
-											required
-											type="text"
-											name="year"
-											autoComplete="off"
-											value={year}
-											onChange={(e) => onInputChange(e)}
-										/>
-									</FormGroup>
-								</Row>
-								<Row>
-									<FormGroup id="event-form-group">
-										<Label for="examplePassword" id="event-label">
-											Mileage
-										</Label>
-										<Input
-											className="form-control event-input"
-											required
-											type="text"
-											name="mileage"
-											autoComplete="off"
-											value={mileage}
-											onChange={(e) => onInputChange(e)}
-										/>
-									</FormGroup>
-								</Row>
-								<Row>
-									<FormGroup id="event-form-group">
-										<Label for="examplePassword" id="event-label">
-											Colour
-										</Label>
-										<Input
-											className="form-control event-input"
-											required
-											type="text"
-											name="color"
-											autoComplete="off"
-											value={color}
-											onChange={(e) => onInputChange(e)}
-										/>
-									</FormGroup>
-								</Row>
-								<Row>
-									<FormGroup id="event-form-group">
-										<Label className="form-label" id="event-label">
-											Image
-										</Label>
-										<br />
-										<img
-											src={`${API}/Vehicle/GetVehicleImage/${vehicleId}`}
-											alt="event-image"
-											className="edit-event-image"
-										/>
-										<br />
-										<br />
-										<Input
-											type="file"
-											className="form-control image-input"
-											id="event-image-input"
-											onChange={handleImageChange}
-										/>
-									</FormGroup>
-								</Row>
-								<Row>
-									<div className="btn-container" style={{ paddingLeft: "0" }}>
-										<Link to={"/member-vehicles"}>
-											<Button
-												id="event-btn"
-												style={{
-													backgroundColor: "#3273b5",
-													borderColor: "#3273b5",
-												}}
-											>
-												Back
+					</div>
+					<Row>
+						<CardBody>
+							<CardTitle title="Edit Vehicle" />
+							<Form id="event-form" onSubmit={submitVehicle}>
+								<div className="event-container">
+									<Row>
+										<FormGroup id="event-form-group">
+											<Label className="form-label" id="event-label">
+												Manufacturer
+											</Label>
+											<Input
+												className="form-control dark-event-input"
+												required
+												type="text"
+												name="manufacturer"
+												autoComplete="off"
+												value={manufacturer}
+												onChange={(e) => onInputChange(e)}
+											/>
+										</FormGroup>
+									</Row>
+									<Row>
+										<FormGroup id="event-form-group">
+											<Label for="examplePassword" id="event-label">
+												Model
+											</Label>
+											<Input
+												className="form-control dark-event-input"
+												required
+												type="text"
+												name="model"
+												autoComplete="off"
+												value={model}
+												onChange={(e) => onInputChange(e)}
+											/>
+										</FormGroup>
+									</Row>
+									<Row>
+										<FormGroup id="event-form-group">
+											<Label for="examplePassword" id="event-label">
+												Year
+											</Label>
+											<Input
+												className="form-control dark-event-input"
+												required
+												type="text"
+												name="year"
+												autoComplete="off"
+												value={year}
+												onChange={(e) => onInputChange(e)}
+											/>
+										</FormGroup>
+									</Row>
+									<Row>
+										<FormGroup id="event-form-group">
+											<Label for="examplePassword" id="event-label">
+												Mileage
+											</Label>
+											<Input
+												className="form-control dark-event-input"
+												required
+												type="text"
+												name="mileage"
+												autoComplete="off"
+												value={mileage}
+												onChange={(e) => onInputChange(e)}
+											/>
+										</FormGroup>
+									</Row>
+									<Row>
+										<FormGroup id="event-form-group">
+											<Label for="examplePassword" id="event-label">
+												Colour
+											</Label>
+											<Input
+												className="form-control dark-event-input"
+												required
+												type="text"
+												name="color"
+												autoComplete="off"
+												value={color}
+												onChange={(e) => onInputChange(e)}
+											/>
+										</FormGroup>
+									</Row>
+									<Row>
+										<FormGroup id="event-form-group">
+											<Label className="form-label" id="event-label">
+												Image
+											</Label>
+											<br />
+											<img
+												src={`${API}/Vehicle/GetVehicleImage/${vehicleId}`}
+												alt="event-image"
+												className="edit-event-image"
+											/>
+											<br />
+											<br />
+											<Input
+												type="file"
+												className="form-control image-input"
+												id="event-image-input"
+												onChange={handleImageChange}
+											/>
+										</FormGroup>
+									</Row>
+									<Row>
+										<div className="btn-container" style={{ paddingLeft: "0" }}>
+											<Link to={"/member-vehicles"}>
+												<Button
+													id="event-btn"
+													style={{
+														backgroundColor: "#3273b5",
+														borderColor: "#3273b5",
+													}}
+												>
+													Back
+												</Button>
+											</Link>
+											<Button type="submit" id="event-btn">
+												Update Vehicle
 											</Button>
-										</Link>
-										<Button type="submit" id="event-btn">
-											Update Vehicle
-										</Button>
-									</div>
-								</Row>
-							</div>
-						</Form>
+										</div>
+									</Row>
+								</div>
+							</Form>
+						</CardBody>
 					</Row>
 				</Card>
 			</Container>

@@ -7,7 +7,17 @@
 	color: #fff;
 }
 
+.btn-xo {
+	background-color: #3273b5 !important;
+	color: #fff !important;
+}
+
 /* Data table */
+
+.data-table-xo {
+	width: 100% !important;
+}
+
 .bPokRt {
 	display: flex;
 	align-items: stretch;

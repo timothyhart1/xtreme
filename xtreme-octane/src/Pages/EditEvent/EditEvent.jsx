@@ -28,8 +28,6 @@ const EditEvent = () => {
 		eventDesc: "",
 	});
 
-	const notify = () => toast("Here is your toast.");
-
 	const { eventName, eventDesc } = event;
 
 	useEffect(() => {
