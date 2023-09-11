@@ -414,6 +414,7 @@
 
 .btn-container {
 	display: inline-flex;
+	padding: 0 !important;
 }
 
 /* Events */

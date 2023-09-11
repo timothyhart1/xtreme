@@ -19,6 +19,7 @@ import {
 	FormGroup,
 	Table,
 } from "reactstrap";
+import DataTable from "react-data-table-component";
 
 const EventExpenses = () => {
 	const API = window.appConfig.API;
@@ -82,6 +83,60 @@ const EventExpenses = () => {
 		"Sound",
 	];
 
+	const columns = [
+		{
+			name: "#",
+			cell: (row, index) => index + 1,
+		},
+		{
+			name: "Expense Name",
+			selector: (row) => row.expenseName,
+			sortable: true,
+		},
+		{
+			name: "Expense Amount",
+			selector: (row) => "R" + row.expenseAmount,
+			sortable: true,
+		},
+		{
+			name: "Added By",
+			selector: (row) => row.addedBy,
+			sortable: true,
+		},
+		{
+			name: "Date Added",
+			selector: (row) => row.createDate.slice(0, 10),
+			sortable: true,
+		},
+		{
+			name: "Actions",
+			cell: (row) => (
+				<td
+					className="event-items-icons text-center align-middle"
+					id="event-actions"
+				>
+					<Link
+						to={`/edit-event-expense/${row.eventExpenseId}/event/${row.eventId}`}
+					>
+						<button type="button" className="btn btn-primary" id="event-btns">
+							<i className="candidate-icons">
+								<FaRegEdit />
+							</i>
+						</button>
+					</Link>
+					<ModalDeleteEvent
+						expenseName={row.expenseName}
+						deleteId={row.eventExpenseId}
+						onDelete={deleteEventExpense}
+						updateData={fetchData}
+						id="event-btns"
+						modalTitle={`Are you sure you want to delete ${row.expenseName}?`}
+					/>
+				</td>
+			),
+		},
+	];
+
 	return (
 		<Fragment>
 			<Container fluid={true}>
@@ -97,7 +152,7 @@ const EventExpenses = () => {
 											Expense Name
 										</Label>
 										<Input
-											className="form-control event-input"
+											className="form-control dark-event-input"
 											required
 											type="text"
 											name="name"
@@ -112,7 +167,7 @@ const EventExpenses = () => {
 											Expense Amount
 										</Label>
 										<Input
-											className="form-control event-input"
+											className="form-control dark-event-input"
 											required
 											type="text"
 											name="name"
@@ -127,7 +182,7 @@ const EventExpenses = () => {
 											Expense Category
 										</Label>
 										<Input
-											className="form-control event-input"
+											className="form-control dark-event-input"
 											required
 											type="select"
 											name="expenseCategory"
@@ -145,107 +200,37 @@ const EventExpenses = () => {
 										</Input>
 									</FormGroup>
 								</Row>
-								<Row>
-									<div className="btn-container">
-										<Link to={"/events"}>
-											<Button
-												id="event-btn"
-												style={{
-													backgroundColor: "#ffc107",
-													color: "#000",
-													borderColor: "#ffc107",
-												}}
-											>
-												Back
-											</Button>
-										</Link>
-										<Button type="submit" id="event-btn">
-											Add Expense
-										</Button>
-									</div>
-								</Row>
 							</div>
 						</Form>
+						<div className="btn-container">
+							<Link to={"/events"}>
+								<Button id="event-btn">Back</Button>
+							</Link>
+							<Button
+								type="submit"
+								id="event-btn"
+								style={{
+									backgroundColor: "#ffc107",
+									color: "#000",
+									borderColor: "#ffc107",
+								}}
+							>
+								Add Expense
+							</Button>
+						</div>
 					</Row>
 				</Card>
 				<Card id="card-container" className="card-spacing">
 					<CardTitle title="Event Expenses" />
 					<p className="light-headers">{`Total expenses = R${total.toLocaleString()}`}</p>
 					<CardBody>
-						<Table id="event-table" bordered responsive>
-							<thead>
-								<tr>
-									<th className="text-center align-middle light-headers">#</th>
-									<th className="text-center align-middle light-headers">
-										Expense Name
-									</th>
-									<th className="text-center align-middle light-headers">
-										Expense Description
-									</th>
-									<th className="text-center align-middle light-headers">
-										Added By
-									</th>
-									<th className="text-center align-middle light-headers">
-										Date Added
-									</th>
-									<th className="text-center align-middle light-headers">
-										Actions
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								{data.map((item, index) => {
-									return (
-										<tr key={index}>
-											<th
-												scope="row"
-												className="text-center align-middle light-headers"
-											>
-												{index + 1}
-											</th>
-											<td className="event-items text-center align-middle">
-												{item.expenseName}
-											</td>
-											<td className="event-items text-center align-middle">
-												{item.expenseAmount}
-											</td>
-											<td className="event-items text-center align-middle">
-												{item.addedBy}
-											</td>
-											<td className="event-items text-center align-middle">
-												{item.createDate.slice(0, 10)}
-											</td>
-											<td
-												className="event-items-icons text-center align-middle"
-												id="event-actions"
-											>
-												<Link
-													to={`/edit-event-expense/${item.eventExpenseId}/event/${item.eventId}`}
-												>
-													<button
-														type="button"
-														className="btn btn-primary"
-														id="event-btns"
-													>
-														<i className="candidate-icons">
-															<FaRegEdit />
-														</i>
-													</button>
-												</Link>
-												<ModalDeleteEvent
-													expenseName={item.expenseName}
-													deleteId={item.eventExpenseId}
-													onDelete={deleteEventExpense}
-													updateData={fetchData}
-													id="event-btns"
-													modalTitle={`Are you sure you want to delete ${item.expenseName}?`}
-												/>
-											</td>
-										</tr>
-									);
-								})}
-							</tbody>
-						</Table>
+						<DataTable
+							columns={columns}
+							data={data}
+							fixedHeader
+							pagination
+							className="data-table-xo"
+						/>
 					</CardBody>
 				</Card>
 			</Container>
