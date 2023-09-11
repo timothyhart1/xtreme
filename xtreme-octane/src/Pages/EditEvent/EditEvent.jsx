@@ -20,6 +20,7 @@ import { toast } from "react-toastify";
 const EditEvent = () => {
 	const API = window.appConfig.API;
 	const [data, setData] = useState([]);
+	const token = sessionStorage.getItem("Token");
 	const { eventId } = useParams();
 	const [imageFile, setImageFile] = useState(null);
 	const [event, setEvent] = useState({
@@ -34,7 +35,11 @@ const EditEvent = () => {
 	useEffect(() => {
 		async function fetchData() {
 			try {
-				const res = await axios.get(`${API}/Event/GetSingleEvent/${eventId}`);
+				const res = await axios.get(`${API}/Event/GetSingleEvent/${eventId}`, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				});
 				setEvent(res.data);
 				console.log(res.data);
 			} catch (error) {
