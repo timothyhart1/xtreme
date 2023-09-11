@@ -253,20 +253,19 @@ const AddLapTime = () => {
 							</div>
 							<div className="btn-container">
 								<Link to={"/member-vehicles"}>
-									<Button
-										style={{
-											margin: "5px",
-											width: "100px",
-											backgroundColor: "#3273b5",
-											borderColor: "#3273b5",
-										}}
-										type="button"
-										id="event-btn"
-									>
+									<Button type="button" id="event-btn">
 										Back
 									</Button>
 								</Link>
-								<Button type="submit" id="event-btn">
+								<Button
+									type="submit"
+									id="event-btn"
+									style={{
+										backgroundColor: "#ffc107",
+										color: "#000",
+										borderColor: "#ffc107",
+									}}
+								>
 									Add Lap Time
 								</Button>
 							</div>
