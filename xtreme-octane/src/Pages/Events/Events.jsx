@@ -17,6 +17,7 @@ import {
 	FormGroup,
 	Table,
 } from "reactstrap";
+import DataTable from "react-data-table-component";
 
 const Events = () => {
 	const API = window.appConfig.API;
@@ -110,6 +111,66 @@ const Events = () => {
 		});
 	};
 
+	const columns = [
+		{
+			name: "#",
+			cell: (row, index) => index + 1,
+		},
+		{
+			name: "Event Name",
+			selector: (row) => row.eventName,
+			sortable: true,
+		},
+		{
+			name: "Event Description",
+			selector: (row) => row.eventDesc,
+			sortable: true,
+		},
+		{
+			name: "Event Date",
+			selector: (row) => row.eventDate.slice(0, 10),
+			sortable: true,
+		},
+		{
+			name: "Actions",
+			cell: (row) => (
+				<td
+					className="event-items-icons text-center align-middle"
+					id="event-actions"
+				>
+					<Link to={`/add-event-expense/${row.eventId}`}>
+						<button type="button" className="btn btn-success" id="event-btns">
+							<i className="candidate-icons">
+								<FaPlus />
+							</i>
+						</button>
+					</Link>
+					<Link to={`edit-event/${row.eventId}`}>
+						<button type="button" className="btn btn-primary" id="event-btns">
+							<i className="candidate-icons">
+								<FaRegEdit />
+							</i>
+						</button>
+					</Link>
+					<Link to={`event-votes/${row.eventId}`}>
+						<button type="button" className="btn btn-info" id="event-btns">
+							<i className="candidate-icons">
+								<FaRegEye />
+							</i>
+						</button>
+					</Link>
+					<ModalDeleteEvent
+						eventName={row.eventName}
+						deleteId={row.eventId}
+						updateData={updateEventData}
+						onDelete={deleteEvent}
+						modalTitle={`Are you sure you want to delete ${row.eventName}?`}
+					/>
+				</td>
+			),
+		},
+	];
+
 	return (
 		<Fragment>
 			<Container fluid={true}>
@@ -176,93 +237,13 @@ const Events = () => {
 				<Card id="card-container" className="card-spacing">
 					<CardTitle title="All Events" />
 					<CardBody>
-						<Table id="event-table" bordered responsive>
-							<thead>
-								<tr>
-									<th className="text-center align-middle light-headers">#</th>
-									<th className="text-center align-middle light-headers">
-										Event Name
-									</th>
-									<th className="text-center align-middle light-headers">
-										Event Description
-									</th>
-									<th className="text-center align-middle light-headers">
-										Event Date
-									</th>
-									<th className="text-center align-middle light-headers">
-										Actions
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								{data.map((item, index) => {
-									return (
-										<tr key={index}>
-											<th
-												scope="row"
-												className="text-center align-middle light-headers"
-											>
-												{index + 1}
-											</th>
-											<td className="event-items text-center align-middle">
-												{item.eventName}
-											</td>
-											<td className="event-items text-center align-middle">
-												{item.eventDesc}
-											</td>
-											<td className="event-items text-center align-middle">
-												{item.eventDate.slice(0, 10)}
-											</td>
-											<td
-												className="event-items-icons text-center align-middle"
-												id="event-actions"
-											>
-												<Link to={`/add-event-expense/${item.eventId}`}>
-													<button
-														type="button"
-														className="btn btn-success"
-														id="event-btns"
-													>
-														<i className="candidate-icons">
-															<FaPlus />
-														</i>
-													</button>
-												</Link>
-												<Link to={`edit-event/${item.eventId}`}>
-													<button
-														type="button"
-														className="btn btn-primary"
-														id="event-btns"
-													>
-														<i className="candidate-icons">
-															<FaRegEdit />
-														</i>
-													</button>
-												</Link>
-												<Link to={`event-votes/${item.eventId}`}>
-													<button
-														type="button"
-														className="btn btn-info"
-														id="event-btns"
-													>
-														<i className="candidate-icons">
-															<FaRegEye />
-														</i>
-													</button>
-												</Link>
-												<ModalDeleteEvent
-													eventName={item.eventName}
-													deleteId={item.eventId}
-													updateData={updateEventData}
-													onDelete={deleteEvent}
-													modalTitle={`Are you sure you want to delete ${item.eventName}?`}
-												/>
-											</td>
-										</tr>
-									);
-								})}
-							</tbody>
-						</Table>
+						<DataTable
+							columns={columns}
+							data={data}
+							fixedHeader
+							pagination
+							className="data-table-xo"
+						/>
 					</CardBody>
 				</Card>
 			</Container>
