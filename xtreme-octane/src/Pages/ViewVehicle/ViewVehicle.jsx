@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from "react";
 import "../../Styles/styles.css";
 import axios from "axios";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import CardTitle from "../CardTitle/CardTitle";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -22,6 +22,7 @@ const ViewVehicle = () => {
 	const [vehicleData, setVehicleData] = useState([]);
 	const token = sessionStorage.getItem("Token");
 	const { vehicleId } = useParams();
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		async function fetchData() {
@@ -46,8 +47,16 @@ const ViewVehicle = () => {
 		<Fragment>
 			<Container fluid={true}>
 				<ToastContainer />
-				<Card id="card-container" className="card-spacing">
-					<CardTitle title="View Vehicle" />
+				<Card id="card-container-edit-vehicle" className="card-spacing">
+					<div className="image-container" style={{ marginTop: "-20px" }}>
+						<img
+							src={`${API}/Vehicle/GetVehicleImage/${vehicleId}`}
+							alt="event-image"
+							className="edit-vehicle-image"
+						/>
+						<div className="gradient-overlay"></div>
+						<div className="text-overlay"></div>
+					</div>
 					<CardBody id="event-card-body">
 						<Col>
 							<Row>
@@ -75,13 +84,17 @@ const ViewVehicle = () => {
 							<Row>
 								<h6 className="white-text">Colour: {data.color}</h6>
 							</Row>
-							<Row>
-								<img
-									src={`${API}/Vehicle/GetVehicleImage/${vehicleId}`}
-									alt=""
-									className="vehicle-image"
-								/>
-							</Row>
+							<Button
+								id="event-btn"
+								onClick={() => navigate(-1)}
+								style={{
+									backgroundColor: "#3273b5",
+									borderColor: "#3273b5",
+									margin: "0",
+								}}
+							>
+								Back
+							</Button>
 						</Col>
 					</CardBody>
 				</Card>

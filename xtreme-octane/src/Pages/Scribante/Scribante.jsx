@@ -42,12 +42,18 @@ const Scribante = () => {
 		},
 		{
 			name: "Vehicle",
-			selector: (row) =>
-				row.vehicle.year +
-				" " +
-				row.vehicle.manufacturer +
-				" " +
-				row.vehicle.model,
+			cell: (row) => (
+				<Link
+					to={`/vehicles/view-vehicle/${row.vehicleId}`}
+					style={{
+						color: "#fff",
+						textDecoration: "none",
+						cursor: "pointer",
+					}}
+				>
+					{row.vehicle.year} {row.vehicle.manufacturer} {row.vehicle.model}
+				</Link>
+			),
 			sortable: true,
 		},
 		{
@@ -84,6 +90,19 @@ const Scribante = () => {
 				<Card id="card-container" className="card-spacing">
 					<CardTitle title="All Lap Times" />
 					<CardBody>
+						<Link
+							to={`/add-vehicle`}
+							id="vehicle-model"
+							style={{ textAlign: "left" }}
+						>
+							<button
+								type="button"
+								class="btn btn-xo"
+								style={{ marginBottom: "10px" }}
+							>
+								Add Lap Time
+							</button>
+						</Link>
 						<DataTable
 							columns={columns}
 							data={data}
