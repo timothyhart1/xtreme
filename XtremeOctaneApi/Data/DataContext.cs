@@ -21,6 +21,8 @@ namespace XtremeOctaneApi.Data
         public DbSet<EventExpenseModel> EventExpenses { get; set; }
         public DbSet<ApplicationUser> AspNetUsers { get; set; }
         public DbSet<EventExpenseEditLog> EventExpenseEditLog { get; set; }
+        public DbSet<ExpenseCategory> ExpenseCategory { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

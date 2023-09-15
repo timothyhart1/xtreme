@@ -29,6 +29,7 @@ const EventExpenses = () => {
 	const [expenseName, setExpenseName] = useState("");
 	const [expenseAmount, setExpenseAmount] = useState();
 	const [expenseCategory, setExpenseCategory] = useState("");
+	const [expenseCategories, setExpenseCategories] = useState([]);
 
 	const getTotalExpenses = async () => {
 		const res = await axios
@@ -49,12 +50,22 @@ const EventExpenses = () => {
 		}
 	};
 
+	const fetchCategories = async () => {
+		try {
+			const res = await axios.get(`${API}/EventExpense/GetAllCategories`);
+			setExpenseCategories(res.data);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	useEffect(() => {
 		fetchData();
 		getTotalExpenses();
+		fetchCategories();
 	}, [eventId]);
 
-	const addExpense = async (e) => {
+	const AddExpense = async (e) => {
 		e.preventDefault();
 
 		const res = await axios.post(`${API}/EventExpense/AddNewEventExpense`, {
@@ -73,15 +84,6 @@ const EventExpenses = () => {
 			`${API}/EventExpense/DeleteExpense/${eventId}`
 		);
 	};
-
-	const expenseCategories = [
-		"",
-		"Food",
-		"Refreshments",
-		"Hiring",
-		"Lighting",
-		"Sound",
-	];
 
 	const columns = [
 		{
@@ -111,7 +113,7 @@ const EventExpenses = () => {
 		{
 			name: "Actions",
 			cell: (row) => (
-				<td
+				<div
 					className="event-items-icons text-center align-middle"
 					id="event-actions"
 				>
@@ -132,7 +134,7 @@ const EventExpenses = () => {
 						id="event-btns"
 						modalTitle={`Are you sure you want to delete ${row.expenseName}?`}
 					/>
-				</td>
+				</div>
 			),
 		},
 	];
@@ -144,7 +146,7 @@ const EventExpenses = () => {
 				<Card id="card-container">
 					<CardTitle title="Add Expense" />
 					<Row>
-						<Form id="event-form" onSubmit={addExpense}>
+						<Form id="event-form" onSubmit={AddExpense}>
 							<div className="event-container">
 								<Row>
 									<FormGroup id="event-form-group">
@@ -193,8 +195,8 @@ const EventExpenses = () => {
 												Select an option
 											</option>
 											{expenseCategories.map((category, index) => (
-												<option key={index} value={category}>
-													{category}
+												<option key={index} value={category.expenseCategoryId}>
+													{category.category}
 												</option>
 											))}
 										</Input>
@@ -205,6 +207,9 @@ const EventExpenses = () => {
 						<div className="btn-container">
 							<Link to={"/events"}>
 								<Button id="event-btn">Back</Button>
+							</Link>
+							<Link to={"/add-category"}>
+								<Button id="event-btn">Add Category</Button>
 							</Link>
 							<Button
 								type="submit"

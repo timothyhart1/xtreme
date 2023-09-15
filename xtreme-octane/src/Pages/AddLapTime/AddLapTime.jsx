@@ -28,12 +28,11 @@ const AddLapTime = () => {
 	const [conditions, setConditions] = useState("");
 	const [tyre, setTyre] = useState("");
 	const [vehicleClass, setVehicleClass] = useState("");
-	const [lapTimeScreenshot, setLapTimeScreenshot] = useState(null); // New state for lap time screenshot
+	const [lapTimeScreenshot, setLapTimeScreenshot] = useState(null);
 
 	const addLapTime = async (e) => {
 		e.preventDefault();
 
-		// Check if all required fields are filled
 		if (
 			!vehicleId ||
 			!lapTimeMinutes ||
@@ -50,7 +49,7 @@ const AddLapTime = () => {
 		}
 
 		const formData = new FormData();
-		formData.append("lapTimeScreenshot", lapTimeScreenshot); // Append the lap time screenshot file to the FormData
+		formData.append("lapTimeScreenshot", lapTimeScreenshot);
 
 		const queryParameters = new URLSearchParams();
 		queryParameters.append("memberId", memberId);
@@ -75,7 +74,6 @@ const AddLapTime = () => {
 				}
 			);
 
-			// Reset form and state
 			setVehicleId("");
 			setLapTimeMinutes("");
 			setLapTimeSeconds("");

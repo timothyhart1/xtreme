@@ -210,5 +210,41 @@ namespace XtremeOctaneApi.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while deleting the event");
             }
         }
+
+        // Delete the VehicleImage of a vehicle.
+        [HttpDelete("DeleteVehicleImage/{id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> DeleteVehicleImage(int id)
+        {
+            try
+            {
+                var vehicle = await _db.Vehicle.FindAsync(id);
+
+                if (vehicle == null)
+                {
+                    return BadRequest("No vehicle was found with a matching ID!");
+                }
+
+                if (!string.IsNullOrEmpty(vehicle.VehicleImage))
+                {
+                    string filePath = Path.Combine(Directory.GetCurrentDirectory(), "Documents", "Cars", vehicle.VehicleImage);
+
+                    if (System.IO.File.Exists(filePath))
+                    {
+                        System.IO.File.Delete(filePath);
+                    }
+                    vehicle.VehicleImage = null;
+
+                    await _db.SaveChangesAsync();
+                }
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while deleting the vehicle image");
+            }
+        }
     }
 }

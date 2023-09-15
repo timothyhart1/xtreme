@@ -35,6 +35,24 @@ namespace XtremeOctaneApi.Controllers
             }
         }
 
+        // Get all categories.
+        [HttpGet("EventExpense/GetAllCategories")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAllCategories()
+        {
+            try
+            {
+                var eventExpenses = await _db.ExpenseCategory
+                    .OrderBy(e => e.Category)
+                    .ToListAsync();
+                return Ok(eventExpenses);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
         // Get a single event expense.
         [HttpGet("EventExpense/GetExpenseSingle/{id}")]
         [AllowAnonymous]
@@ -78,7 +96,7 @@ namespace XtremeOctaneApi.Controllers
         }
 
         // Add an expense for an event.
-        [HttpPost, Route("EventExpense/AddNewEventExpense")]
+        [HttpPost("EventExpense/AddNewEventExpense")]
         [AllowAnonymous]
         public async Task<ActionResult<EventExpenseModel>> AddEventExpense ([FromBody] EventExpenseModel model)
         {
@@ -103,6 +121,31 @@ namespace XtremeOctaneApi.Controllers
             {
                 _logger.LogError(ex, "An error occurred while adding the event expense.");
                 return StatusCode(500, "An error occurred while posting the event expense");
+            }
+        }
+
+        // Add a category.
+        [HttpPost("EventExpense/AddCategory")]
+        [AllowAnonymous]
+        public async Task<ActionResult<ExpenseCategory>> AddExpenseCategory([FromBody] ExpenseCategory model)
+        {
+            try
+            {
+                var category = new ExpenseCategory
+                {
+                    ExpenseCategoryId = model.ExpenseCategoryId,
+                    Category = model.Category,
+                };
+
+                await _db.ExpenseCategory.AddAsync(category);
+                await _db.SaveChangesAsync();
+
+                return Ok(category);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while adding the category.");
+                return StatusCode(500, "An error occurred while adding the category");
             }
         }
 

@@ -25,6 +25,7 @@ import EditVehicle from "./Pages/EditVehicle/EditVehicle";
 import ViewSingleEvent from "./Pages/ViewSingleEvent/ViewSingleEvent";
 import ViewMember from "./Pages/ViewMember/viewMember";
 import AddLapTime from "./Pages/AddLapTime/AddLapTime";
+import AddCategory from "./Pages/AddCategory/AddCategory";
 
 function App() {
 	const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -158,6 +159,14 @@ function App() {
 							element={
 								<RequireAuth>
 									<AddVehicle />
+								</RequireAuth>
+							}
+						/>
+						<Route
+							path="add-category"
+							element={
+								<RequireAuth>
+									<AddCategory />
 								</RequireAuth>
 							}
 						/>
