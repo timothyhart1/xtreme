@@ -39,4 +39,9 @@ export const SidebarData = [
 		path: "/member-vehicles",
 		cName: "nav-text",
 	},
+	{
+		title: "Verify Members",
+		path: "/member-vehicles",
+		cName: "nav-text",
+	},
 ];
