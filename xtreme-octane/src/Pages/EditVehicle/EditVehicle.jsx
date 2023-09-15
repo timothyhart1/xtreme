@@ -31,9 +31,11 @@ const EditVehicle = () => {
 		mileage: null,
 		plate: "",
 		color: "",
+		hasImage: null,
 	});
 
-	const { manufacturer, model, year, mileage, plate, color } = vehicle;
+	const { manufacturer, model, year, mileage, plate, color, hasImage } =
+		vehicle;
 
 	const fetchData = async () => {
 		try {
@@ -78,8 +80,12 @@ const EditVehicle = () => {
 					"Content-Type": "multipart/form-data",
 				},
 			});
+
+			toast.success("Vehicle updated successfully!");
+			navigate("/member-vehicles");
 		} catch (error) {
 			console.error(error);
+			toast.error("An error occurred while updating the vehicle.");
 		}
 	};
 
@@ -87,23 +93,34 @@ const EditVehicle = () => {
 		setImageFile(e.target.files[0]);
 	};
 
+	const deleteVehicleImage = async (vehicleId) => {
+		const res = await axios.delete(
+			`${API}/Vehicle/DeleteVehicleImage/${vehicleId}`
+		);
+		toast.success("Vehicle Image Removed");
+		navigate("/member-vehicles");
+	};
+
 	return (
 		<Fragment>
 			<Container fluid={true}>
 				<Card id="card-container-edit-vehicle">
-					<div className="image-container" style={{ marginTop: "-20px" }}>
-						<img
-							src={`${API}/Vehicle/GetVehicleImage/${vehicleId}`}
-							alt="event-image"
-							className="edit-vehicle-image"
-						/>
-						<div className="gradient-overlay"></div>
-						<div className="text-overlay">
-							<p>
-								{year} {manufacturer} {model}
-							</p>
+					{vehicle && vehicle.hasImage && (
+						<div className="image-container" style={{ marginTop: "-20px" }}>
+							<img
+								src={`${API}/Vehicle/GetVehicleImage/${vehicleId}`}
+								alt="event-image"
+								className="edit-vehicle-image"
+							/>
+							<div className="gradient-overlay"></div>
+							<div className="text-overlay">
+								<p>
+									{year} {manufacturer} {model}
+								</p>
+							</div>
 						</div>
-					</div>
+					)}
+
 					<Row>
 						<CardBody>
 							<CardTitle title="Edit Vehicle" />
@@ -209,7 +226,15 @@ const EditVehicle = () => {
 												onChange={handleImageChange}
 											/>
 										</FormGroup>
+										<Button
+											type="button"
+											id="event-btn"
+											onClick={() => deleteVehicleImage(vehicleId)}
+										>
+											Delete Image
+										</Button>
 									</Row>
+									<br />
 									<Row>
 										<div className="btn-container" style={{ paddingLeft: "0" }}>
 											<Link to={"/member-vehicles"}>

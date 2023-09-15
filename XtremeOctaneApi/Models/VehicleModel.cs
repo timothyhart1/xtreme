@@ -15,6 +15,7 @@ namespace XtremeOctaneApi.Models
         public string Plate { get; set; }
         public string Color { get; set; }
         public string? VehicleImage { get; set; }
+        public bool? HasImage { get; set; }
 
         [ForeignKey(nameof(MemberId))]
         public MemberModel? Member { get; set; }

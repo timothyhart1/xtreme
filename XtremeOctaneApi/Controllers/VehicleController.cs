@@ -100,7 +100,7 @@ namespace XtremeOctaneApi.Controllers
 
         // Edit a vehicle.
         [HttpPut("EditVehicle/{id}")]
-        public async Task<ActionResult> EditVehicle(int id, IFormFile vehicleImage, int memberId, string manufacturer, string model,
+        public async Task<ActionResult> EditVehicle(int id, IFormFile? vehicleImage, int memberId, string manufacturer, string model,
             string year, int mileage, string plate, string color)
         {
             try
@@ -121,6 +121,11 @@ namespace XtremeOctaneApi.Controllers
                         }
 
                         vehicle.VehicleImage = fileName;
+                        vehicle.HasImage = true;
+                    }
+                    else
+                    {
+                        vehicle.HasImage = false;
                     }
 
                     vehicle.MemberId = memberId;
@@ -148,22 +153,36 @@ namespace XtremeOctaneApi.Controllers
         // Add a new vehicle.
         [HttpPost("AddVehicle")]
         [AllowAnonymous]
-        public async Task<ActionResult<VehicleModel>> AddVehicle(IFormFile image, int vehicleId, int memberId, string manufacturer, string model, string year, int mileage, 
-        string plate, string color)
+        public async Task<ActionResult<VehicleModel>> AddVehicle(
+            int vehicleId,
+            int memberId,
+            string manufacturer,
+            string model,
+            string year,
+            int mileage,
+            string plate,
+            string color,
+            IFormFile? image = null)
         {
             try
             {
-                string fileName = Guid.NewGuid() + Path.GetExtension(image.FileName);
-                string uploadfilepath = Path.Combine(Directory.GetCurrentDirectory(), "Documents\\Cars", fileName);
+                bool hasImage = image != null;
+                string fileName = hasImage ? Guid.NewGuid() + Path.GetExtension(image.FileName) : null;
 
-                using (var fileStream = new FileStream(uploadfilepath, FileMode.Create))
+                if (hasImage)
                 {
-                    await image.CopyToAsync(fileStream);
-                    await fileStream.FlushAsync();
-                };
+                    string uploadfilepath = Path.Combine(Directory.GetCurrentDirectory(), "Documents\\Cars", fileName);
+
+                    using (var fileStream = new FileStream(uploadfilepath, FileMode.Create))
+                    {
+                        await image.CopyToAsync(fileStream);
+                        await fileStream.FlushAsync();
+                    };
+                }
 
                 var vehicle = new VehicleModel
                 {
+                    VehicleId = vehicleId, // Assuming you want to assign the vehicleId here
                     MemberId = memberId,
                     Manufacturer = manufacturer,
                     Year = year,
@@ -171,7 +190,8 @@ namespace XtremeOctaneApi.Controllers
                     Mileage = mileage,
                     Plate = plate,
                     Color = color,
-                    VehicleImage = fileName
+                    VehicleImage = fileName,
+                    HasImage = hasImage
                 };
 
                 await _db.Vehicle.AddAsync(vehicle);
@@ -185,6 +205,9 @@ namespace XtremeOctaneApi.Controllers
                 return StatusCode(500, "An error occurred while posting the vehicle");
             }
         }
+
+
+
 
         // Delete a vehicle.
         [HttpDelete("DeleteVehicle/{id}")]
@@ -234,6 +257,7 @@ namespace XtremeOctaneApi.Controllers
                         System.IO.File.Delete(filePath);
                     }
                     vehicle.VehicleImage = null;
+                    vehicle.HasImage = false;
 
                     await _db.SaveChangesAsync();
                 }

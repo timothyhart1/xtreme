@@ -36,44 +36,37 @@ const AddVehicle = () => {
 	const uploadImage = async (e) => {
 		e.preventDefault();
 
-		if (
-			!manufacturer ||
-			!model ||
-			!year ||
-			!mileage ||
-			!plate ||
-			!colour ||
-			!imageFile
-		) {
+		if (!manufacturer || !model || !year || !mileage || !plate || !colour) {
 			return;
 		}
 
 		const formData = new FormData();
-		formData.append("image", imageFile);
+		formData.append("memberId", memberId);
+		formData.append("manufacturer", manufacturer);
+		formData.append("model", model);
+		formData.append("year", year);
+		formData.append("mileage", mileage);
+		formData.append("plate", plate);
+		formData.append("color", colour);
 
-		const queryParameters = new URLSearchParams();
-		queryParameters.append("memberId", memberId);
-		queryParameters.append("manufacturer", manufacturer);
-		queryParameters.append("model", model);
-		queryParameters.append("year", year);
-		queryParameters.append("mileage", mileage);
-		queryParameters.append("plate", plate);
-		queryParameters.append("color", colour);
+		// Check if imageFile is present before appending it
+		if (imageFile !== null && imageFile !== undefined) {
+			formData.append("image", imageFile);
+		}
 
-		const res = await axios
-			.post(
-				`${API}/Vehicle/AddVehicle?${queryParameters.toString()}`,
-				formData,
-				{
-					headers: {
-						"Content-Type": "multipart/form-data",
-					},
-				}
-			)
-			.then((response) => {})
-			.catch((err) => {
-				console.log(err);
+		try {
+			const response = await axios.post(`${API}/Vehicle/AddVehicle`, formData, {
+				headers: {
+					"Content-Type": "multipart/form-data",
+				},
 			});
+
+			console.log("Vehicle added successfully!");
+			toast.success("Vehicle added successfully!");
+		} catch (error) {
+			console.error(error);
+			toast.error("An error occurred while adding the vehicle.");
+		}
 	};
 
 	return (
@@ -183,7 +176,6 @@ const AddVehicle = () => {
 										<Input
 											type="file"
 											className="form-control image-input"
-											required={true}
 											onChange={getImage}
 											id="event-image-input"
 										/>
