@@ -17,7 +17,8 @@ namespace XtremeOctaneApi.Models
         public string? PhoneNumber { get; set; }
         public string? Gender { get; set; }
         public DateTime CreateDate { get; set; }
-        public Boolean? Deleted { get; set; }
+        public bool? Deleted { get; set; }
+        public bool? Verified { get; set; }
 
         [ForeignKey("UserId")]
         public ApplicationUser? User { get; set; }

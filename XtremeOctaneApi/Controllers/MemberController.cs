@@ -27,6 +27,7 @@ namespace XtremeOctaneApi.Controllers
             try
             {
                 var members = await _db.Member
+                    .Where(m => m.Verified == true)
                     .OrderBy(m => m.Deleted)
                     .ThenBy(m => m.Name)
                     .ToListAsync();
@@ -82,7 +83,8 @@ namespace XtremeOctaneApi.Controllers
                     memberProfile.PhoneNumber = member.PhoneNumber;
                     memberProfile.Gender = member.Gender;
                     memberProfile.CreateDate = _db.Member.Where(e => e.MemberId == id).Select(e => e.CreateDate).FirstOrDefault();
-                    memberProfile.Deleted = false;
+                    memberProfile.Deleted = memberProfile.Deleted;
+                    memberProfile.Verified = memberProfile.Verified;
                 }
 
                 _db.SaveChanges();
@@ -123,6 +125,34 @@ namespace XtremeOctaneApi.Controllers
             }
         }
 
+        // Verify a member.
+        [HttpPut("VerifyMember/{memberId}")]
+        [AllowAnonymous]
+        public ActionResult VerifyMember(int memberId)
+        {
+            try
+            {
+                var memberProfile = _db.Member.FirstOrDefault(e => e.MemberId == memberId);
+
+                if (memberProfile != null)
+                {
+                    memberProfile.Verified = true;
+                    _db.SaveChanges();
+                    return Ok(memberProfile);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "There was an error reinstating the member");
+                return BadRequest(ex.Message);
+            }
+        }
+
+
 
         // Create a new member.
         [HttpPost("AddNewMember")]
@@ -144,7 +174,9 @@ namespace XtremeOctaneApi.Controllers
                     City = memberModel.City,
                     PhoneNumber = memberModel.PhoneNumber,
                     Gender = memberModel.Gender,
-                    CreateDate = DateTime.Now
+                    CreateDate = DateTime.Now,
+                    Deleted = false,
+                    Verified = false,
                 };
 
                 await _db.Member.AddAsync(member);
