@@ -26,6 +26,7 @@ import ViewSingleEvent from "./Pages/ViewSingleEvent/ViewSingleEvent";
 import ViewMember from "./Pages/ViewMember/viewMember";
 import AddLapTime from "./Pages/AddLapTime/AddLapTime";
 import AddCategory from "./Pages/AddCategory/AddCategory";
+import VerifyMembers from "./Pages/VerifyMembers/VerifyMembers";
 
 function App() {
 	const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -183,6 +184,14 @@ function App() {
 							element={
 								<RequireAuth>
 									<MemberVehicles />
+								</RequireAuth>
+							}
+						/>
+						<Route
+							path="verify-members"
+							element={
+								<RequireAuth>
+									<VerifyMembers />
 								</RequireAuth>
 							}
 						/>

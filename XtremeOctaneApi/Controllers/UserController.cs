@@ -53,44 +53,55 @@ namespace XtremeOctaneApi.Controllers
 
             if (result.Succeeded)
             {
-                if (!await _roleManager.RoleExistsAsync(userRole))
-                {
-                    await _roleManager.CreateAsync(new IdentityRole(userRole));
-                }
+                // Check if the "User" role exists
+                var userRoleExists = await _roleManager.RoleExistsAsync(userRole);
 
-                if (await _roleManager.RoleExistsAsync(UserRoles.Admin))
+                // Assign the "User" role to the user if it exists
+                if (userRoleExists)
                 {
                     await _userManager.AddToRoleAsync(user, userRole);
+                    _logger.LogInformation($"User '{user.UserName}' assigned to role '{userRole}'.");
+                }
+                else
+                {
+                    _logger.LogError($"Role '{userRole}' does not exist.");
+                    // Handle the situation where the "User" role is missing (e.g., throw an exception or return an error response).
+                    // You can decide on the appropriate action based on your application's requirements.
+                    return BadRequest("Role 'User' does not exist.");
                 }
 
                 // Authenticate the newly created user
                 await _signInManager.SignInAsync(user, isPersistent: false);
 
-          
-                    MemberModel member = new MemberModel
-                    {
-                        Email = user.UserName,
-                        UserId = user.Id,
-                        Name = null,
-                        Surname = null,
-                        City = null,
-                        PhoneNumber = null,
-                        Gender = null,
-                        CreateDate = DateTime.Now
-                    };
+                MemberModel member = new MemberModel
+                {
+                    Email = user.UserName,
+                    UserId = user.Id,
+                    Name = null,
+                    Surname = null,
+                    City = null,
+                    PhoneNumber = null,
+                    Gender = null,
+                    CreateDate = DateTime.Now
+                };
 
-                    await _db.Member.AddAsync(member);
-                    await _db.SaveChangesAsync();
+                await _db.Member.AddAsync(member);
+                await _db.SaveChangesAsync();
 
-                    return Ok();
+                return Ok();
             }
             else
             {
                 await _userManager.DeleteAsync(user);
                 var errors = result.Errors.Select(e => e.Description).ToList();
+                _logger.LogError($"User creation failed. Errors: {string.Join(", ", errors)}");
                 return BadRequest(errors);
             }
         }
+
+
+
+
 
 
         [HttpPost, Route("Login")]

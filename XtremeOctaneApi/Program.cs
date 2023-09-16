@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using WebApi.Helpers;
 using XtremeOctaneApi.Services.EventService;
 using XtremeOctaneApi.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -95,6 +96,14 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Lockout.MaxFailedAccessAttempts = 3;
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
     options.Lockout.AllowedForNewUsers = true;
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy =>
+    {
+        policy.RequireRole("Admin"); // Require the "Admin" role for this policy
+    });
 });
 
 builder.Services.AddCors(options =>
