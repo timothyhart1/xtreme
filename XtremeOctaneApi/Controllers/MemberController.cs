@@ -45,6 +45,31 @@ namespace XtremeOctaneApi.Controllers
             }
         }
 
+        [HttpGet("GetAllNonVerifiedMembers")]
+        public async Task<IActionResult> GetAllNonVerifiedMembers()
+        {
+            try
+            {
+                var members = await _db.Member
+                    .Where(m => m.Verified != true)
+                    .OrderBy(m => m.Name == null ? 1 : 0) // Order null values last
+                    .ThenBy(m => m.Name) // Order by name
+                    .ToListAsync();
+
+                if (members == null || !members.Any())
+                {
+                    return NotFound("No members are available!");
+                }
+                return Ok(members);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while fetching the members");
+                return StatusCode(500, "An error occurred while fetching the members");
+            }
+        }
+
+
         // Get a single member
         [HttpGet("GetSingleMember/{id}")]
         public async Task<ActionResult<MemberModel>> GetMemberById(int id)

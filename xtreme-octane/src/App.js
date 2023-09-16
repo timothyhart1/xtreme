@@ -27,6 +27,7 @@ import ViewMember from "./Pages/ViewMember/viewMember";
 import AddLapTime from "./Pages/AddLapTime/AddLapTime";
 import AddCategory from "./Pages/AddCategory/AddCategory";
 import VerifyMembers from "./Pages/VerifyMembers/VerifyMembers";
+import VerifyMember from "./Pages/VerifyMember/VerifyMember";
 
 function App() {
 	const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -192,6 +193,14 @@ function App() {
 							element={
 								<RequireAuth>
 									<VerifyMembers />
+								</RequireAuth>
+							}
+						/>
+						<Route
+							path="verify-member/:memberId"
+							element={
+								<RequireAuth>
+									<VerifyMember />
 								</RequireAuth>
 							}
 						/>
