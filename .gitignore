@@ -1,37 +1,48 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
+# Ignore node_modules directory
 /node_modules
+
+# Ignore .pnp and .pnp.js files
 /.pnp
 .pnp.js
+
+# Ignore Visual Studio index files
 *.vsidx
+
+# Ignore Visual Studio user-specific files
 *.suo
+
+# Ignore binary files
 *.bin
 *.dll
 *.pbd
+
+# Ignore cache files
 *.cache
 
-
-# Dependency folders
+# Ignore obj directory
 /obj/
-/XtremeOctaneApi/bin
 
-# testing
-/coverage
-
-# production
+# Ignore build directory
 /build
 
-# misc
+# Ignore coverage directory
+/coverage
+
+# Ignore .DS_Store files (macOS specific)
 .DS_Store
+
+# Ignore local environment files
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
+# Ignore npm and yarn debug logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Ignore Visual Studio project metadata
 XtremeOctaneApi/.vs/ProjectEvaluation/xtremeoctaneapi.metadata.v7.bin
 XtremeOctaneApi/.vs/ProjectEvaluation/projects.v7.bin
 XtremeOctaneApi/.vs/XtremeOctaneApi/v17/.futdcache.v2
