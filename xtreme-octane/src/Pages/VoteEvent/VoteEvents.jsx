@@ -1,17 +1,9 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, Fragment, useCallback } from "react";
 import axios from "axios";
-import { Link, useParams } from "react-router-dom";
-import CardTitle from "../CardTitle/CardTitle";
-import { ToastContainer, toast } from "react-toastify";
+import { useParams } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {
-	Card,
-	CardBody,
-	Container,
-	CardSubtitle,
-	CardText,
-	Button,
-} from "reactstrap";
+import { Card, Container, Button } from "reactstrap";
 import { FaCheckCircle } from "react-icons/fa";
 import "../../Styles/styles.css";
 
@@ -22,34 +14,42 @@ const VoteEvent = () => {
 	const [vote, setVote] = useState("");
 	const memberId = sessionStorage.getItem("MemberId");
 	const [voteResult, setVoteResult] = useState("");
+	const token = sessionStorage.getItem("Token");
 
-	const getMemberVote = async () => {
+	const getMemberVote = useCallback(async () => {
 		const res = await axios.get(
 			`${API}/EventVote/MemberEventVote/${eventId.slice(1)}`,
 			{
 				params: {
 					memberId: memberId,
 				},
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
 			}
 		);
 		setVoteResult(res.data);
-	};
+	}, [API, eventId, memberId, token]);
 
 	useEffect(() => {
 		async function fetchData() {
 			try {
 				const res = await axios.get(
-					`${API}/Event/GetSingleEvent/${eventId.slice(1)}`
+					`${API}/Event/GetSingleEvent/${eventId.slice(1)}`,
+					{
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					}
 				);
 				setData(res.data);
-				console.log(res.data);
 			} catch (error) {
 				console.log(error);
 			}
 		}
 		fetchData();
 		getMemberVote();
-	}, []);
+	}, [API, eventId, token, getMemberVote]);
 
 	const handleButtonClick = (value) => {
 		setVote(value);
@@ -63,8 +63,14 @@ const VoteEvent = () => {
 			{
 				memberId: memberId,
 				vote: vote,
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
 			}
 		);
+		return res.data;
 	};
 
 	return (

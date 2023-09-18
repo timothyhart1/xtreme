@@ -1,11 +1,10 @@
 import React, { useState, useEffect, Fragment } from "react";
 import "../../Styles/styles.css";
 import axios from "axios";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import CardTitle from "../CardTitle/CardTitle";
 import ModalDeleteEvent from "../Modal/Modal";
-import { FaRegEdit, FaRegEye, FaPlus } from "react-icons/fa";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
 	Row,

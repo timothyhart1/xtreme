@@ -4,7 +4,7 @@ import axios from "axios";
 import { Card, CardBody, Container } from "reactstrap";
 import ModalDeleteEvent from "../Modal/Modal";
 import { FaEye, FaPlus } from "react-icons/fa";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CardTitle from "../CardTitle/CardTitle";
 import DataTable from "react-data-table-component";
@@ -13,7 +13,6 @@ import { Link } from "react-router-dom";
 const VerifyMembers = () => {
 	const API = window.appConfig.API;
 	const [data, setData] = useState([]);
-	const [filteredData, setFilteredData] = useState([]);
 	const [updateTrigger, setUpdateTrigger] = useState(0);
 
 	useEffect(() => {
@@ -21,23 +20,24 @@ const VerifyMembers = () => {
 			try {
 				const res = await axios.get(`${API}/Member/GetAllNonVerifiedMembers`);
 				setData(res.data);
-				setFilteredData(res.data);
 			} catch (error) {
 				console.log(error);
 			}
 		}
 		fetchData();
-	}, [updateTrigger]);
+	}, [API, updateTrigger]);
 
 	const deleteEvent = async (vehicleId) => {
 		const res = await axios.delete(`${API}/Member/DeleteMember/${vehicleId}`);
 		setUpdateTrigger(updateTrigger + 1);
+		return res;
 	};
 
 	const reinstateMember = async (memberId) => {
 		try {
 			const res = await axios.put(`${API}/Member/ReinstateMember/${memberId}`);
 			setUpdateTrigger(updateTrigger + 1);
+			return res;
 		} catch (e) {
 			console.error(e.message);
 		}
@@ -119,7 +119,7 @@ const VerifyMembers = () => {
 					<CardBody>
 						<DataTable
 							columns={columns}
-							data={filteredData}
+							data={data}
 							fixedHeader
 							pagination
 							className="data-table-xo"

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, Fragment, useCallback } from "react";
 import axios from "axios";
 import { Tooltip, BarChart, XAxis, YAxis, Bar } from "recharts";
 import { Link, useParams } from "react-router-dom";
@@ -13,7 +13,7 @@ const ViewEventVotes = () => {
 	const { eventId } = useParams();
 	const [voteData, setVoteData] = useState([]);
 
-	const fetchData = async () => {
+	const fetchData = useCallback(async () => {
 		try {
 			const res = await axios.get(`${API}/EventVote/GetEventVotes/${eventId}`);
 			const { yesVotes, noVotes, maybeVotes } = res.data;
@@ -27,9 +27,9 @@ const ViewEventVotes = () => {
 		} catch (error) {
 			console.log(error);
 		}
-	};
+	}, [API, eventId]);
 
-	const fetchMemberVotes = async () => {
+	const fetchMemberVotes = useCallback(async () => {
 		try {
 			const res = await axios.get(
 				`${API}/EventVote/GetMemberVoteDetails/${eventId}`
@@ -39,12 +39,12 @@ const ViewEventVotes = () => {
 		} catch (error) {
 			console.log(error);
 		}
-	};
+	}, [API, eventId]);
 
 	useEffect(() => {
 		fetchData();
 		fetchMemberVotes();
-	}, [API]);
+	}, [fetchData, fetchMemberVotes]);
 
 	return (
 		<Fragment>

@@ -1,20 +1,11 @@
 import React, { useState, useEffect, Fragment } from "react";
 import "../../Styles/styles.css";
 import axios from "axios";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import CardTitle from "../CardTitle/CardTitle";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {
-	Card,
-	CardBody,
-	Container,
-	CardSubtitle,
-	CardText,
-	Button,
-	Row,
-	Col,
-} from "reactstrap";
+import { Card, CardBody, Container, Button, Row, Col } from "reactstrap";
 
 const VerifyMember = () => {
 	const API = window.appConfig.API;
@@ -57,7 +48,7 @@ const VerifyMember = () => {
 		}
 		fetchData();
 		fetchMemberVehicles();
-	}, [memberId]);
+	}, [API, token, memberId]);
 
 	const verifyMember = async (memberId) => {
 		try {

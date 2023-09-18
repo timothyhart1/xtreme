@@ -3,16 +3,9 @@ import "../../Styles/styles.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import CardTitle from "../CardTitle/CardTitle";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {
-	Card,
-	CardBody,
-	Container,
-	CardSubtitle,
-	CardText,
-	Button,
-} from "reactstrap";
+import { Card, CardBody, Container, CardSubtitle, Button } from "reactstrap";
 
 const ViewEvents = () => {
 	const API = window.appConfig.API;
@@ -33,7 +26,7 @@ const ViewEvents = () => {
 			}
 		}
 		fetchData();
-	}, []);
+	}, [API, token]);
 
 	return (
 		<Fragment>
@@ -42,32 +35,30 @@ const ViewEvents = () => {
 				<Card id="card-container" className="card-spacing">
 					<CardTitle title="View Events" />
 					<CardBody id="event-card-body">
-						{data.map((item) => (
-							<Card
-								key={item.eventId} // Add a unique key prop here
-								id="event-card-container"
-								className="event-card-item"
-							>
-								<img
-									alt="Sample"
-									src={`${API}/Event/GetEventImage/${item.eventId}`}
-									className="event-image"
-								/>
-								<CardBody>
-									<CardSubtitle className="mb-2 event-header event-centre">
-										{item.eventName} - {item.eventDate.slice(0, 10)}
-									</CardSubtitle>
-									<div className="event-btn-container">
-										<Link
-											to={`/view-event/${item.eventId}`}
-											style={{ width: "100%" }}
-										>
-											<Button id="event-btn-card">View Event</Button>
-										</Link>
-									</div>
-								</CardBody>
-							</Card>
-						))}
+						{data.map((item, index) => {
+							return (
+								<Card id="event-card-container" className="event-card-item">
+									<img
+										alt="Sample"
+										src={`${API}/Event/GetEventImage/${item.eventId}`}
+										className="event-image"
+									/>
+									<CardBody>
+										<CardSubtitle className="mb-2 event-header event-centre">
+											{item.eventName} - {item.eventDate.slice(0, 10)}
+										</CardSubtitle>
+										<div className="event-btn-container">
+											<Link
+												to={`/view-event/${item.eventId}`}
+												style={{ width: "100%" }}
+											>
+												<Button id="event-btn-card">View Event</Button>
+											</Link>
+										</div>
+									</CardBody>
+								</Card>
+							);
+						})}
 					</CardBody>
 				</Card>
 			</Container>

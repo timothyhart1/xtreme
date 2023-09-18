@@ -12,8 +12,6 @@ import DataTable from "react-data-table-component";
 const Vehicles = () => {
 	const API = window.appConfig.API;
 	const [data, setData] = useState([]);
-	const [eventName, setEventName] = useState("");
-	const [eventDesc, setEventDesc] = useState("");
 	const [filteredData, setFilteredData] = useState([]);
 
 	useEffect(() => {

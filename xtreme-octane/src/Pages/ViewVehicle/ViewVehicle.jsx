@@ -1,25 +1,14 @@
 import React, { useState, useEffect, Fragment } from "react";
 import "../../Styles/styles.css";
 import axios from "axios";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import CardTitle from "../CardTitle/CardTitle";
-import { ToastContainer, toast } from "react-toastify";
+import { useParams, useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {
-	Card,
-	CardBody,
-	Container,
-	CardSubtitle,
-	CardText,
-	Button,
-	Row,
-	Col,
-} from "reactstrap";
+import { Card, CardBody, Container, Button, Row, Col } from "reactstrap";
 
 const ViewVehicle = () => {
 	const API = window.appConfig.API;
 	const [data, setData] = useState([]);
-	const [vehicleData, setVehicleData] = useState([]);
 	const token = sessionStorage.getItem("Token");
 	const { vehicleId } = useParams();
 	const navigate = useNavigate();
@@ -41,7 +30,7 @@ const ViewVehicle = () => {
 			}
 		}
 		fetchData();
-	}, [vehicleId]);
+	}, [vehicleId, API, token]);
 
 	return (
 		<Fragment>
@@ -51,7 +40,7 @@ const ViewVehicle = () => {
 					<div className="image-container" style={{ marginTop: "-20px" }}>
 						<img
 							src={`${API}/Vehicle/GetVehicleImage/${vehicleId}`}
-							alt="event-image"
+							alt="Vehicle"
 							className="edit-vehicle-image"
 						/>
 						<div className="gradient-overlay"></div>
