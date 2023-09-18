@@ -13,6 +13,7 @@ using WebApi.Helpers;
 using XtremeOctaneApi.Services.EventService;
 using XtremeOctaneApi.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using XtremeOctaneApi.Services.EventExpenses;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,6 +50,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 // Dependency Injection.
 builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddScoped<IEventExpenseService, EventExpenseService>();
 builder.Services.AddScoped<UserManager<ApplicationUser>>();
 builder.Services.AddScoped<IUserService, UserService>();
 

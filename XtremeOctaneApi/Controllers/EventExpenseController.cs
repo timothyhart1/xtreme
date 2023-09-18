@@ -1,252 +1,89 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using XtremeOctaneApi.Data;
 using XtremeOctaneApi.Models;
+using XtremeOctaneApi.Services.EventExpenses;
 
 namespace XtremeOctaneApi.Controllers
 {
+    [Route("[controller]")]
+    [ApiController]
     public class EventExpenseController : ControllerBase
     {
-        private readonly ILogger<EventController> _logger;
-        private readonly DataContext _db;
-        public EventExpenseController(DataContext db, ILogger<EventController> logger) 
+        private readonly IEventExpenseService _eventExpenseService;
+
+        public EventExpenseController(IEventExpenseService eventExpenseService)
         {
-            _db = db;
-            _logger = logger;
+            _eventExpenseService = eventExpenseService;
         }
 
         // Get all expenses of an event.
-        [HttpGet("EventExpense/GetEventExpenses/{id}")]
+        [HttpGet("GetEventExpenses/{id}")]
         [AllowAnonymous]
         public async Task<IActionResult> GetEventExpenses(int id)
         {
-            try
-            {
-                var eventExpenses = await _db.EventExpenses.Where(e => e.EventId == id)
-                    .Where(e => e.Active == true)
-                    .OrderBy(e => e.ExpenseAmount)
-                    .ToListAsync();
-                return Ok(eventExpenses);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
+            return await _eventExpenseService.GetEventExpenses(id);
         }
 
         // Get all categories.
-        [HttpGet("EventExpense/GetAllCategories")]
+        [HttpGet("GetAllCategories")]
         [AllowAnonymous]
         public async Task<IActionResult> GetAllCategories()
         {
-            try
-            {
-                var eventExpenses = await _db.ExpenseCategory
-                    .OrderBy(e => e.Category)
-                    .ToListAsync();
-                return Ok(eventExpenses);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
+            return await _eventExpenseService.GetAllCategories();
         }
 
         // Get a single event expense.
-        [HttpGet("EventExpense/GetExpenseSingle/{id}")]
+        [HttpGet("GetExpenseSingle/{id}")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetEventExpenseById (int id)
+        public async Task<IActionResult> GetEventExpenseById(int id)
         {
-            try
-            {
-                var eventExpenses = await _db.EventExpenses.Where(e => e.EventExpenseId == id)
-                    .SingleOrDefaultAsync();
-
-                if(eventExpenses == null)
-                {
-                    return NotFound();
-                }
-
-                return Ok(eventExpenses);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
+            return await _eventExpenseService.GetEventExpenseById(id);
         }
 
         // Get total amount of expenses for an event.
-        [HttpGet("EventExpense/EventExpenseTotal/{id}")]
+        [HttpGet("EventExpenseTotal/{id}")]
         [AllowAnonymous]
         public async Task<IActionResult> GetEventExpensesTotal(int id)
         {
-            try
-            {
-                var totalExpenses = await _db.EventExpenses
-                    .Where(e => e.EventId == id)
-                    .SumAsync(e => e.ExpenseAmount);
-
-                return Ok(new { TotalExpenses = totalExpenses });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
+            return await _eventExpenseService.GetEventExpensesTotal(id);
         }
 
         // Add an expense for an event.
-        [HttpPost("EventExpense/AddNewEventExpense")]
+        [HttpPost("AddNewEventExpense")]
         [AllowAnonymous]
-        public async Task<ActionResult<EventExpenseModel>> AddEventExpense ([FromBody] EventExpenseModel model)
+        public async Task<ActionResult<EventExpenseModel>> AddEventExpense([FromBody] EventExpenseModel model)
         {
-            try
-            {
-                var eventExpenses = new EventExpenseModel
-                {
-                    EventId = model.EventId,
-                    ExpenseName = model.ExpenseName,
-                    ExpenseAmount = model.ExpenseAmount,
-                    AddedBy = model.AddedBy,
-                    CreateDate = DateTime.Now,
-                    Category = model.Category,
-                };
-
-                await _db.EventExpenses.AddAsync(eventExpenses);
-                await _db.SaveChangesAsync();
-
-                return Ok(eventExpenses);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while adding the event expense.");
-                return StatusCode(500, "An error occurred while posting the event expense");
-            }
+            return await _eventExpenseService.AddEventExpense(model);
         }
 
         // Add a category.
-        [HttpPost("EventExpense/AddCategory")]
+        [HttpPost("AddCategory")]
         [AllowAnonymous]
         public async Task<ActionResult<ExpenseCategory>> AddExpenseCategory([FromBody] ExpenseCategory model)
         {
-            try
-            {
-                var category = new ExpenseCategory
-                {
-                    ExpenseCategoryId = model.ExpenseCategoryId,
-                    Category = model.Category,
-                };
-
-                await _db.ExpenseCategory.AddAsync(category);
-                await _db.SaveChangesAsync();
-
-                return Ok(category);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while adding the category.");
-                return StatusCode(500, "An error occurred while adding the category");
-            }
+            return await _eventExpenseService.AddExpenseCategory(model);
         }
 
         // Edit an event expense.
-        [HttpPut("EventExpense/EditEventExpense/{id}")]
+        [HttpPut("EditEventExpense/{id}")]
         [AllowAnonymous]
         public async Task<IActionResult> EditEventExpense(int id, [FromBody] EventExpenseModel model)
         {
-            try
-            {
-                var eventExpense = await _db.EventExpenses.FirstOrDefaultAsync(e => e.EventExpenseId == id);
-
-                if (eventExpense != null)
-                {
-                    var previousEventExpense = new EventExpenseModel
-                    {
-                        EventId = eventExpense.EventId,
-                        ExpenseName = eventExpense.ExpenseName,
-                        ExpenseAmount = eventExpense.ExpenseAmount,
-                        AddedBy = eventExpense.AddedBy,
-                    };
-
-                    eventExpense.EventId = model.EventId;
-                    eventExpense.ExpenseName = model.ExpenseName;
-                    eventExpense.ExpenseAmount = model.ExpenseAmount;
-                    eventExpense.AddedBy = model.AddedBy;
-
-                    await _db.SaveChangesAsync();
-
-                    var editLog = new EventExpenseEditLog
-                    {
-                        EventExpenseId = id,
-                        EditedAt = DateTime.UtcNow,
-                        MemberId = model.MemberId ?? 0, 
-                        PreviousValue = previousEventExpense.ExpenseAmount.ToString(),
-                        NewValue = model.ExpenseAmount.ToString(),
-                        PreviousExpenseName = previousEventExpense.ExpenseName,
-                        NewExpenseName = model.ExpenseName,
-                    };
-
-                    _db.EventExpenseEditLog.Add(editLog);
-                    await _db.SaveChangesAsync();
-                }
-
-                return Ok(eventExpense);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "There was an error editing the event expense.");
-                return BadRequest(ex.Message);
-            }
+            return await _eventExpenseService.EditEventExpense(id, model);
         }
-
 
         // Delete an event expense
-        [HttpDelete("EventExpense/DeleteExpense/{id}")]
+        [HttpDelete("DeleteExpense/{id}")]
         [AllowAnonymous]
-        public async Task<IActionResult> DeleteEventExpense(int id, [FromBody] EventExpenseModel model)
+        public async Task<IActionResult> DeleteEventExpense(int id)
         {
-            try
-            {
-                var eventExpense = await _db.EventExpenses.FirstOrDefaultAsync(e => e.EventExpenseId == id);
-
-                if (eventExpense == null)
-                {
-                    return BadRequest("No event expense was found with a matching ID!");
-                }
-
-                var previousEventExpense = new EventExpenseModel
-                {
-                    EventId = eventExpense.EventId,
-                    ExpenseName = eventExpense.ExpenseName,
-                    ExpenseAmount = eventExpense.ExpenseAmount,
-                    AddedBy = eventExpense.AddedBy,
-                };
-
-                eventExpense.Active = false;
-
-                await _db.SaveChangesAsync();
-
-                var editLog = new EventExpenseEditLog
-                {
-                    EventExpenseId = id,
-                    EditedAt = DateTime.UtcNow,
-                    MemberId = model.MemberId ?? 0,
-                    PreviousValue = previousEventExpense.ExpenseAmount.ToString(),
-                    NewValue = "Deleted",
-                    PreviousExpenseName = previousEventExpense.ExpenseName,
-                    NewExpenseName = model.ExpenseName,
-                };
-
-                _db.EventExpenseEditLog.Add(editLog);
-                await _db.SaveChangesAsync();
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while deleting the event expense.");
-            }
+            return await _eventExpenseService.DeleteEventExpense(id);
         }
-
     }
 }

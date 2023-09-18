@@ -31,6 +31,7 @@ const EventExpenses = () => {
 	const [expenseCategory, setExpenseCategory] = useState("");
 	const [expenseCategories, setExpenseCategories] = useState([]);
 
+	const memberId = sessionStorage.getItem("MemberId");
 	const getTotalExpenses = async () => {
 		const res = await axios
 			.get(`${API}/EventExpense/EventExpenseTotal/${eventId}`)
@@ -66,6 +67,8 @@ const EventExpenses = () => {
 	}, [eventId]);
 
 	const AddExpense = async (e) => {
+		console.log("hdhdh");
+
 		e.preventDefault();
 
 		const res = await axios.post(`${API}/EventExpense/AddNewEventExpense`, {
@@ -74,15 +77,18 @@ const EventExpenses = () => {
 			expenseAmount: expenseAmount,
 			addedBy: "tim",
 			category: expenseCategory,
+			memberId: memberId,
 		});
+		console.log(res.status);
 		fetchData();
 		getTotalExpenses();
 	};
 
-	const deleteEventExpense = async (eventId) => {
+	const deleteEventExpense = async (eventExpenseId) => {
 		const res = await axios.delete(
-			`${API}/EventExpense/DeleteExpense/${eventId}`
+			`${API}/EventExpense/DeleteExpense/${eventExpenseId}`
 		);
+		console.log(res);
 	};
 
 	const columns = [
@@ -203,26 +209,26 @@ const EventExpenses = () => {
 									</FormGroup>
 								</Row>
 							</div>
+							<div className="btn-container">
+								<Link to={"/events"}>
+									<Button id="event-btn">Back</Button>
+								</Link>
+								<Link to={"/add-category"}>
+									<Button id="event-btn">Add Category</Button>
+								</Link>
+								<Button
+									type="submit"
+									id="event-btn"
+									style={{
+										backgroundColor: "#ffc107",
+										color: "#000",
+										borderColor: "#ffc107",
+									}}
+								>
+									Add Expense
+								</Button>
+							</div>
 						</Form>
-						<div className="btn-container">
-							<Link to={"/events"}>
-								<Button id="event-btn">Back</Button>
-							</Link>
-							<Link to={"/add-category"}>
-								<Button id="event-btn">Add Category</Button>
-							</Link>
-							<Button
-								type="submit"
-								id="event-btn"
-								style={{
-									backgroundColor: "#ffc107",
-									color: "#000",
-									borderColor: "#ffc107",
-								}}
-							>
-								Add Expense
-							</Button>
-						</div>
 					</Row>
 				</Card>
 				<Card id="card-container" className="card-spacing">
