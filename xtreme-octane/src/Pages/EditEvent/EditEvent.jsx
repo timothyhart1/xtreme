@@ -136,24 +136,24 @@ const EditEvent = () => {
 									</FormGroup>
 								</Row>
 							</div>
+							<div className="btn-container">
+								<Link to={"/events"}>
+									<Button id="event-btn">Back</Button>
+								</Link>
+								<Button
+									color="primary"
+									type="submit"
+									id="event-btn"
+									style={{
+										backgroundColor: "#ffc107",
+										color: "#000",
+										borderColor: "#ffc107",
+									}}
+								>
+									Update Event
+								</Button>
+							</div>
 						</Form>
-						<div className="btn-container">
-							<Link to={"/events"}>
-								<Button id="event-btn">Back</Button>
-							</Link>
-							<Button
-								color="primary"
-								type="submit"
-								id="event-btn"
-								style={{
-									backgroundColor: "#ffc107",
-									color: "#000",
-									borderColor: "#ffc107",
-								}}
-							>
-								Update Event
-							</Button>
-						</div>
 					</Row>
 				</Card>
 			</Container>

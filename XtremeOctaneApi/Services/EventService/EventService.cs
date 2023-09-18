@@ -1,28 +1,32 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using XtremeOctaneApi.Data;
 using XtremeOctaneApi.Models;
-using XtremeOctaneApi.Repositories;
 
 namespace XtremeOctaneApi.Services.EventService
 {
     public class EventService : IEventService
     {
-        private readonly IEventRepository _eventRepository;
+        private readonly DataContext _db;
 
-        public EventService(IEventRepository eventRepository)
+        public EventService(DataContext db)
         {
-            _eventRepository = eventRepository;
+            _db = db;
         }
 
         public async Task<IEnumerable<EventModel>> GetAllEvents()
         {
-            return await _eventRepository.GetAllEvents();
+            return await _db.Event.Where(e => e.Deleted != true).ToListAsync();
         }
 
         public async Task<EventModel> GetEventById(int id)
         {
-            return await _eventRepository.GetEventById(id);
+            return await _db.Event.FirstOrDefaultAsync(e => e.EventId == id);
         }
 
         public async Task<int> AddEvent(IFormFile image, string eventName, string eventDesc)
@@ -45,12 +49,15 @@ namespace XtremeOctaneApi.Services.EventService
                 Deleted = false
             };
 
-            return await _eventRepository.AddEvent(newEvent);
+            _db.Event.Add(newEvent);
+            await _db.SaveChangesAsync();
+
+            return newEvent.EventId;
         }
 
         public async Task<bool> EditEvent(int id, IFormFile eventImage, string eventName, string eventDesc, DateTime eventDate, bool deleted)
         {
-            var existingEvent = await _eventRepository.GetEventById(id);
+            var existingEvent = await _db.Event.FindAsync(id);
             if (existingEvent == null)
             {
                 return false;
@@ -75,26 +82,32 @@ namespace XtremeOctaneApi.Services.EventService
             existingEvent.EventDate = eventDate;
             existingEvent.Deleted = deleted;
 
-            return await _eventRepository.UpdateEvent(existingEvent);
+            await _db.SaveChangesAsync();
+
+            return true;
         }
 
         public async Task<bool> DeleteEvent(int id)
         {
-            var existingEvent = await _eventRepository.GetEventById(id);
+            var existingEvent = await _db.Event.FindAsync(id);
             if (existingEvent == null)
             {
                 return false;
             }
 
             existingEvent.Deleted = true;
-            return await _eventRepository.UpdateEvent(existingEvent);
+            await _db.SaveChangesAsync();
+
+            return true;
         }
 
         public async Task<bool> RestoreEvent(int id)
         {
-            var existingEvent = await _eventRepository.GetEventById(id);
+            var existingEvent = await _db.Event.FindAsync(id);
             existingEvent.Deleted = false;
-            return await _eventRepository.UpdateEvent(existingEvent);
+            await _db.SaveChangesAsync();
+
+            return true;
         }
     }
 }

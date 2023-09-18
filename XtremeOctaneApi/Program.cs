@@ -8,11 +8,8 @@ using XtremeOctaneApi.Data;
 using XtremeOctaneApi.Security.Models;
 using AutoMapper;
 using WebApi.Services;
-using Microsoft.Extensions.Configuration;
 using WebApi.Helpers;
 using XtremeOctaneApi.Services.EventService;
-using XtremeOctaneApi.Repositories;
-using Microsoft.AspNetCore.Authorization;
 using XtremeOctaneApi.Services.EventExpenses;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -48,7 +45,6 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddDefaultTokenProviders();
 
 // Dependency Injection.
-builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddScoped<IEventExpenseService, EventExpenseService>();
 builder.Services.AddScoped<UserManager<ApplicationUser>>();
