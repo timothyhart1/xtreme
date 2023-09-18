@@ -18,6 +18,34 @@
 	width: 100% !important;
 }
 
+.hCBnvI,
+.fhCFWO,
+.bhoXfZ {
+	color: #fff !important;
+	background-color: #161616 !important;
+}
+
+.gPLhoV:disabled {
+	cursor: unset;
+	color: #fff !important;
+	fill: #fff !important;
+}
+
+.fhCFWO:not(:last-of-type),
+.hCBnvI {
+	border-bottom-color: rgba(126, 126, 126, 0.12) !important;
+}
+
+.gPLhoV:enabled {
+	cursor: unset;
+	color: #fff !important;
+	fill: #fff !important;
+}
+
+.cDMHPx {
+	color: #fff !important;
+}
+
 .bPokRt {
 	display: flex;
 	align-items: stretch;

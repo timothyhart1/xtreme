@@ -19,14 +19,13 @@ import { toast } from "react-toastify";
 
 const EditEvent = () => {
 	const API = window.appConfig.API;
-	const [data, setData] = useState([]);
-	const token = sessionStorage.getItem("Token");
-	const { eventId } = useParams();
-	const [imageFile, setImageFile] = useState(null);
 	const [event, setEvent] = useState({
 		eventName: "",
 		eventDesc: "",
 	});
+	const [imageFile, setImageFile] = useState(null);
+	const token = sessionStorage.getItem("Token");
+	const { eventId } = useParams();
 
 	const { eventName, eventDesc } = event;
 
@@ -41,15 +40,15 @@ const EditEvent = () => {
 				setEvent(res.data);
 				console.log(res.data);
 			} catch (error) {
-				console.log(error);
+				console.error(error);
 			}
 		}
 		fetchData();
-	}, []);
+	}, [API, eventId, token]);
 
 	const submitEvent = async (e) => {
+		e.preventDefault();
 		try {
-			e.preventDefault();
 			const requestData = new FormData();
 			requestData.append("eventName", eventName);
 			requestData.append("eventDesc", eventDesc);
@@ -61,7 +60,9 @@ const EditEvent = () => {
 					"Content-Type": "multipart/form-data",
 				},
 			});
-		} catch {}
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	const onInputChange = (e) => {
@@ -75,7 +76,7 @@ const EditEvent = () => {
 	return (
 		<Fragment>
 			<Toaster />
-			<Container fluid={true}>
+			<Container fluid>
 				<Card id="card-container">
 					<CardTitle title="Edit Event" />
 					<Row>
@@ -88,29 +89,33 @@ const EditEvent = () => {
 										</Label>
 										<Input
 											className="form-control dark-event-input"
-											required={true}
+											required
 											type="text"
 											name="eventName"
 											autoComplete="off"
 											value={eventName}
-											onChange={(e) => onInputChange(e)}
+											onChange={onInputChange}
 										/>
 									</FormGroup>
 								</Row>
 								<Row>
 									<FormGroup id="event-form-group">
-										<Label for="examplePassword" id="event-label">
+										<Label
+											for="eventDesc"
+											className="form-label"
+											id="event-label"
+										>
 											Event Description
 										</Label>
 										<textarea
-											type="text"
+											id="eventDesc"
 											rows="10"
 											name="eventDesc"
 											className="form-control dark-event-input"
-											required={true}
+											required
 											autoComplete="off"
 											value={eventDesc}
-											onChange={(e) => onInputChange(e)}
+											onChange={onInputChange}
 										/>
 									</FormGroup>
 								</Row>
@@ -137,7 +142,7 @@ const EditEvent = () => {
 								</Row>
 							</div>
 							<div className="btn-container">
-								<Link to={"/events"}>
+								<Link to="/events">
 									<Button id="event-btn">Back</Button>
 								</Link>
 								<Button

@@ -42,30 +42,32 @@ const ViewEvents = () => {
 				<Card id="card-container" className="card-spacing">
 					<CardTitle title="View Events" />
 					<CardBody id="event-card-body">
-						{data.map((item, index) => {
-							return (
-								<Card id="event-card-container" className="event-card-item">
-									<img
-										alt="Sample"
-										src={`${API}/Event/GetEventImage/${item.eventId}`}
-										className="event-image"
-									/>
-									<CardBody>
-										<CardSubtitle className="mb-2 event-header event-centre">
-											{item.eventName} - {item.eventDate.slice(0, 10)}
-										</CardSubtitle>
-										<div className="event-btn-container">
-											<Link
-												to={`/view-event/${item.eventId}`}
-												style={{ width: "100%" }}
-											>
-												<Button id="event-btn-card">View Event</Button>
-											</Link>
-										</div>
-									</CardBody>
-								</Card>
-							);
-						})}
+						{data.map((item) => (
+							<Card
+								key={item.eventId} // Add a unique key prop here
+								id="event-card-container"
+								className="event-card-item"
+							>
+								<img
+									alt="Sample"
+									src={`${API}/Event/GetEventImage/${item.eventId}`}
+									className="event-image"
+								/>
+								<CardBody>
+									<CardSubtitle className="mb-2 event-header event-centre">
+										{item.eventName} - {item.eventDate.slice(0, 10)}
+									</CardSubtitle>
+									<div className="event-btn-container">
+										<Link
+											to={`/view-event/${item.eventId}`}
+											style={{ width: "100%" }}
+										>
+											<Button id="event-btn-card">View Event</Button>
+										</Link>
+									</div>
+								</CardBody>
+							</Card>
+						))}
 					</CardBody>
 				</Card>
 			</Container>

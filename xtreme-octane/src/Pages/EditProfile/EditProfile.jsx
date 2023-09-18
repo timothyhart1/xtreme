@@ -40,7 +40,6 @@ function EditProfile() {
 					`${API}/Member/GetSingleMember/${memberId}`
 				);
 				setProfile(res.data);
-				console.log(res.data);
 			} catch (error) {
 				console.log(error);
 			}

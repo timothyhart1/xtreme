@@ -2,7 +2,7 @@ import React, { useState, useEffect, Fragment } from "react";
 import "../../Styles/styles.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { Card, CardBody, Container, Table } from "reactstrap";
+import { Card, CardBody, Container } from "reactstrap";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaEye } from "react-icons/fa";
@@ -82,18 +82,18 @@ const Vehicles = () => {
 		{
 			name: "Actions",
 			cell: (row) => (
-				<td
+				<div
 					className="event-items-icons text-center align-middle"
 					id="event-actions"
 				>
 					<Link to={`view-vehicle/${row.vehicleId}`} id="vehicle-model">
-						<button type="button" class="btn btn-info">
+						<button type="button" className="btn btn-info">
 							<i>
 								<FaEye />
 							</i>
 						</button>
 					</Link>
-				</td>
+				</div>
 			),
 		},
 	];

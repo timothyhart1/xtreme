@@ -134,7 +134,7 @@ const Events = () => {
 		{
 			name: "Actions",
 			cell: (row) => (
-				<td
+				<div
 					className="event-items-icons text-center align-middle"
 					id="event-actions"
 				>
@@ -166,7 +166,7 @@ const Events = () => {
 						onDelete={deleteEvent}
 						modalTitle={`Are you sure you want to delete ${row.eventName}?`}
 					/>
-				</td>
+				</div>
 			),
 		},
 	];

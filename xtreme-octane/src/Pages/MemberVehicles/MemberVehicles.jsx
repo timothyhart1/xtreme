@@ -2,7 +2,7 @@ import React, { useState, useEffect, Fragment } from "react";
 import "../../Styles/styles.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { Card, CardBody, Container, Table } from "reactstrap";
+import { Card, CardBody, Container } from "reactstrap";
 import CardTitle from "../CardTitle/CardTitle";
 import { FaRegEdit } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
@@ -28,14 +28,14 @@ const MemberVehicles = () => {
 				);
 				setData(res.data);
 			} catch (error) {
-				console.log(error);
+				console.error(error);
 			}
 		}
 		fetchData();
 	}, [API, memberId, token]);
 
-	const directiontoaster = (toastname) => {
-		switch (toastname) {
+	const directionToaster = (toastName) => {
+		switch (toastName) {
 			case "directionssuccessToast":
 				toast.success("Event was successfully added!", {
 					position: toast.POSITION.TOP_CENTER,
@@ -47,6 +47,8 @@ const MemberVehicles = () => {
 					position: toast.POSITION.TOP_CENTER,
 					autoClose: 1500,
 				});
+				break;
+			default:
 				break;
 		}
 	};
@@ -89,25 +91,25 @@ const MemberVehicles = () => {
 		{
 			name: "Actions",
 			cell: (row) => (
-				<td
+				<div
 					className="event-items-icons text-center align-middle"
 					id="event-actions"
 				>
 					<Link to={`/edit-vehicle/${row.vehicleId}`} id="vehicle-model">
-						<button type="button" class="btn btn-info">
+						<button type="button" className="btn btn-info">
 							<i>
 								<FaRegEdit />
 							</i>
 						</button>
 					</Link>
-				</td>
+				</div>
 			),
 		},
 	];
 
 	return (
 		<Fragment>
-			<Container fluid={true}>
+			<Container fluid>
 				<ToastContainer />
 				<Card id="card-container" className="card-spacing">
 					<CardTitle title="My Vehicles" />
@@ -119,7 +121,7 @@ const MemberVehicles = () => {
 						>
 							<button
 								type="button"
-								class="btn btn-xo"
+								className="btn btn-xo"
 								style={{ marginBottom: "10px" }}
 							>
 								Add Vehicle

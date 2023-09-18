@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from "react";
 import "../../Styles/styles.css";
 import axios from "axios";
-import { Card, CardBody, Container, Table } from "reactstrap";
+import { Card, CardBody, Container } from "reactstrap";
 import ModalDeleteEvent from "../Modal/Modal";
 import { FaEye, FaPlus } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
@@ -75,7 +75,7 @@ const Members = () => {
 		{
 			name: "Actions",
 			cell: (row) => (
-				<td
+				<div
 					className="event-items-icons text-center align-middle"
 					id="event-actions"
 				>
@@ -105,14 +105,14 @@ const Members = () => {
 							modalTitle={`Are you sure you want to delete ${row.name}?`}
 						/>
 					)}
-				</td>
+				</div>
 			),
 		},
 	];
 
 	return (
 		<Fragment>
-			<Container fluid={true}>
+			<Container fluid>
 				<ToastContainer />
 				<Card id="card-container" className="card-spacing">
 					<CardTitle title="Members" />

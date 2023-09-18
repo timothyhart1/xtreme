@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from "react";
 import "../../Styles/styles.css";
 import axios from "axios";
-import { Card, CardBody, Container, Table } from "reactstrap";
+import { Card, CardBody, Container } from "reactstrap";
 import ModalDeleteEvent from "../Modal/Modal";
 import { FaEye, FaPlus } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
@@ -75,7 +75,7 @@ const VerifyMembers = () => {
 		{
 			name: "Actions",
 			cell: (row) => (
-				<td
+				<span
 					className="event-items-icons text-center align-middle"
 					id="event-actions"
 				>
@@ -105,7 +105,7 @@ const VerifyMembers = () => {
 							modalTitle={`Are you sure you want to delete ${row.name}?`}
 						/>
 					)}
-				</td>
+				</span>
 			),
 		},
 	];
