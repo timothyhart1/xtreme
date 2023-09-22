@@ -82,7 +82,10 @@ namespace XtremeOctaneApi.Controllers
                     City = null,
                     PhoneNumber = null,
                     Gender = null,
-                    CreateDate = DateTime.Now
+                    CreateDate = DateTime.Now,
+                    Deleted = false,
+                    Verified = false,
+                    ProfilePicture = null,
                 };
 
                 await _db.Member.AddAsync(member);

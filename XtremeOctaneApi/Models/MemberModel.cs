@@ -19,6 +19,10 @@ namespace XtremeOctaneApi.Models
         public DateTime CreateDate { get; set; }
         public bool? Deleted { get; set; }
         public bool? Verified { get; set; }
+        public string? ProfilePicture { get; set; }
+
+        [NotMapped]
+        public IFormFile? Image { get; set; }
 
         [ForeignKey("UserId")]
         public ApplicationUser? User { get; set; }

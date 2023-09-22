@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using XtremeOctaneApi.Data;
+using XtremeOctaneApi.Dtos;
 
 namespace XtremeOctaneApi.Controllers
 {
@@ -91,10 +92,32 @@ namespace XtremeOctaneApi.Controllers
             }
         }
 
-        // Edit a member.
+        // Get profile picture.
+        [HttpGet("GetProfilePicture/{memberId}")]
+        [AllowAnonymous]
+        public IActionResult GetEventImage(int memberId)
+        {
+            var member = _db.Member.FirstOrDefault(e => e.MemberId == memberId);
+
+            if (member == null || string.IsNullOrEmpty(member.ProfilePicture))
+            {
+                return NotFound("Event or image not found.");
+            }
+
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "Documents", "ProfilePictures", member.ProfilePicture);
+
+            if (!System.IO.File.Exists(filePath))
+            {
+                return NotFound("Image not found.");
+            }
+
+            var fileBytes = System.IO.File.ReadAllBytes(filePath);
+            return File(fileBytes, "image/jpeg");
+        }
+
         [HttpPut("EditProfile/{id}")]
         [AllowAnonymous]
-        public ActionResult EditProfile(int id, [FromBody] MemberModel member)
+        public async Task<ActionResult> EditProfile(int id, [FromForm] CreateMemberDto member)
         {
             try
             {
@@ -107,14 +130,28 @@ namespace XtremeOctaneApi.Controllers
                     memberProfile.City = member.City;
                     memberProfile.PhoneNumber = member.PhoneNumber;
                     memberProfile.Gender = member.Gender;
-                    memberProfile.CreateDate = _db.Member.Where(e => e.MemberId == id).Select(e => e.CreateDate).FirstOrDefault();
-                    memberProfile.Deleted = memberProfile.Deleted;
-                    memberProfile.Verified = memberProfile.Verified;
+
+                    if (member.Image != null)
+                    {
+                        // Use the original filename from member.Image
+                        string fileName = Path.GetFileName(member.Image.FileName);
+                        string uploadFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Documents\\ProfilePictures", fileName);
+
+                        using (var fileStream = new FileStream(uploadFilePath, FileMode.Create))
+                        {
+                            await member.Image.CopyToAsync(fileStream);
+                            await fileStream.FlushAsync();
+                        }
+
+                        memberProfile.ProfilePicture = fileName;
+                    }
+
+                    _db.SaveChanges();
+
+                    return Ok(memberProfile);
                 }
 
-                _db.SaveChanges();
-
-                return Ok(memberProfile);
+                return NotFound("Member not found");
             }
             catch (Exception ex)
             {
@@ -122,6 +159,8 @@ namespace XtremeOctaneApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+
 
         // Edit a member.
         [HttpPut("ReinstateMember/{memberId}")]
