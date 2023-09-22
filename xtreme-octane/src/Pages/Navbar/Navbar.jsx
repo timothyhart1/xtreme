@@ -10,10 +10,15 @@ import { Link, useLocation } from "react-router-dom";
 function Navbar({ toggleSidebar }) {
 	const [sidebar, setSidebar] = useState(true);
 	const location = useLocation();
+	const API = window.appConfig.API;
 
 	const handleToggleSidebar = () => {
 		setSidebar(!sidebar);
 		toggleSidebar();
+	};
+
+	const loggedInUser = {
+		name: "christiaan@gmail.com",
 	};
 
 	return (
@@ -52,7 +57,10 @@ function Navbar({ toggleSidebar }) {
 							})}
 						</ul>
 					</nav>
-				</div>{" "}
+					<div className="logged-in-as">
+						<span>Logged In As: {loggedInUser.name}</span>
+					</div>
+				</div>
 			</IconContext.Provider>
 		</>
 	);

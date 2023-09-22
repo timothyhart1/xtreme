@@ -583,6 +583,12 @@
 	top: 0;
 }
 
+.logged-in-as {
+	display: inline-flex !important;
+	margin-right: 30px;
+	color: #fff;
+}
+
 .menu-bars {
 	margin-left: 2rem;
 	font-size: 2rem;
