@@ -19,5 +19,8 @@ namespace XtremeOctaneApi.Models
 
         [ForeignKey(nameof(MemberId))]
         public MemberModel? Member { get; set; }
+
+        [NotMapped] // This property is not mapped to the database
+        public IFormFile Image { get; set; }
     }
 }

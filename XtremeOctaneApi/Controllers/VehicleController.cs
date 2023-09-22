@@ -150,24 +150,14 @@ namespace XtremeOctaneApi.Controllers
             }
         }
 
-        // Add a new vehicle.
         [HttpPost("AddVehicle")]
         [AllowAnonymous]
-        public async Task<ActionResult<VehicleModel>> AddVehicle(
-            int vehicleId,
-            int memberId,
-            string manufacturer,
-            string model,
-            string year,
-            int mileage,
-            string plate,
-            string color,
-            IFormFile? image = null)
+        public async Task<ActionResult<VehicleModel>> AddVehicle([FromForm] VehicleModel formData) 
         {
             try
             {
-                bool hasImage = image != null;
-                string fileName = hasImage ? Guid.NewGuid() + Path.GetExtension(image.FileName) : null;
+                bool hasImage = formData.Image != null;
+                string fileName = hasImage ? Guid.NewGuid() + Path.GetExtension(formData.Image.FileName) : null;
 
                 if (hasImage)
                 {
@@ -175,21 +165,20 @@ namespace XtremeOctaneApi.Controllers
 
                     using (var fileStream = new FileStream(uploadfilepath, FileMode.Create))
                     {
-                        await image.CopyToAsync(fileStream);
+                        await formData.Image.CopyToAsync(fileStream);
                         await fileStream.FlushAsync();
                     };
                 }
 
                 var vehicle = new VehicleModel
                 {
-                    VehicleId = vehicleId, // Assuming you want to assign the vehicleId here
-                    MemberId = memberId,
-                    Manufacturer = manufacturer,
-                    Year = year,
-                    Model = model,
-                    Mileage = mileage,
-                    Plate = plate,
-                    Color = color,
+                    MemberId = formData.MemberId,
+                    Manufacturer = formData.Manufacturer,
+                    Year = formData.Year,
+                    Model = formData.Model,
+                    Mileage = formData.Mileage,
+                    Plate = formData.Plate,
+                    Color = formData.Color,
                     VehicleImage = fileName,
                     HasImage = hasImage
                 };
@@ -205,6 +194,7 @@ namespace XtremeOctaneApi.Controllers
                 return StatusCode(500, "An error occurred while posting the vehicle");
             }
         }
+
 
 
 

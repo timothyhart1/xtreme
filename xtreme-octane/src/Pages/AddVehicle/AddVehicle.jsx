@@ -36,7 +36,15 @@ const AddVehicle = () => {
 	const uploadImage = async (e) => {
 		e.preventDefault();
 
-		if (!manufacturer || !model || !year || !mileage || !plate || !colour) {
+		if (
+			!manufacturer ||
+			!model ||
+			!year ||
+			!mileage ||
+			!plate ||
+			!colour ||
+			!imageFile
+		) {
 			return;
 		}
 
@@ -48,20 +56,10 @@ const AddVehicle = () => {
 		formData.append("mileage", mileage);
 		formData.append("plate", plate);
 		formData.append("color", colour);
-
-		// Check if imageFile is present before appending it
-		if (imageFile !== null && imageFile !== undefined) {
-			formData.append("image", imageFile);
-		}
+		formData.append("image", imageFile);
 
 		try {
-			const response = await axios.post(`${API}/Vehicle/AddVehicle`, formData, {
-				headers: {
-					"Content-Type": "multipart/form-data",
-				},
-			});
-
-			console.log("Vehicle added successfully!");
+			const response = await axios.post(`${API}/Vehicle/AddVehicle`, formData);
 			toast.success("Vehicle added successfully!");
 		} catch (error) {
 			console.error(error);
