@@ -12,10 +12,11 @@ import {
 	FormGroup,
 } from "reactstrap";
 import { useAuth } from "../Auth";
+import CardTitle from "../../CardTitle/CardTitle";
+import "../../../Styles/styles.css";
 
 const Login = () => {
 	const API = window.appConfig.API;
-
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [user, setUser] = useState("");
@@ -48,29 +49,48 @@ const Login = () => {
 	return (
 		<Fragment>
 			<Container fluid={true}>
+				<CardTitle title="Login" />
 				<Card className="login-card" id="card-container">
 					<Form onSubmit={postLogin}>
-						<Label className="form-label" id="event-label">
-							Email
-						</Label>
-						<Input
-							type="email"
-							placeholder="janedoe@gmail.com"
-							id="email"
-							name="email"
-							onChange={(e) => setEmail(e.target.value)}
-						/>
-						<Label className="form-label" id="event-label">
-							Password
-						</Label>
-						<Input
-							type="password"
-							placeholder="**********"
-							id="password"
-							name="password"
-							onChange={(e) => setPassword(e.target.value)}
-						/>
-						<Button style={{ marginTop: "10px" }}>Login</Button>
+						<Row>
+							<FormGroup id="event-form-group">
+								<Label className="form-label" id="event-label">
+									Email
+								</Label>
+								<Input
+									className="form-control dark-event-input"
+									required
+									type="text"
+									name="surname"
+									onChange={(e) => setEmail(e.target.value)}
+								/>
+							</FormGroup>
+						</Row>
+						<Row>
+							<FormGroup id="event-form-group">
+								<Label className="form-label" id="event-label">
+									Password
+								</Label>
+								<Input
+									className="form-control dark-event-input"
+									required
+									type="password"
+									name="password"
+									onChange={(e) => setPassword(e.target.value)}
+								/>
+							</FormGroup>
+						</Row>
+						<Row>
+							<FormGroup id="event-form-group">
+								<Button
+									style={{ marginTop: "15px", marginLeft: "0" }}
+									type="submit"
+									id="event-btn"
+								>
+									Login
+								</Button>
+							</FormGroup>
+						</Row>
 					</Form>
 				</Card>
 			</Container>

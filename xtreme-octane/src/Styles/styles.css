@@ -449,10 +449,11 @@
 .dark-event-input {
 	padding: 8px !important;
 	border: 2px solid #161616 !important;
-	background-color: #161616 !important;
+	background-color: #161616 !important; /* Ensure the background color is explicitly set */
 	color: #fff !important;
 	font-size: 14px !important;
 	font-weight: 400 !important;
+	outline: none; /* Remove the default focus outline */
 }
 
 #event-label {

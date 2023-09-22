@@ -31,6 +31,7 @@ import VerifyMember from "./Pages/VerifyMember/VerifyMember";
 
 function App() {
 	const [sidebarOpen, setSidebarOpen] = useState(true);
+	const [email, setEmail] = useState(null); // Replace null with the actual email state value
 
 	const toggleSidebar = () => {
 		setSidebarOpen(!sidebarOpen);
@@ -40,7 +41,7 @@ function App() {
 		<AuthProvider>
 			<BrowserRouter>
 				<Navbar toggleSidebar={toggleSidebar} />
-				<div id="app-container" className={sidebarOpen ? "sidebar-open" : ""}>
+				<div id="app-container" className={sidebarOpen ? "" : "sidebar-open"}>
 					<Routes>
 						<Route
 							path="/"
