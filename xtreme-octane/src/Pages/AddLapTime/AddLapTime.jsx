@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -29,6 +29,22 @@ const AddLapTime = () => {
 	const [tyre, setTyre] = useState("");
 	const [vehicleClass, setVehicleClass] = useState("");
 	const [lapTimeScreenshot, setLapTimeScreenshot] = useState(null);
+	const [vehicles, setVehicles] = useState([]);
+
+	useEffect(() => {
+		async function getUserVehicles() {
+			try {
+				const res = await axios.get(
+					`${API}/Vehicle/GetAllMemberVehicles/${memberId}`
+				);
+				console.log(res.data);
+				setVehicles(res.data);
+			} catch (error) {
+				console.error(error);
+			}
+		}
+		getUserVehicles();
+	}, [API]);
 
 	const addLapTime = async (e) => {
 		e.preventDefault();
@@ -83,7 +99,6 @@ const AddLapTime = () => {
 			setTyre("");
 			setVehicleClass("");
 			setLapTimeScreenshot(null);
-
 			alert("Lap Time Added.");
 		} catch (error) {
 			console.error(error);
@@ -110,15 +125,24 @@ const AddLapTime = () => {
 										<Label className="form-label" id="event-label">
 											Vehicle
 										</Label>
-										<Input
+										<select
 											className="form-control dark-event-input"
 											required
-											type="text"
 											autoComplete="off"
 											name="vehicleId"
 											onChange={(e) => setVehicleId(e.target.value)}
 											value={vehicleId}
-										/>
+										>
+											<option value="">Select a Vehicle</option>
+											{vehicles.map((vehicle) => (
+												<option
+													key={vehicle.vehicleId}
+													value={vehicle.vehicleId}
+												>
+													{vehicle.manufacturer} {vehicle.model}
+												</option>
+											))}
+										</select>
 									</FormGroup>
 								</Row>
 								<Row>

@@ -127,13 +127,19 @@ const MemberVehicles = () => {
 								Add Vehicle
 							</button>
 						</Link>
-						<DataTable
-							columns={columns}
-							data={data}
-							fixedHeader
-							pagination
-							className="data-table-xo"
-						/>
+						{data.length === 0 ? (
+							<p style={{ textAlign: "center", color: "#fff" }}>
+								You currently have no added vehicles.
+							</p>
+						) : (
+							<DataTable
+								columns={columns}
+								data={data}
+								fixedHeader
+								pagination
+								className="data-table-xo"
+							/>
+						)}
 					</CardBody>
 				</Card>
 			</Container>
