@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
-import { SidebarData } from "./SidebarData";
 import { IconContext } from "react-icons";
-import "../../Styles/styles.css";
-import logo from "../../Images/Logo_transparent.png";
 import { Link, useLocation } from "react-router-dom";
+import axios from "axios";
+import logo from "../../Images/Logo_transparent.png";
 
 function Navbar({ toggleSidebar }) {
 	const [sidebar, setSidebar] = useState(false);
@@ -13,6 +12,8 @@ function Navbar({ toggleSidebar }) {
 	const API = window.appConfig.API;
 	const email = sessionStorage.getItem("Email");
 	const memberId = sessionStorage.getItem("MemberId");
+	const userId = sessionStorage.getItem("UserId");
+	const [userRole, setUserRole] = useState("");
 
 	const handleToggleSidebar = () => {
 		setSidebar(!sidebar);
@@ -28,6 +29,76 @@ function Navbar({ toggleSidebar }) {
 			setSidebar(false);
 		}
 	}, [email]);
+
+	useEffect(() => {
+		async function getUserRole() {
+			try {
+				const res = await axios.get(`${API}/User/GetUserRole/${userId}`);
+				setUserRole(res.data);
+				console.log(res);
+			} catch (error) {
+				console.error(error);
+			}
+		}
+		getUserRole();
+	}, [API]);
+
+	const SidebarData = [
+		{
+			title: "Dashboard",
+			path: "/",
+			cName: "nav-text",
+			roles: ["Admin"],
+		},
+		{
+			title: "Members",
+			path: "/members",
+			cName: "nav-text",
+			roles: ["Admin"],
+		},
+		{
+			title: "Vehicles",
+			path: "/vehicles",
+			cName: "nav-text",
+			roles: ["Admin"],
+		},
+		{
+			title: "Events",
+			path: "/events",
+			cName: "nav-text",
+			roles: ["Admin"],
+		},
+		{
+			title: "Scribante",
+			path: "/scribante",
+			cName: "nav-text",
+			roles: ["Admin", "User"],
+		},
+		{
+			title: "View Events",
+			path: "/view-events",
+			cName: "nav-text",
+			roles: ["Admin", "User"],
+		},
+		{
+			title: "Edit Profile",
+			path: "/edit-profile",
+			cName: "nav-text",
+			roles: ["Admin", "User"],
+		},
+		{
+			title: "My Vehicles",
+			path: "/member-vehicles",
+			cName: "nav-text",
+			roles: ["Admin", "User"],
+		},
+		{
+			title: "Verify Members",
+			path: "/verify-members",
+			cName: "nav-text",
+			roles: ["Admin"],
+		},
+	];
 
 	return (
 		<>
@@ -55,17 +126,26 @@ function Navbar({ toggleSidebar }) {
 								<img src={logo} alt="" className="xtreme-octane-logo" />
 							</div>
 							{SidebarData.map((item, index) => {
+								const isAllowed = item.roles
+									? item.roles.includes(userRole)
+									: true;
+
 								const isActive = item.path === location.pathname;
-								return (
-									<li
-										key={index}
-										className={isActive ? "nav-text active" : "nav-text"}
-									>
-										<Link to={item.path}>
-											<span>{item.title}</span>
-										</Link>
-									</li>
-								);
+
+								if (isAllowed) {
+									return (
+										<li
+											key={index}
+											className={isActive ? "nav-text active" : "nav-text"}
+										>
+											<Link to={item.path}>
+												<span>{item.title}</span>
+											</Link>
+										</li>
+									);
+								} else {
+									return null; // Don't render the item if it's not allowed
+								}
 							})}
 						</ul>
 					</nav>

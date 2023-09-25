@@ -15,7 +15,7 @@ import { useAuth } from "../Auth";
 import CardTitle from "../../CardTitle/CardTitle";
 import "../../../Styles/styles.css";
 
-const Login = () => {
+const Login = ({ setUserRole }) => {
 	const API = window.appConfig.API;
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -37,6 +37,7 @@ const Login = () => {
 					sessionStorage.setItem("UserId", response.data.userId);
 					sessionStorage.setItem("Email", response.data.email);
 					sessionStorage.setItem("MemberId", response.data.memberId);
+					setUserRole(response.data.userRoles);
 					setUser(response.data);
 					auth.login(response.data);
 					navigate("/", { replace: true });

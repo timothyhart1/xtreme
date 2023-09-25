@@ -18,6 +18,7 @@ export const SidebarData = [
 		title: "Events",
 		path: "/events",
 		cName: "nav-text",
+		roles: ["Admin"],
 	},
 	{
 		title: "Scribante",

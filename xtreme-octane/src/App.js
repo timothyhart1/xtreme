@@ -1,6 +1,7 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Navbar from "./Pages/Navbar/Navbar";
 import { AuthProvider } from "./Pages/Auth/Auth";
 import { RequireAuth } from "./Pages/Auth/RequireAuth";
@@ -28,13 +29,34 @@ import AddCategory from "./Pages/AddCategory/AddCategory";
 import VerifyMembers from "./Pages/VerifyMembers/VerifyMembers";
 import VerifyMember from "./Pages/VerifyMember/VerifyMember";
 import Register from "./Pages/Auth/Register/Register";
+import AuthGuard from "./Components/AuthGuard/AuthGuard";
 
 function App() {
 	const [sidebarOpen, setSidebarOpen] = useState(true);
+	const [userRole, setUserRole] = useState("");
+	const userId = sessionStorage.getItem("UserId");
+	const API = window.appConfig.API;
 
 	const toggleSidebar = () => {
 		setSidebarOpen(!sidebarOpen);
 	};
+
+	const isAuthorized = (allowedRoles) => {
+		return allowedRoles.includes(userRole);
+	};
+
+	useEffect(() => {
+		async function getUserRole() {
+			try {
+				const res = await axios.get(`${API}/User/GetUserRole/${userId}`);
+				setUserRole(res.data);
+				console.log(res);
+			} catch (error) {
+				console.error(error);
+			}
+		}
+		getUserRole();
+	}, [API]);
 
 	return (
 		<AuthProvider>
@@ -54,7 +76,7 @@ function App() {
 							path="events"
 							element={
 								<RequireAuth>
-									<Events />
+									{isAuthorized(["User"]) ? <Events /> : <AuthGuard />}
 								</RequireAuth>
 							}
 						/>
@@ -123,7 +145,7 @@ function App() {
 							}
 						/>
 						<Route path="register" element={<Register />} />
-						<Route path="login" element={<Login />} />
+						<Route path="login" element={<Login setUserRole={setUserRole} />} />
 						<Route
 							path="vote-event/:eventId"
 							element={
