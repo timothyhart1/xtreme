@@ -44,25 +44,29 @@ const ViewVehicle = () => {
 							className="edit-vehicle-image"
 						/>
 						<div className="gradient-overlay"></div>
-						<div className="text-overlay"></div>
+						<div
+							className="text-overlay"
+							style={{
+								paddingBottom: "15px",
+								fontSize: "45px",
+								paddingLeft: "10px",
+							}}
+						>
+							{data.year} {data.manufacturer} {data.model}
+						</div>
 					</div>
 					<CardBody id="event-card-body">
-						<Col>
+						<Col
+							style={{
+								marginLeft: "10px",
+								marginTop: "-50px",
+								zIndex: "999",
+							}}
+						>
 							<Row>
 								<h4 className="white-text">
 									{data.name} {data.surname}
 								</h4>
-							</Row>
-							<Row>
-								<h6 className="white-text">
-									Manufacturer: {data.manufacturer}
-								</h6>
-							</Row>
-							<Row>
-								<h6 className="white-text">Model: {data.model}</h6>
-							</Row>
-							<Row>
-								<h6 className="white-text">Year: {data.year}</h6>
 							</Row>
 							<Row>
 								<h6 className="white-text">Mileage: {data.mileage}</h6>

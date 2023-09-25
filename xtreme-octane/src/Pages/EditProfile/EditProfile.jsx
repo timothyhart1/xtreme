@@ -17,6 +17,7 @@ function EditProfile() {
 	const API = window.appConfig.API;
 	const memberId = sessionStorage.getItem("MemberId");
 	const userId = sessionStorage.getItem("UserId");
+	const [profilePicture, setProfilePicture] = useState(null);
 
 	const [profile, setProfile] = useState({
 		email: "",
@@ -50,20 +51,33 @@ function EditProfile() {
 	const updateProfile = async (e) => {
 		e.preventDefault();
 
-		const requestData = {
-			email: email,
-			memberId: memberId,
-			userId: userId,
-			name: name,
-			surname: surname,
-			city: city,
-			phoneNumber: phoneNumber,
-			gender: gender,
-			deleted: false,
-		};
+		const formData = new FormData();
+		formData.append("Image", profilePicture);
+		formData.append("name", name);
+		formData.append("surname", surname);
+		formData.append("city", city);
+		formData.append("phoneNumber", phoneNumber);
+		formData.append("gender", gender);
+		formData.append("deleted", false);
 
-		const requestUrl = `${API}/Member/EditProfile/${memberId}`;
-		const req = await axios.put(requestUrl, requestData);
+		try {
+			const response = await axios.put(
+				`${API}/Member/EditProfile/${memberId}`,
+				formData,
+				{
+					headers: {
+						"Content-Type": "multipart/form-data",
+					},
+				}
+			);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const handleScreenshotChange = (e) => {
+		const file = e.target.files[0];
+		setProfilePicture(file);
 	};
 
 	return (
@@ -155,7 +169,26 @@ function EditProfile() {
 									</FormGroup>
 								</Row>
 								<Row>
-									<Button type="submit" id="event-btn">
+									<FormGroup id="event-form-group">
+										<Label className="form-label" id="event-label">
+											Profile Picture
+										</Label>
+										<Input
+											className="form-control dark-event-input"
+											required
+											type="file"
+											name="profilePicture"
+											accept="image/*"
+											onChange={handleScreenshotChange}
+										/>
+									</FormGroup>
+								</Row>
+								<Row>
+									<Button
+										type="submit"
+										id="event-btn"
+										style={{ marginLeft: "0" }}
+									>
 										Update Profile
 									</Button>
 								</Row>

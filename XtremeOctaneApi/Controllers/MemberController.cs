@@ -46,6 +46,7 @@ namespace XtremeOctaneApi.Controllers
             }
         }
 
+        // Get all non-verified members.
         [HttpGet("GetAllNonVerifiedMembers")]
         public async Task<IActionResult> GetAllNonVerifiedMembers()
         {
@@ -53,8 +54,8 @@ namespace XtremeOctaneApi.Controllers
             {
                 var members = await _db.Member
                     .Where(m => m.Verified != true)
-                    .OrderBy(m => m.Name == null ? 1 : 0) // Order null values last
-                    .ThenBy(m => m.Name) // Order by name
+                    .OrderBy(m => m.Name == null ? 1 : 0)
+                    .ThenBy(m => m.Name)
                     .ToListAsync();
 
                 if (members == null || !members.Any())
@@ -69,7 +70,6 @@ namespace XtremeOctaneApi.Controllers
                 return StatusCode(500, "An error occurred while fetching the members");
             }
         }
-
 
         // Get a single member
         [HttpGet("GetSingleMember/{id}")]
@@ -115,6 +115,7 @@ namespace XtremeOctaneApi.Controllers
             return File(fileBytes, "image/jpeg");
         }
 
+        // Edit profile.
         [HttpPut("EditProfile/{id}")]
         [AllowAnonymous]
         public async Task<ActionResult> EditProfile(int id, [FromForm] CreateMemberDto member)
@@ -133,7 +134,6 @@ namespace XtremeOctaneApi.Controllers
 
                     if (member.Image != null)
                     {
-                        // Use the original filename from member.Image
                         string fileName = Path.GetFileName(member.Image.FileName);
                         string uploadFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Documents\\ProfilePictures", fileName);
 
@@ -159,8 +159,6 @@ namespace XtremeOctaneApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-
 
         // Edit a member.
         [HttpPut("ReinstateMember/{memberId}")]
@@ -215,8 +213,6 @@ namespace XtremeOctaneApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-
 
         // Create a new member.
         [HttpPost("AddNewMember")]

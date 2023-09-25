@@ -6,5 +6,6 @@
         public string UserId { get; set; }
         public string Email { get; set; }
         public int MemberId { get; set; }
+        public string UserRoles { get; set; }
     }                                  
 }

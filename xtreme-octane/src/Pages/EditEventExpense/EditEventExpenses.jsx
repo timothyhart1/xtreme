@@ -85,7 +85,7 @@ const EditEventExpenses = () => {
 											Expense Name
 										</Label>
 										<Input
-											className="form-control event-input"
+											className="form-control dark-event-input"
 											required
 											type="text"
 											name="expenseName"
@@ -101,7 +101,7 @@ const EditEventExpenses = () => {
 											Expense Amount
 										</Label>
 										<Input
-											className="form-control event-input"
+											className="form-control dark-event-input"
 											required
 											type="text"
 											name="expenseAmount"

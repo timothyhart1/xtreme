@@ -26,7 +26,6 @@ const EditEvent = () => {
 	const [imageFile, setImageFile] = useState(null);
 	const token = sessionStorage.getItem("Token");
 	const { eventId } = useParams();
-
 	const { eventName, eventDesc } = event;
 
 	useEffect(() => {
@@ -38,7 +37,6 @@ const EditEvent = () => {
 					},
 				});
 				setEvent(res.data);
-				console.log(res.data);
 			} catch (error) {
 				console.error(error);
 			}

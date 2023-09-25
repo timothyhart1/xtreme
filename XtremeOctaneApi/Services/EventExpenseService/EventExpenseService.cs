@@ -208,7 +208,7 @@ namespace XtremeOctaneApi.Services.EventExpenses
                 {
                     EventExpenseId = id,
                     EditedAt = DateTime.UtcNow,
-                    MemberId = 0,
+                    MemberId = 4,
                     PreviousValue = previousEventExpense.ExpenseAmount.ToString(),
                     NewValue = "Deleted",
                     PreviousExpenseName = previousEventExpense.ExpenseName,

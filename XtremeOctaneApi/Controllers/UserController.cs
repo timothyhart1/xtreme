@@ -42,7 +42,6 @@ namespace XtremeOctaneApi.Controllers
             _logger = logger;
         }
 
-
         [HttpPost]
         [Route("CreateNewUser")]
         public async Task<IActionResult> CreateNewUser([FromBody] UserModel userModel)
@@ -53,10 +52,8 @@ namespace XtremeOctaneApi.Controllers
 
             if (result.Succeeded)
             {
-                // Check if the "User" role exists
                 var userRoleExists = await _roleManager.RoleExistsAsync(userRole);
 
-                // Assign the "User" role to the user if it exists
                 if (userRoleExists)
                 {
                     await _userManager.AddToRoleAsync(user, userRole);
@@ -65,12 +62,9 @@ namespace XtremeOctaneApi.Controllers
                 else
                 {
                     _logger.LogError($"Role '{userRole}' does not exist.");
-                    // Handle the situation where the "User" role is missing (e.g., throw an exception or return an error response).
-                    // You can decide on the appropriate action based on your application's requirements.
                     return BadRequest("Role 'User' does not exist.");
                 }
 
-                // Authenticate the newly created user
                 await _signInManager.SignInAsync(user, isPersistent: false);
 
                 MemberModel member = new MemberModel
@@ -102,15 +96,37 @@ namespace XtremeOctaneApi.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("GetUserRole/{userId}")]
+        public async Task<IActionResult> GetUserRole(string userId)
+        {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(userId); 
 
+                if (user != null)
+                {
+                    var roles = await _userManager.GetRolesAsync(user); 
 
+                    if (roles != null && roles.Count > 0)
+                    {
+                        string userRoles = string.Join(",", roles);
 
+                        return Ok(userRoles); 
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while fetching user roles");
+            }
 
+            return BadRequest("Failed to retrieve user roles");
+        }
 
         [HttpPost, Route("Login")]
         public async Task<ActionResult> Login([FromBody] UserModel userModel)
         {
-
             try
             {
                 var result = await _signInManager.PasswordSignInAsync(userModel.EmailAddress, userModel.Password, false, lockoutOnFailure: true);
@@ -132,14 +148,20 @@ namespace XtremeOctaneApi.Controllers
 
                     var token = _userService.GenerateToken(userId);
 
-                    var loginResponse = new LoginResponseDto
+                    var rolesResponse = await GetUserRole(userId);
+
+                    if (rolesResponse is OkObjectResult rolesResult && rolesResult.Value is string userRoles)
                     {
-                        Token = token,
-                        UserId = userId,
-                        Email = user.UserName,
-                        MemberId = member.MemberId
-                    };
-                    return Ok(loginResponse);
+                        var loginResponse = new LoginResponseDto
+                        {
+                            Token = token,
+                            UserId = userId,
+                            Email = user.UserName,
+                            MemberId = member.MemberId,
+                            UserRoles = userRoles 
+                        };
+                        return Ok(loginResponse);
+                    }
                 }
             }
             catch (Exception ex)

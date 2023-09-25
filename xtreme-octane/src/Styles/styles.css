@@ -595,9 +595,10 @@
 }
 
 .logged-in-as {
-	display: inline-flex !important;
-	margin-right: 30px;
-	color: #fff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-right: 80px;
 }
 
 .menu-bars {
@@ -661,10 +662,6 @@
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
-}
-
-span {
-	margin-left: 16px;
 }
 
 .logo-container {

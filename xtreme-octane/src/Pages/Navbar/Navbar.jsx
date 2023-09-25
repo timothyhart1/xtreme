@@ -8,10 +8,11 @@ import logo from "../../Images/Logo_transparent.png";
 import { Link, useLocation } from "react-router-dom";
 
 function Navbar({ toggleSidebar }) {
-	const [sidebar, setSidebar] = useState(false); // Start with the sidebar closed
+	const [sidebar, setSidebar] = useState(false);
 	const location = useLocation();
 	const API = window.appConfig.API;
 	const email = sessionStorage.getItem("Email");
+	const memberId = sessionStorage.getItem("MemberId");
 
 	const handleToggleSidebar = () => {
 		setSidebar(!sidebar);
@@ -23,7 +24,6 @@ function Navbar({ toggleSidebar }) {
 	};
 
 	useEffect(() => {
-		// Automatically close the sidebar if email has no value
 		if (!email) {
 			setSidebar(false);
 		}
@@ -71,7 +71,20 @@ function Navbar({ toggleSidebar }) {
 					</nav>
 					{email && (
 						<div className="logged-in-as">
-							<span>Logged In As: {loggedInUser.name}</span>
+							<span style={{ color: "#fff", marginRight: "15px" }}>
+								Logged In As: {loggedInUser.name}
+							</span>
+							<span>
+								<img
+									src={`${API}/Member/GetProfilePicture/${memberId}`}
+									style={{
+										width: "50px",
+										height: "40px",
+										borderRadius: "100%",
+										objectFit: "cover",
+									}}
+								/>
+							</span>
 						</div>
 					)}
 				</div>

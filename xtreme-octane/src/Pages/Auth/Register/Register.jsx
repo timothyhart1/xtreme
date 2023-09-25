@@ -87,6 +87,19 @@ const Register = () => {
 									</Button>
 								</FormGroup>
 							</Row>
+							<Row>
+								<FormGroup id="event-form-group">
+									<h6 style={{ color: "#fff" }}>
+										Already have an account?{" "}
+										<a
+											href="/login"
+											style={{ textDecoration: "none", color: "#3273b5" }}
+										>
+											Sign in
+										</a>
+									</h6>
+								</FormGroup>
+							</Row>
 						</div>
 					</Form>
 				</Card>
