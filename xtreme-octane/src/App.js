@@ -13,7 +13,6 @@ import Scribante from "./Pages/Scribante/Scribante";
 import ViewEvents from "./Pages/ViewEvents/ViewEvents";
 import EditProfile from "./Pages/EditProfile/EditProfile";
 import Login from "./Pages/Auth/Login/Login";
-import Register from "./Pages/Auth/Register/Register";
 import VoteEvent from "./Pages/VoteEvent/VoteEvents";
 import ViewEventVotes from "./Pages/ViewEventVotes/ViewEvents";
 import EventExpenses from "./Pages/EventExpenses/EventExpenses";
@@ -28,10 +27,10 @@ import AddLapTime from "./Pages/AddLapTime/AddLapTime";
 import AddCategory from "./Pages/AddCategory/AddCategory";
 import VerifyMembers from "./Pages/VerifyMembers/VerifyMembers";
 import VerifyMember from "./Pages/VerifyMember/VerifyMember";
+import Register from "./Pages/Auth/Register/Register";
 
 function App() {
 	const [sidebarOpen, setSidebarOpen] = useState(true);
-	const [email, setEmail] = useState(null); // Replace null with the actual email state value
 
 	const toggleSidebar = () => {
 		setSidebarOpen(!sidebarOpen);

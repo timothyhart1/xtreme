@@ -11,6 +11,7 @@ using WebApi.Services;
 using WebApi.Helpers;
 using XtremeOctaneApi.Services.EventService;
 using XtremeOctaneApi.Services.EventExpenses;
+using XtremeOctaneApi.Services.Vehicle;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,6 +50,7 @@ builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddScoped<IEventExpenseService, EventExpenseService>();
 builder.Services.AddScoped<UserManager<ApplicationUser>>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IVehicleService, VehicleService>();
 
 builder.Services.AddControllers();
 

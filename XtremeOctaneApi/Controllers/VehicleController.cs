@@ -1,8 +1,14 @@
-﻿using XtremeOctaneApi.Models;
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using XtremeOctaneApi.Data;
+using Microsoft.Extensions.Logging;
+using XtremeOctaneApi.Models;
+using XtremeOctaneApi.Services;
+using XtremeOctaneApi.Services.Vehicle;
 
 namespace XtremeOctaneApi.Controllers
 {
@@ -11,11 +17,11 @@ namespace XtremeOctaneApi.Controllers
     public class VehicleController : Controller
     {
         private readonly ILogger<VehicleController> _logger;
-        private readonly DataContext _db;
+        private readonly IVehicleService _vehicleService;
 
-        public VehicleController(DataContext db, ILogger<VehicleController> logger)
+        public VehicleController(IVehicleService vehicleService, ILogger<VehicleController> logger)
         {
-            _db = db;
+            _vehicleService = vehicleService;
             _logger = logger;
         }
 
@@ -25,202 +31,146 @@ namespace XtremeOctaneApi.Controllers
         {
             try
             {
-                var vehicles = await _db.Vehicle
-                    .Include(v => v.Member)
-                    .ToListAsync();
+                var vehicles = await _vehicleService.GetAllVehicles();
 
                 if (vehicles == null)
                 {
-                    return NotFound("No members are available!");
+                    return NotFound("No vehicles are available!");
                 }
 
                 return Ok(vehicles);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while fetching the members");
-                return StatusCode(500, "An error occurred while fetching the members");
+                _logger.LogError(ex, "An error occurred while fetching the vehicles");
+                return StatusCode(500, "An error occurred while fetching the vehicles");
             }
         }
 
         // Get a single vehicle.
         [HttpGet, Route("GetMemberVehicle/{id}")]
-        public IActionResult GetVehicle(int id)
-        {
-            var vehicle = _db.Vehicle.Include(v => v.Member).FirstOrDefault(v => v.VehicleId == id);
-
-            if (vehicle == null)
-            {
-                return NotFound("Member not found.");
-            }
-
-            return Ok(vehicle);
-        }
-
-        // Get all vehicles owned by a member.
-        [HttpGet, Route("GetAllMemberVehicles/{id}")]
-        public IActionResult GetVehiclesByMember (int id)
-        {
-            var member = _db.Member.Find(id);
-
-            if (member == null)
-            {
-                return NotFound("Member not found.");
-            }
-
-            var vehicles = _db.Vehicle
-                .Where(v => v.MemberId == id)
-                .ToList();
-
-            return Ok(vehicles);
-        }
-
-        // Get the image of a vehicle.
-        [HttpGet("GetVehicleImage/{id}")]
-        [AllowAnonymous]
-        public IActionResult GetEventImage(int id)
-        {
-            var vehicle = _db.Vehicle.FirstOrDefault(e => e.VehicleId == id);
-
-            if (vehicle == null || string.IsNullOrEmpty(vehicle.VehicleImage))
-            {
-                return NotFound("Event or image not found.");
-            }
-
-            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "Documents", "Cars", vehicle.VehicleImage);
-
-            if (!System.IO.File.Exists(filePath))
-            {
-                return NotFound("Image not found.");
-            }
-
-            var fileBytes = System.IO.File.ReadAllBytes(filePath);
-            return File(fileBytes, "image/jpeg");
-        }
-
-        // Edit a vehicle.
-        [HttpPut("EditVehicle/{id}")]
-        public async Task<ActionResult> EditVehicle(int id, IFormFile? vehicleImage, int memberId, string manufacturer, string model,
-            string year, int mileage, string plate, string color)
+        public async Task<IActionResult> GetVehicle(int id)
         {
             try
             {
-                var vehicle = _db.Vehicle.FirstOrDefault(e => e.VehicleId == id);
+                var vehicle = await _vehicleService.GetVehicle(id);
 
-                if (vehicle != null)
+                if (vehicle == null)
                 {
-                    if (vehicleImage != null)
-                    {
-                        string fileName = Guid.NewGuid() + Path.GetExtension(vehicleImage.FileName);
-                        string uploadFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Documents\\Cars", fileName);
-
-                        using (var fileStream = new FileStream(uploadFilePath, FileMode.Create))
-                        {
-                            await vehicleImage.CopyToAsync(fileStream);
-                            await fileStream.FlushAsync();
-                        }
-
-                        vehicle.VehicleImage = fileName;
-                        vehicle.HasImage = true;
-                    }
-                    else
-                    {
-                        vehicle.HasImage = false;
-                    }
-
-                    vehicle.MemberId = memberId;
-                    vehicle.Manufacturer = manufacturer;
-                    vehicle.Model = model;  
-                    vehicle.Year = year;
-                    vehicle.Mileage = mileage;
-                    vehicle.Plate = plate;
-                    vehicle.Color = color;
-
-                    _db.SaveChanges();
-
-                    return Ok();
+                    return NotFound("Vehicle not found.");
                 }
-
-                return NotFound($"Could not find the event with the id {id}");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "There was an error editing the event");
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpPost("AddVehicle")]
-        [AllowAnonymous]
-        public async Task<ActionResult<VehicleModel>> AddVehicle([FromForm] VehicleModel formData) 
-        {
-            try
-            {
-                bool hasImage = formData.Image != null;
-                string fileName = hasImage ? Guid.NewGuid() + Path.GetExtension(formData.Image.FileName) : null;
-
-                if (hasImage)
-                {
-                    string uploadfilepath = Path.Combine(Directory.GetCurrentDirectory(), "Documents\\Cars", fileName);
-
-                    using (var fileStream = new FileStream(uploadfilepath, FileMode.Create))
-                    {
-                        await formData.Image.CopyToAsync(fileStream);
-                        await fileStream.FlushAsync();
-                    };
-                }
-
-                var vehicle = new VehicleModel
-                {
-                    MemberId = formData.MemberId,
-                    Manufacturer = formData.Manufacturer,
-                    Year = formData.Year,
-                    Model = formData.Model,
-                    Mileage = formData.Mileage,
-                    Plate = formData.Plate,
-                    Color = formData.Color,
-                    VehicleImage = fileName,
-                    HasImage = hasImage
-                };
-
-                await _db.Vehicle.AddAsync(vehicle);
-                await _db.SaveChangesAsync();
 
                 return Ok(vehicle);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while posting the vehicle");
-                return StatusCode(500, "An error occurred while posting the vehicle");
+                _logger.LogError(ex, "An error occurred while fetching the vehicle");
+                return StatusCode(500, "An error occurred while fetching the vehicle");
             }
         }
 
-
-
-
-
-        // Delete a vehicle.
-        [HttpDelete("DeleteVehicle/{id}")]
-        [AllowAnonymous]
-        public async Task<IActionResult> Delete(int id)
+        // Get all vehicles owned by a member.
+        [HttpGet, Route("GetAllMemberVehicles/{id}")]
+        public async Task<IActionResult> GetVehiclesByMember(int id)
         {
             try
             {
-                var vehicle = await _db.Vehicle.FindAsync(id);
+                var vehicles = await _vehicleService.GetVehiclesByMember(id);
 
-                if (vehicle == null)
+                if (vehicles == null)
                 {
-                    return BadRequest("No vehicle was found with a matching ID!");
+                    return NotFound("No vehicles found for the member.");
                 }
 
-                _db.Vehicle.Remove(vehicle);
-                await _db.SaveChangesAsync();
+                return Ok(vehicles);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while fetching the member's vehicles");
+                return StatusCode(500, "An error occurred while fetching the member's vehicles");
+            }
+        }
+
+        // Get the image of a vehicle.
+        [HttpGet("GetVehicleImage/{id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetVehicleImage(int id)
+        {
+            try
+            {
+                var imageBytes = await _vehicleService.GetVehicleImage(id);
+
+                if (imageBytes == null)
+                {
+                    return NotFound("Vehicle image not found.");
+                }
+
+                return File(imageBytes, "image/jpeg");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while fetching the vehicle image");
+                return StatusCode(500, "An error occurred while fetching the vehicle image");
+            }
+        }
+
+        // Edit a vehicle.
+        [HttpPut("EditVehicle/{id}")]
+        public async Task<IActionResult> EditVehicle(int id, [FromForm] VehicleModel formData)
+        {
+            try
+            {
+                await _vehicleService.EditVehicle(id, formData, formData.Image);
+
                 return Ok();
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while deleting the event");
+                _logger.LogError(ex, "There was an error editing the vehicle");
+                return StatusCode(500, "An error occurred while editing the vehicle");
+            }
+        }
+
+        // Add a vehicle.
+        [HttpPost("AddVehicle")]
+        [AllowAnonymous]
+        public async Task<IActionResult> AddVehicle([FromForm] VehicleModel formData)
+        {
+            try
+            {
+                var vehicle = await _vehicleService.AddVehicle(formData);
+
+                return Ok(vehicle);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while adding the vehicle");
+                return StatusCode(500, "An error occurred while adding the vehicle");
+            }
+        }
+
+        // Delete a vehicle.
+        [HttpDelete("DeleteVehicle/{id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> DeleteVehicle(int id)
+        {
+            try
+            {
+                var success = await _vehicleService.DeleteVehicle(id);
+
+                if (success)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest("No vehicle was found with a matching ID!");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while deleting the vehicle");
+                return StatusCode(500, "An error occurred while deleting the vehicle");
             }
         }
 
@@ -231,33 +181,21 @@ namespace XtremeOctaneApi.Controllers
         {
             try
             {
-                var vehicle = await _db.Vehicle.FindAsync(id);
+                var success = await _vehicleService.DeleteVehicleImage(id);
 
-                if (vehicle == null)
+                if (success)
+                {
+                    return Ok();
+                }
+                else
                 {
                     return BadRequest("No vehicle was found with a matching ID!");
                 }
-
-                if (!string.IsNullOrEmpty(vehicle.VehicleImage))
-                {
-                    string filePath = Path.Combine(Directory.GetCurrentDirectory(), "Documents", "Cars", vehicle.VehicleImage);
-
-                    if (System.IO.File.Exists(filePath))
-                    {
-                        System.IO.File.Delete(filePath);
-                    }
-                    vehicle.VehicleImage = null;
-                    vehicle.HasImage = false;
-
-                    await _db.SaveChangesAsync();
-                }
-
-                return Ok();
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while deleting the vehicle image");
+                _logger.LogError(ex, "An error occurred while deleting the vehicle image");
+                return StatusCode(500, "An error occurred while deleting the vehicle image");
             }
         }
     }
