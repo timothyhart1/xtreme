@@ -19,6 +19,9 @@ const Register = () => {
 	const API = window.appConfig.API;
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [firstName, setFirstName] = useState("");
+	const [surname, setSurname] = useState("");
+	const [phoneNumber, setPhoneNumber] = useState("");
 	const [user, setUser] = useState("");
 	const navigate = useNavigate();
 	const auth = useAuth();
@@ -28,8 +31,11 @@ const Register = () => {
 		try {
 			const res = await axios
 				.post(`${API}/User/CreateNewUser`, {
-					EmailAddress: email,
+					emailAddress: email,
 					password: password,
+					firstName: firstName,
+					lastName: surname,
+					phoneNumber: phoneNumber,
 				})
 				.then((response) => {
 					console.log(response.data);
@@ -45,22 +51,20 @@ const Register = () => {
 			<Container fluid={true}>
 				<CardTitle title="Register" />
 				<Card id="card-container">
-					<Form onSubmit={postLogin} id="event-form">
+					<Form onSubmit={postLogin} id="event-form" autocomplete="off">
 						<div className="event-container">
 							<Row>
-								<FormGroup id="event-form-group">
-									<Label className="form-label" id="event-label">
-										Email
-									</Label>
-									<Input
-										className="form-control dark-event-input"
-										required
-										type="text"
-										name="surname"
-										style={{ backgroundColor: "#161616 !important" }}
-										onChange={(e) => setEmail(e.target.value)}
-									/>
-								</FormGroup>
+								<Label className="form-label" id="event-label">
+									Email
+								</Label>
+								<Input
+									className="form-control dark-event-input"
+									required
+									autoComplete="off"
+									type="text"
+									name="email"
+									onChange={(e) => setEmail(e.target.value)}
+								/>
 							</Row>
 							<Row>
 								<FormGroup id="event-form-group">
@@ -68,11 +72,53 @@ const Register = () => {
 										Password
 									</Label>
 									<Input
-										className="form-control dark-event-input"
 										required
+										autoComplete="off"
 										type="password"
 										name="password"
 										onChange={(e) => setPassword(e.target.value)}
+									/>
+								</FormGroup>
+							</Row>
+							<Row>
+								<FormGroup id="event-form-group">
+									<Label className="form-label" id="event-label">
+										First Name
+									</Label>
+									<Input
+										className="form-control dark-event-input"
+										required
+										type="text"
+										name="firstName"
+										onChange={(e) => setFirstName(e.target.value)}
+									/>
+								</FormGroup>
+							</Row>
+							<Row>
+								<FormGroup id="event-form-group">
+									<Label className="form-label" id="event-label">
+										Last Name
+									</Label>
+									<Input
+										className="form-control dark-event-input"
+										required
+										type="text"
+										name="surname"
+										onChange={(e) => setSurname(e.target.value)}
+									/>
+								</FormGroup>
+							</Row>
+							<Row>
+								<FormGroup id="event-form-group">
+									<Label className="form-label" id="event-label">
+										Cell
+									</Label>
+									<Input
+										className="form-control dark-event-input"
+										required
+										type="text"
+										name="phoneNumber"
+										onChange={(e) => setPhoneNumber(e.target.value)}
 									/>
 								</FormGroup>
 							</Row>
@@ -83,7 +129,7 @@ const Register = () => {
 										type="submit"
 										id="event-btn"
 									>
-										Login
+										Register
 									</Button>
 								</FormGroup>
 							</Row>

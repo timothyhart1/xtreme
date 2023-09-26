@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 const Members = () => {
 	const API = window.appConfig.API;
 	const [data, setData] = useState([]);
-	const [filteredData, setFilteredData] = useState([]); // State for filtered data
+	const [filteredData, setFilteredData] = useState([]);
 	const [updateTrigger, setUpdateTrigger] = useState(0);
 
 	useEffect(() => {
@@ -69,6 +69,7 @@ const Members = () => {
 		},
 		{
 			name: "Date Joined",
+			id: "createDate",
 			selector: (row) => row.createDate.slice(0, 10),
 			sortable: true,
 		},
@@ -123,6 +124,8 @@ const Members = () => {
 							fixedHeader
 							pagination
 							className="data-table-xo"
+							defaultSortFieldId="createDate"
+							defaultSortAsc={false}
 						/>
 					</CardBody>
 				</Card>

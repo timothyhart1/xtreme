@@ -71,10 +71,10 @@ namespace XtremeOctaneApi.Controllers
                 {
                     Email = user.UserName,
                     UserId = user.Id,
-                    Name = null,
-                    Surname = null,
+                    Name = userModel.FirstName,
+                    Surname = userModel.LastName,
                     City = null,
-                    PhoneNumber = null,
+                    PhoneNumber = userModel.PhoneNumber,
                     Gender = null,
                     CreateDate = DateTime.Now,
                     Deleted = false,
@@ -127,6 +127,8 @@ namespace XtremeOctaneApi.Controllers
         [HttpPost, Route("Login")]
         public async Task<ActionResult> Login([FromBody] UserModel userModel)
         {
+            string userRoles = string.Empty; 
+
             try
             {
                 var result = await _signInManager.PasswordSignInAsync(userModel.EmailAddress, userModel.Password, false, lockoutOnFailure: true);
@@ -146,19 +148,21 @@ namespace XtremeOctaneApi.Controllers
                         return BadRequest();
                     }
 
-                    var token = _userService.GenerateToken(userId);
-
                     var rolesResponse = await GetUserRole(userId);
 
-                    if (rolesResponse is OkObjectResult rolesResult && rolesResult.Value is string userRoles)
+                    if (rolesResponse is OkObjectResult rolesResult && rolesResult.Value is string userRolesValue)
                     {
+                        userRoles = userRolesValue; 
+
+                        var token = _userService.GenerateToken(userId, user.UserName, member.MemberId.ToString(), userRoles);
+
                         var loginResponse = new LoginResponseDto
                         {
                             Token = token,
                             UserId = userId,
                             Email = user.UserName,
                             MemberId = member.MemberId,
-                            UserRoles = userRoles 
+                            UserRoles = userRoles
                         };
                         return Ok(loginResponse);
                     }
@@ -170,6 +174,7 @@ namespace XtremeOctaneApi.Controllers
             }
             return BadRequest();
         }
+
 
         [HttpPost, Route("Logout")]
         [Authorize]

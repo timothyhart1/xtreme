@@ -71,6 +71,7 @@ const VerifyMembers = () => {
 			name: "Date Joined",
 			selector: (row) => row.createDate.slice(0, 10),
 			sortable: true,
+			id: "createDate",
 		},
 		{
 			name: "Actions",
@@ -123,6 +124,8 @@ const VerifyMembers = () => {
 							fixedHeader
 							pagination
 							className="data-table-xo"
+							defaultSortFieldId="createDate"
+							defaultSortAsc={false}
 						/>
 					</CardBody>
 				</Card>
