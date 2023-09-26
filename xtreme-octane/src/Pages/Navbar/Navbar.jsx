@@ -35,7 +35,6 @@ function Navbar({ toggleSidebar }) {
 			try {
 				const res = await axios.get(`${API}/User/GetUserRole/${userId}`);
 				setUserRole(res.data);
-				console.log(res);
 			} catch (error) {
 				console.error(error);
 			}

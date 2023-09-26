@@ -14,7 +14,6 @@ const HeroSection = () => {
 			.get(`${API}/Member/GetAllMembers`)
 			.then((response) => {
 				setMemberCount(response.data.length);
-				console.log(response.data.length);
 			});
 	};
 
@@ -23,7 +22,6 @@ const HeroSection = () => {
 			.get(`${API}/Vehicle/GetAllVehicles`)
 			.then((response) => {
 				setVehicleCount(response.data.length);
-				console.log(response.data.length);
 			});
 	};
 
