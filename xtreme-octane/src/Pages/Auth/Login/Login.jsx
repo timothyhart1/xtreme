@@ -34,10 +34,6 @@ const Login = ({ setUserRole }) => {
 				.then((response) => {
 					console.log(response);
 					sessionStorage.setItem("Token", response.data.token);
-					sessionStorage.setItem("UserId", response.data.userId);
-					sessionStorage.setItem("Email", response.data.email);
-					sessionStorage.setItem("MemberId", response.data.memberId);
-					setUserRole(response.data.userRoles);
 					setUser(response.data);
 					auth.login(response.data);
 					navigate("/", { replace: true });

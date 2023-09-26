@@ -14,6 +14,7 @@ function Navbar({ toggleSidebar }) {
 	const memberId = sessionStorage.getItem("MemberId");
 	const userId = sessionStorage.getItem("UserId");
 	const [userRole, setUserRole] = useState("");
+	const token = sessionStorage.getItem("Token");
 
 	const handleToggleSidebar = () => {
 		setSidebar(!sidebar);
@@ -25,10 +26,10 @@ function Navbar({ toggleSidebar }) {
 	};
 
 	useEffect(() => {
-		if (!email) {
+		if (!token) {
 			setSidebar(false);
 		}
-	}, [email]);
+	}, [token]);
 
 	useEffect(() => {
 		async function getUserRole() {
@@ -103,14 +104,14 @@ function Navbar({ toggleSidebar }) {
 		<>
 			<IconContext.Provider value={{ color: "#fff" }}>
 				<div className="navbar">
-					{email && (
+					{token && (
 						<Link to="#" className="menu-bars" onClick={handleToggleSidebar}>
 							{sidebar ? <AiIcons.AiOutlineClose /> : <FaIcons.FaBars />}
 						</Link>
 					)}
 					<nav className={sidebar ? "nav-menu active" : "nav-menu"}>
 						<ul className="nav-menu-items">
-							{email && (
+							{token && (
 								<li className="navbar-toggle">
 									<Link
 										to="#"
@@ -131,24 +132,20 @@ function Navbar({ toggleSidebar }) {
 
 								const isActive = item.path === location.pathname;
 
-								if (isAllowed) {
-									return (
-										<li
-											key={index}
-											className={isActive ? "nav-text active" : "nav-text"}
-										>
-											<Link to={item.path}>
-												<span>{item.title}</span>
-											</Link>
-										</li>
-									);
-								} else {
-									return null; // Don't render the item if it's not allowed
-								}
+								return (
+									<li
+										key={index}
+										className={isActive ? "nav-text active" : "nav-text"}
+									>
+										<Link to={item.path}>
+											<span>{item.title}</span>
+										</Link>
+									</li>
+								);
 							})}
 						</ul>
 					</nav>
-					{email && (
+					{token && (
 						<div className="logged-in-as">
 							<span style={{ color: "#fff", marginRight: "15px" }}>
 								Logged In As: {loggedInUser.name}

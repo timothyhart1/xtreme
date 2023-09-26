@@ -12,11 +12,11 @@ import {
 } from "reactstrap";
 import axios from "axios";
 import CardTitle from "../CardTitle/CardTitle";
+import { useMemberId } from "../../Contexts/MemberIdContext";
 
 function EditProfile() {
 	const API = window.appConfig.API;
-	const memberId = sessionStorage.getItem("MemberId");
-	const userId = sessionStorage.getItem("UserId");
+	const { memberId } = useMemberId();
 	const [profilePicture, setProfilePicture] = useState(null);
 
 	const [profile, setProfile] = useState({

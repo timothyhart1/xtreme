@@ -7,13 +7,17 @@ import "react-toastify/dist/ReactToastify.css";
 import { useParams } from "react-router-dom";
 import { Card, Container, Button } from "reactstrap";
 import { FaCheckCircle } from "react-icons/fa";
+import { useUserRole } from "../../Contexts/RoleContext";
+import { useMemberId } from "../../Contexts/MemberIdContext";
+import { useUserId } from "../../Contexts/UserIdContext";
+import { useEmail } from "../../Contexts/EmailContext";
 
 const ViewSingleEvent = () => {
 	const API = window.appConfig.API;
 	const [data, setData] = useState([]);
 	const { eventId } = useParams();
 	const [vote, setVote] = useState("");
-	const memberId = sessionStorage.getItem("MemberId");
+	const { memberId } = useMemberId();
 	const [voteResult, setVoteResult] = useState("");
 	const token = sessionStorage.getItem("Token");
 

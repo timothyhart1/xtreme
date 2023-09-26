@@ -16,10 +16,10 @@ import {
 import CardTitle from "../CardTitle/CardTitle";
 import "../../Styles/styles.css";
 import { Link } from "react-router-dom";
+import { useMemberId } from "../../Contexts/MemberIdContext";
 
 const AddLapTime = () => {
 	const API = window.appConfig.API;
-	const memberId = sessionStorage.getItem("MemberId");
 	const [vehicleId, setVehicleId] = useState("");
 	const [lapTimeMinutes, setLapTimeMinutes] = useState("");
 	const [lapTimeSeconds, setLapTimeSeconds] = useState("");
@@ -30,6 +30,7 @@ const AddLapTime = () => {
 	const [vehicleClass, setVehicleClass] = useState("");
 	const [lapTimeScreenshot, setLapTimeScreenshot] = useState(null);
 	const [vehicles, setVehicles] = useState([]);
+	const { memberId } = useMemberId();
 
 	useEffect(() => {
 		async function getUserVehicles() {

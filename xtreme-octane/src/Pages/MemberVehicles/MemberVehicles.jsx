@@ -8,12 +8,19 @@ import { FaRegEdit } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import DataTable from "react-data-table-component";
+import { useUserRole } from "../../Contexts/RoleContext";
+import { useMemberId } from "../../Contexts/MemberIdContext";
+import { useUserId } from "../../Contexts/UserIdContext";
+import { useEmail } from "../../Contexts/EmailContext";
 
 const MemberVehicles = () => {
 	const API = window.appConfig.API;
 	const [data, setData] = useState([]);
-	const memberId = sessionStorage.getItem("MemberId");
 	const token = sessionStorage.getItem("Token");
+	const { userRole } = useUserRole();
+	const { memberId } = useMemberId();
+	const { userId } = useUserId();
+	const { email } = useEmail();
 
 	useEffect(() => {
 		async function fetchData() {

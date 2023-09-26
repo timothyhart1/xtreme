@@ -16,6 +16,10 @@ import {
 import CardTitle from "../CardTitle/CardTitle";
 import "../../Styles/styles.css";
 import { Link } from "react-router-dom";
+import { useUserRole } from "../../Contexts/RoleContext";
+import { useMemberId } from "../../Contexts/MemberIdContext";
+import { useUserId } from "../../Contexts/UserIdContext";
+import { useEmail } from "../../Contexts/EmailContext";
 
 const AddVehicle = () => {
 	const API = window.appConfig.API;
@@ -26,7 +30,10 @@ const AddVehicle = () => {
 	const [plate, setPlate] = useState("");
 	const [colour, setColour] = useState("");
 	const [imageFile, setFile] = useState();
-	const memberId = sessionStorage.getItem("MemberId");
+	const { userRole } = useUserRole();
+	const { memberId } = useMemberId();
+	const { userId } = useUserId();
+	const { email } = useEmail();
 
 	const getImage = (e) => {
 		setFile(e.target.files[0]);
