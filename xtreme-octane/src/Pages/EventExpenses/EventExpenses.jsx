@@ -61,14 +61,18 @@ const EventExpenses = () => {
 	};
 
 	useEffect(() => {
-		fetchData();
-		getTotalExpenses();
-		fetchCategories();
+		fetchData().catch((error) => {
+			console.error(error)
+		});
+		getTotalExpenses().catch((error) => {
+			console.error(error)
+		});
+		fetchCategories().catch((error) => {
+			console.error(error);
+		});
 	}, [eventId]);
 
 	const AddExpense = async (e) => {
-		console.log("hdhdh");
-
 		e.preventDefault();
 
 		const res = await axios.post(`${API}/EventExpense/AddNewEventExpense`, {
@@ -79,9 +83,12 @@ const EventExpenses = () => {
 			category: expenseCategory,
 			memberId: memberId,
 		});
-		console.log(res.status);
-		fetchData();
-		getTotalExpenses();
+		fetchData().catch((error) => {
+			console.error(error);
+		});
+		getTotalExpenses().catch((error) => {
+			console.error(error);
+		});
 	};
 
 	const deleteEventExpense = async (eventExpenseId) => {

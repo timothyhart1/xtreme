@@ -42,7 +42,9 @@ function Navbar({ toggleSidebar }) {
 				console.error(error);
 			}
 		}
-		getUserRole();
+		getUserRole().catch((error) => {
+			console.error(error)
+		})
 	}, [API]);
 
 	const SidebarData = [
@@ -161,6 +163,7 @@ function Navbar({ toggleSidebar }) {
 										borderRadius: "100%",
 										objectFit: "cover",
 									}}
+									alt={"profile"}
 								/>
 							</span>
 						</div>

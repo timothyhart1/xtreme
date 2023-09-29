@@ -45,7 +45,9 @@ function EditProfile() {
 				console.log(error);
 			}
 		}
-		fetchData();
+		fetchData().catch((error) => {
+			console.error(error)
+		})
 	}, []);
 
 	const updateProfile = async (e) => {

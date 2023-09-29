@@ -51,7 +51,9 @@ const EditVehicle = () => {
 	};
 
 	useEffect(() => {
-		fetchData();
+		fetchData().catch((error) => {
+			console.error(error)
+		});
 	}, [vehicleId]);
 
 	const onInputChange = (e) => {
