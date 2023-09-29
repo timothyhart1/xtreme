@@ -1,26 +1,20 @@
-import React, { useState, useEffect, Fragment } from "react";
-import "../../Styles/styles.css";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import { Card, CardBody, Container } from "reactstrap";
-import CardTitle from "../CardTitle/CardTitle";
+import React, { Fragment, useEffect, useState } from "react";
+import DataTable from "react-data-table-component";
 import { FaRegEdit } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import DataTable from "react-data-table-component";
-import { useUserRole } from "../../Contexts/RoleContext";
+import { Card, CardBody, Container } from "reactstrap";
 import { useMemberId } from "../../Contexts/MemberIdContext";
-import { useUserId } from "../../Contexts/UserIdContext";
-import { useEmail } from "../../Contexts/EmailContext";
+import "../../Styles/styles.css";
+import CardTitle from "../CardTitle/CardTitle";
 
 const MemberVehicles = () => {
 	const API = window.appConfig.API;
 	const [data, setData] = useState([]);
 	const token = sessionStorage.getItem("Token");
-	const { userRole } = useUserRole();
 	const { memberId } = useMemberId();
-	const { userId } = useUserId();
-	const { email } = useEmail();
 
 	useEffect(() => {
 		async function fetchData() {

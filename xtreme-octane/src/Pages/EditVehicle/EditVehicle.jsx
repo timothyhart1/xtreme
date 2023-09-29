@@ -1,28 +1,29 @@
-import React, { useState, useEffect, Fragment } from "react";
-import "../../Styles/styles.css";
 import axios from "axios";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import CardTitle from "../CardTitle/CardTitle";
-import { ToastContainer, toast } from "react-toastify";
+import React, { Fragment, useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
-	Row,
-	Card,
-	Form,
-	Label,
-	Input,
-	Container,
 	Button,
-	FormGroup,
+	Card,
 	CardBody,
+	Container,
+	Form,
+	FormGroup,
+	Input,
+	Label,
+	Row,
 } from "reactstrap";
+import { useMemberId } from "../../Contexts/MemberIdContext";
+import "../../Styles/styles.css";
+import CardTitle from "../CardTitle/CardTitle";
 
 const EditVehicle = () => {
 	const API = window.appConfig.API;
 	const { vehicleId } = useParams();
 	const [imageFile, setImageFile] = useState(null);
 	const navigate = useNavigate();
-	const memberId = sessionStorage.getItem("MemberId");
+	const { memberId } = useMemberId();
 
 	const [vehicle, setVehicle] = useState({
 		manufacturer: "",

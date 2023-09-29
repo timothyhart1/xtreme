@@ -1,11 +1,11 @@
-import React, { useState, useEffect, Fragment } from "react";
-import "../../Styles/styles.css";
 import axios from "axios";
+import React, { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import CardTitle from "../CardTitle/CardTitle";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Card, CardBody, Container, CardSubtitle, Button } from "reactstrap";
+import { Button, Card, CardBody, CardSubtitle, Container } from "reactstrap";
+import "../../Styles/styles.css";
+import CardTitle from "../CardTitle/CardTitle";
 
 const ViewEvents = () => {
 	const API = window.appConfig.API;

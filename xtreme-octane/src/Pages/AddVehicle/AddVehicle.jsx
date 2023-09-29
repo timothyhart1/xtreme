@@ -1,25 +1,21 @@
-import React, { useState, Fragment } from "react";
 import axios from "axios";
+import React, { Fragment, useState } from "react";
+import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
-	Row,
-	Card,
-	Form,
-	Label,
-	Input,
-	Container,
 	Button,
+	Card,
+	Container,
+	Form,
 	FormGroup,
-	Col,
+	Input,
+	Label,
+	Row,
 } from "reactstrap";
-import CardTitle from "../CardTitle/CardTitle";
-import "../../Styles/styles.css";
-import { Link } from "react-router-dom";
-import { useUserRole } from "../../Contexts/RoleContext";
 import { useMemberId } from "../../Contexts/MemberIdContext";
-import { useUserId } from "../../Contexts/UserIdContext";
-import { useEmail } from "../../Contexts/EmailContext";
+import "../../Styles/styles.css";
+import CardTitle from "../CardTitle/CardTitle";
 
 const AddVehicle = () => {
 	const API = window.appConfig.API;
@@ -30,10 +26,7 @@ const AddVehicle = () => {
 	const [plate, setPlate] = useState("");
 	const [colour, setColour] = useState("");
 	const [imageFile, setFile] = useState();
-	const { userRole } = useUserRole();
 	const { memberId } = useMemberId();
-	const { userId } = useUserId();
-	const { email } = useEmail();
 
 	const getImage = (e) => {
 		setFile(e.target.files[0]);

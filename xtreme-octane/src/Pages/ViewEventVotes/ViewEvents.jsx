@@ -1,9 +1,9 @@
-import React, { useState, useEffect, Fragment, useCallback } from "react";
 import axios from "axios";
-import { Tooltip, BarChart, XAxis, YAxis, Bar } from "recharts";
-import { Link, useParams } from "react-router-dom";
-import { Card, Container, Table, Button } from "reactstrap";
+import React, { Fragment, useCallback, useEffect, useState } from "react";
 import { FaRegEye } from "react-icons/fa";
+import { Link, useParams } from "react-router-dom";
+import { Button, Card, Container, Table } from "reactstrap";
+import { Bar, BarChart, Tooltip, XAxis, YAxis } from "recharts";
 import "../../Styles/styles.css";
 import CardTitle from "../CardTitle/CardTitle";
 

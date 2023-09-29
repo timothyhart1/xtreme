@@ -1,23 +1,22 @@
-import React, { useState, useEffect, Fragment } from "react";
-import "../../Styles/styles.css";
 import axios from "axios";
+import React, { Fragment, useEffect, useState } from "react";
+import DataTable from "react-data-table-component";
+import { FaPlus, FaRegEdit, FaRegEye } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import CardTitle from "../CardTitle/CardTitle";
-import ModalDeleteEvent from "../Modal/Modal";
-import { FaRegEdit, FaRegEye, FaPlus } from "react-icons/fa";
 import {
-	Row,
+	Button,
 	Card,
-	Form,
-	Label,
-	Input,
 	CardBody,
 	Container,
-	Button,
+	Form,
 	FormGroup,
-	Table,
+	Input,
+	Label,
+	Row,
 } from "reactstrap";
-import DataTable from "react-data-table-component";
+import "../../Styles/styles.css";
+import CardTitle from "../CardTitle/CardTitle";
+import ModalDeleteEvent from "../Modal/Modal";
 
 const Events = () => {
 	const API = window.appConfig.API;

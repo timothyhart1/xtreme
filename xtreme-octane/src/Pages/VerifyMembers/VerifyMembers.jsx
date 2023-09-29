@@ -1,14 +1,14 @@
-import React, { useState, useEffect, Fragment } from "react";
-import "../../Styles/styles.css";
 import axios from "axios";
-import { Card, CardBody, Container } from "reactstrap";
-import ModalDeleteEvent from "../Modal/Modal";
+import React, { Fragment, useEffect, useState } from "react";
+import DataTable from "react-data-table-component";
 import { FaEye, FaPlus } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Card, CardBody, Container } from "reactstrap";
+import "../../Styles/styles.css";
 import CardTitle from "../CardTitle/CardTitle";
-import DataTable from "react-data-table-component";
-import { Link } from "react-router-dom";
+import ModalDeleteEvent from "../Modal/Modal";
 
 const VerifyMembers = () => {
 	const API = window.appConfig.API;

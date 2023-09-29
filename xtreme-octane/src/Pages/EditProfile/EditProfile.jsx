@@ -1,18 +1,18 @@
-import React, { useState, useEffect, Fragment } from "react";
-import "../../Styles/styles.css";
+import axios from "axios";
+import React, { Fragment, useEffect, useState } from "react";
 import {
+	Button,
 	Card,
 	Container,
-	Input,
-	Row,
 	Form,
 	FormGroup,
+	Input,
 	Label,
-	Button,
+	Row,
 } from "reactstrap";
-import axios from "axios";
-import CardTitle from "../CardTitle/CardTitle";
 import { useMemberId } from "../../Contexts/MemberIdContext";
+import "../../Styles/styles.css";
+import CardTitle from "../CardTitle/CardTitle";
 
 function EditProfile() {
 	const API = window.appConfig.API;

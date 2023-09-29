@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from "react";
-import * as FaIcons from "react-icons/fa";
-import * as AiIcons from "react-icons/ai";
-import { IconContext } from "react-icons";
-import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { IconContext } from "react-icons";
+import * as AiIcons from "react-icons/ai";
+import * as FaIcons from "react-icons/fa";
+import { Link, useLocation } from "react-router-dom";
+import { useEmail } from "../../Contexts/EmailContext";
+import { useMemberId } from "../../Contexts/MemberIdContext";
 import logo from "../../Images/Logo_transparent.png";
 
 function Navbar({ toggleSidebar }) {
 	const [sidebar, setSidebar] = useState(false);
 	const location = useLocation();
 	const API = window.appConfig.API;
-	const email = sessionStorage.getItem("Email");
-	const memberId = sessionStorage.getItem("MemberId");
+	const { email } = useEmail();
+	const { memberId } = useMemberId();
 	const userId = sessionStorage.getItem("UserId");
 	const [userRole, setUserRole] = useState("");
 	const token = sessionStorage.getItem("Token");

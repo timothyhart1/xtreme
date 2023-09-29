@@ -1,16 +1,12 @@
-import React, { useState, useEffect, Fragment, useCallback } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import CardTitle from "../CardTitle/CardTitle";
+import React, { Fragment, useCallback, useEffect, useState } from "react";
+import { FaCheckCircle } from "react-icons/fa";
+import { Link, useParams } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useParams } from "react-router-dom";
-import { Card, Container, Button } from "reactstrap";
-import { FaCheckCircle } from "react-icons/fa";
-import { useUserRole } from "../../Contexts/RoleContext";
+import { Button, Card, Container } from "reactstrap";
 import { useMemberId } from "../../Contexts/MemberIdContext";
-import { useUserId } from "../../Contexts/UserIdContext";
-import { useEmail } from "../../Contexts/EmailContext";
+import CardTitle from "../CardTitle/CardTitle";
 
 const ViewSingleEvent = () => {
 	const API = window.appConfig.API;

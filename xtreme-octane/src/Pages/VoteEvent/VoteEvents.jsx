@@ -1,10 +1,11 @@
-import React, { useState, useEffect, Fragment, useCallback } from "react";
 import axios from "axios";
+import React, { Fragment, useCallback, useEffect, useState } from "react";
+import { FaCheckCircle } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Card, Container, Button } from "reactstrap";
-import { FaCheckCircle } from "react-icons/fa";
+import { Button, Card, Container } from "reactstrap";
+import { useMemberId } from "../../Contexts/MemberIdContext";
 import "../../Styles/styles.css";
 
 const VoteEvent = () => {
@@ -12,7 +13,7 @@ const VoteEvent = () => {
 	const [data, setData] = useState([]);
 	const { eventId } = useParams();
 	const [vote, setVote] = useState("");
-	const memberId = sessionStorage.getItem("MemberId");
+	const { memberId } = useMemberId();
 	const [voteResult, setVoteResult] = useState("");
 	const token = sessionStorage.getItem("Token");
 

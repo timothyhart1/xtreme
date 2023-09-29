@@ -1,25 +1,24 @@
-import React, { useState, Fragment, useEffect } from "react";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import React, { Fragment, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
-	Row,
-	Card,
-	Form,
-	Label,
-	Input,
-	Container,
 	Button,
+	Card,
+	Container,
+	Form,
 	FormGroup,
-	Col,
+	Input,
+	Label,
+	Row,
 } from "reactstrap";
-import CardTitle from "../CardTitle/CardTitle";
-import "../../Styles/styles.css";
-import { Link } from "react-router-dom";
 import { useMemberId } from "../../Contexts/MemberIdContext";
+import "../../Styles/styles.css";
+import CardTitle from "../CardTitle/CardTitle";
 
 const AddLapTime = () => {
-	const API = window.appConfig.API;
+	const API = window.appConfig.sAPI;
 	const [vehicleId, setVehicleId] = useState("");
 	const [lapTimeMinutes, setLapTimeMinutes] = useState("");
 	const [lapTimeSeconds, setLapTimeSeconds] = useState("");
@@ -38,7 +37,6 @@ const AddLapTime = () => {
 				const res = await axios.get(
 					`${API}/Vehicle/GetAllMemberVehicles/${memberId}`
 				);
-				console.log(res.data);
 				setVehicles(res.data);
 			} catch (error) {
 				console.error(error);
@@ -286,7 +284,7 @@ const AddLapTime = () => {
 									style={{
 										backgroundColor: "#ffc107",
 										color: "#000",
-										borderColor: "#ffc107",
+										borderColor: "#c79d18",
 									}}
 								>
 									Add Lap Time

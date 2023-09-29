@@ -1,8 +1,8 @@
-import React, { Fragment, useState, useEffect } from "react";
-import "../../Styles/styles.css";
-import { Card, Container } from "reactstrap";
-import CardTitle from "../CardTitle/CardTitle";
 import axios from "axios";
+import React, { Fragment, useEffect, useState } from "react";
+import { Card, Container } from "reactstrap";
+import "../../Styles/styles.css";
+import CardTitle from "../CardTitle/CardTitle";
 
 const HeroSection = () => {
 	const API = window.appConfig.API;

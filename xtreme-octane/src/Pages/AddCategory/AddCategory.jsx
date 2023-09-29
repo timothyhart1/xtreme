@@ -1,20 +1,20 @@
-import React, { useState, Fragment } from "react";
 import axios from "axios";
+import React, { Fragment, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
-	Row,
-	Card,
-	Form,
-	Label,
-	Input,
-	Container,
 	Button,
+	Card,
+	Container,
+	Form,
 	FormGroup,
+	Input,
+	Label,
+	Row,
 } from "reactstrap";
-import CardTitle from "../CardTitle/CardTitle";
 import "../../Styles/styles.css";
-import { Link, useNavigate } from "react-router-dom";
+import CardTitle from "../CardTitle/CardTitle";
 
 const AddCategory = ({ history }) => {
 	const API = window.appConfig.API;

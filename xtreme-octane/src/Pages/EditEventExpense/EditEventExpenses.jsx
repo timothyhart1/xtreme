@@ -1,29 +1,27 @@
-import React, { useState, useEffect, Fragment } from "react";
-import "../../Styles/styles.css";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
-import CardTitle from "../CardTitle/CardTitle";
-import ModalDeleteEvent from "../Modal/Modal";
+import React, { Fragment, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
-	Row,
-	Card,
-	Form,
-	Label,
-	Input,
-	CardBody,
-	Container,
 	Button,
+	Card,
+	Container,
+	Form,
 	FormGroup,
-	Table,
+	Input,
+	Label,
+	Row,
 } from "reactstrap";
+import { useMemberId } from "../../Contexts/MemberIdContext";
+import "../../Styles/styles.css";
+import CardTitle from "../CardTitle/CardTitle";
 
 const EditEventExpenses = () => {
 	const API = window.appConfig.API;
 	const { eventExpenseId, eventId } = useParams();
 	const navigate = useNavigate();
-	const memberId = sessionStorage.getItem("MemberId");
+	const { memberId } = useMemberId();
 
 	const [expense, setExpense] = useState({
 		expenseName: "",

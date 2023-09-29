@@ -1,10 +1,10 @@
-import React, { useState, useEffect, Fragment } from "react";
-import "../../Styles/styles.css";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { Fragment, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Card, CardBody, Container, Button, Row, Col } from "reactstrap";
+import { Button, Card, CardBody, Col, Container, Row } from "reactstrap";
+import "../../Styles/styles.css";
 
 const ViewVehicle = () => {
 	const API = window.appConfig.API;

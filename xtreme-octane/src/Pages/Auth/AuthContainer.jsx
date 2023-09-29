@@ -1,10 +1,6 @@
-import React, { useState, useEffect, Fragment } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
-import { Card, CardBody, Container, Table } from "reactstrap";
-import { ToastContainer, toast } from "react-toastify";
+import React, { Fragment } from "react";
 import "react-toastify/dist/ReactToastify.css";
-import { FaEye } from "react-icons/fa";
+import { Container } from "reactstrap";
 
 const AuthContainer = () => {
 	return (

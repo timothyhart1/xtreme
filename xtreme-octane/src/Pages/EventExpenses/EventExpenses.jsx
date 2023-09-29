@@ -1,25 +1,25 @@
-import React, { useState, useEffect, Fragment } from "react";
-import "../../Styles/styles.css";
 import axios from "axios";
+import React, { Fragment, useEffect, useState } from "react";
+import DataTable from "react-data-table-component";
+import { FaRegEdit } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
-import CardTitle from "../CardTitle/CardTitle";
-import ModalDeleteEvent from "../Modal/Modal";
-import { FaRegEdit, FaRegEye, FaPlus } from "react-icons/fa";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
-	Row,
+	Button,
 	Card,
-	Form,
-	Label,
-	Input,
 	CardBody,
 	Container,
-	Button,
+	Form,
 	FormGroup,
-	Table,
+	Input,
+	Label,
+	Row,
 } from "reactstrap";
-import DataTable from "react-data-table-component";
+import { useMemberId } from "../../Contexts/MemberIdContext";
+import "../../Styles/styles.css";
+import CardTitle from "../CardTitle/CardTitle";
+import ModalDeleteEvent from "../Modal/Modal";
 
 const EventExpenses = () => {
 	const API = window.appConfig.API;
@@ -30,8 +30,8 @@ const EventExpenses = () => {
 	const [expenseAmount, setExpenseAmount] = useState();
 	const [expenseCategory, setExpenseCategory] = useState("");
 	const [expenseCategories, setExpenseCategories] = useState([]);
+	const { memberId } = useMemberId();
 
-	const memberId = sessionStorage.getItem("MemberId");
 	const getTotalExpenses = async () => {
 		const res = await axios
 			.get(`${API}/EventExpense/EventExpenseTotal/${eventId}`)

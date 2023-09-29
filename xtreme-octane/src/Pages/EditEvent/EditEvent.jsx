@@ -1,21 +1,20 @@
-import React, { useState, useEffect, Fragment } from "react";
-import "../../App.css";
 import axios from "axios";
-import CardTitle from "../CardTitle/CardTitle";
-import { Link, useParams } from "react-router-dom";
-import "../../Styles/styles.css";
-import {
-	Row,
-	Card,
-	Form,
-	Label,
-	Input,
-	Container,
-	Button,
-	FormGroup,
-} from "reactstrap";
+import React, { Fragment, useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
-import { toast } from "react-toastify";
+import { Link, useParams } from "react-router-dom";
+import {
+	Button,
+	Card,
+	Container,
+	Form,
+	FormGroup,
+	Input,
+	Label,
+	Row,
+} from "reactstrap";
+import "../../App.css";
+import "../../Styles/styles.css";
+import CardTitle from "../CardTitle/CardTitle";
 
 const EditEvent = () => {
 	const API = window.appConfig.API;

@@ -1,19 +1,19 @@
-import React, { useState, Fragment } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import React, { Fragment, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
-	Row,
-	Card,
-	Form,
-	Label,
-	Input,
-	Container,
 	Button,
+	Card,
+	Container,
+	Form,
 	FormGroup,
+	Input,
+	Label,
+	Row,
 } from "reactstrap";
-import { useAuth } from "../Auth";
-import CardTitle from "../../CardTitle/CardTitle";
 import "../../../Styles/styles.css";
+import CardTitle from "../../CardTitle/CardTitle";
+import { useAuth } from "../Auth";
 
 const Register = () => {
 	const API = window.appConfig.API;
