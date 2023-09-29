@@ -32,27 +32,10 @@ const MemberVehicles = () => {
 				console.error(error);
 			}
 		}
-		fetchData();
+		fetchData().catch((error) => {
+			console.error(error);
+		});
 	}, [API, memberId, token]);
-
-	const directionToaster = (toastName) => {
-		switch (toastName) {
-			case "directionssuccessToast":
-				toast.success("Event was successfully added!", {
-					position: toast.POSITION.TOP_CENTER,
-					autoClose: 1500,
-				});
-				break;
-			case "directionsdangerToast":
-				toast.error("There was an error adding the event!", {
-					position: toast.POSITION.TOP_CENTER,
-					autoClose: 1500,
-				});
-				break;
-			default:
-				break;
-		}
-	};
 
 	const columns = [
 		{

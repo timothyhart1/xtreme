@@ -46,8 +46,13 @@ const ViewMember = () => {
 				console.log(error);
 			}
 		}
-		fetchData();
-		fetchMemberVehicles();
+		fetchData().catch((error) => {
+			console.error(error)
+		});
+		
+		fetchMemberVehicles().catch((error) => {
+			console.error(error)
+		});
 	}, [API, memberId, token]);
 
 	return (

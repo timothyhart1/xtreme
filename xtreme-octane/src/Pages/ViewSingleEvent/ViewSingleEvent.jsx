@@ -67,8 +67,14 @@ const ViewSingleEvent = () => {
 	}, [API, eventId, token]);
 
 	useEffect(() => {
-		fetchData();
-		getMemberVote();
+		fetchData().catch((error) => {
+			console.error(error)
+		});
+		
+		getMemberVote().catch((error) => {
+			console.error(error)
+		});
+		
 	}, [fetchData, getMemberVote]);
 
 	return (

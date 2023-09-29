@@ -26,8 +26,12 @@ const HeroSection = () => {
 	};
 
 	useEffect(() => {
-		getMemberCount();
-		getVehicleCount();
+		getMemberCount().catch((error) => {
+			console.error(error);
+		});
+		getVehicleCount().catch((error) => {
+			console.error(error);
+		});
 	}, []);
 
 	return (

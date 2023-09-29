@@ -45,11 +45,17 @@ const VoteEvent = () => {
 				);
 				setData(res.data);
 			} catch (error) {
-				console.log(error);
+				console.error(error);
 			}
 		}
-		fetchData();
-		getMemberVote();
+		fetchData().catch((error) => {
+			console.error(error)
+		});
+		
+		getMemberVote().catch((error) => {
+			console.error(error)
+		});
+		
 	}, [API, eventId, token, getMemberVote]);
 
 	const handleButtonClick = (value) => {

@@ -23,20 +23,22 @@ const Members = () => {
 				setData(res.data);
 				setFilteredData(res.data);
 			} catch (error) {
-				console.log(error);
+				console.error(error);
 			}
 		}
-		fetchData();
+		fetchData().catch((error) => {
+			console.error(error);
+		});
 	}, [updateTrigger]);
 
 	const deleteEvent = async (vehicleId) => {
-		const res = await axios.delete(`${API}/Member/DeleteMember/${vehicleId}`);
+		await axios.delete(`${API}/Member/DeleteMember/${vehicleId}`);
 		setUpdateTrigger(updateTrigger + 1);
 	};
 
 	const reinstateMember = async (memberId) => {
 		try {
-			const res = await axios.put(`${API}/Member/ReinstateMember/${memberId}`);
+			await axios.put(`${API}/Member/ReinstateMember/${memberId}`);
 			setUpdateTrigger(updateTrigger + 1);
 		} catch (e) {
 			console.error(e.message);

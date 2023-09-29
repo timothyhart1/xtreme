@@ -24,25 +24,10 @@ const Vehicles = () => {
 				console.log(error);
 			}
 		}
-		fetchData();
+		fetchData().catch((error) => {
+			console.error(error);
+		});
 	}, []);
-
-	const directiontoaster = (toastname) => {
-		switch (toastname) {
-			case "directionssuccessToast":
-				toast.success("Event was successfully added!", {
-					position: toast.POSITION.TOP_CENTER,
-					autoClose: 1500,
-				});
-				break;
-			case "directionsdangerToast":
-				toast.error("There was an error adding the event!", {
-					position: toast.POSITION.TOP_CENTER,
-					autoClose: 1500,
-				});
-				break;
-		}
-	};
 
 	const columns = [
 		{

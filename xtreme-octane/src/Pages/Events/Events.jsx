@@ -57,7 +57,9 @@ const Events = () => {
 	};
 
 	useEffect(() => {
-		updateEventData();
+		updateEventData().catch((error) => {
+			console.error(error);
+		});
 	}, []);
 
 	const uploadImage = (e) => {
@@ -85,8 +87,10 @@ const Events = () => {
 					},
 				}
 			)
-			.then((response) => {
-				fetchData();
+			.then(() => {
+				fetchData().catch((error) => {
+					console.error(error);
+				});
 				setEventName("");
 				setEventDesc("");
 				setFile(null);

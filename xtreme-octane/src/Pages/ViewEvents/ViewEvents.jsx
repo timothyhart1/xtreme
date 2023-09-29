@@ -25,7 +25,10 @@ const ViewEvents = () => {
 				console.log(error);
 			}
 		}
-		fetchData();
+		fetchData().catch((error) => {
+			console.error(error)
+		});
+		
 	}, [API, token]);
 
 	return (

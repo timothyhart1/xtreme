@@ -27,7 +27,7 @@ const VerifyMember = () => {
 				);
 				setData(res.data);
 			} catch (error) {
-				console.log(error);
+				console.error(error);
 			}
 		}
 
@@ -43,11 +43,17 @@ const VerifyMember = () => {
 				);
 				setVehicleData(res.data);
 			} catch (error) {
-				console.log(error);
+				console.error(error);
 			}
 		}
-		fetchData();
-		fetchMemberVehicles();
+		fetchData().catch((error) => {
+			console.error(error)
+		});
+		
+		fetchMemberVehicles().catch((error) => {
+			console.error(error)
+		});
+		
 	}, [API, token, memberId]);
 
 	const verifyMember = async (memberId) => {

@@ -42,7 +42,9 @@ const AddLapTime = () => {
 				console.error(error);
 			}
 		}
-		getUserVehicles();
+		getUserVehicles().catch((error) => {
+			console.error(error);
+		});
 	}, [API]);
 
 	const addLapTime = async (e) => {

@@ -29,7 +29,10 @@ const ViewVehicle = () => {
 				console.log(error);
 			}
 		}
-		fetchData();
+		fetchData().catch((error) => {
+			console.error(error)
+		});
+		
 	}, [vehicleId, API, token]);
 
 	return (

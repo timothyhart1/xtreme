@@ -42,7 +42,9 @@ const EditEventExpenses = () => {
 	};
 
 	useEffect(() => {
-		fetchData();
+		fetchData().catch((error) => {
+			console.error(error);
+		});
 	}, [eventExpenseId]);
 
 	const onInputChange = (e) => {
@@ -65,7 +67,9 @@ const EditEventExpenses = () => {
 				}
 			);
 			navigate(`/add-event-expense/${eventId}`);
-		} catch {}
+		} catch(error) {
+			console.error(error);
+		}
 	};
 
 	return (

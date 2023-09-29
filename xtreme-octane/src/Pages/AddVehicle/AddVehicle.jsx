@@ -30,7 +30,6 @@ const AddVehicle = () => {
 
 	const getImage = (e) => {
 		setFile(e.target.files[0]);
-		console.log(e.target.files[0]);
 	};
 
 	const uploadImage = async (e) => {

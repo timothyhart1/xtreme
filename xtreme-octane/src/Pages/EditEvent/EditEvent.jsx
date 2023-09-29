@@ -40,7 +40,9 @@ const EditEvent = () => {
 				console.error(error);
 			}
 		}
-		fetchData();
+		fetchData().catch((error) => {
+			console.error(error);
+		}) ;
 	}, [API, eventId, token]);
 
 	const submitEvent = async (e) => {

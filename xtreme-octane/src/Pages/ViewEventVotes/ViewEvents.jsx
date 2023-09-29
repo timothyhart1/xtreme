@@ -23,9 +23,8 @@ const ViewEventVotes = () => {
 				{ name: "Maybe", votes: maybeVotes },
 			];
 			setData(formattedData);
-			console.log(res.data);
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 		}
 	}, [API, eventId]);
 
@@ -42,8 +41,14 @@ const ViewEventVotes = () => {
 	}, [API, eventId]);
 
 	useEffect(() => {
-		fetchData();
-		fetchMemberVotes();
+		fetchData().catch((error) => {
+			console.error(error)
+		});
+		
+		fetchMemberVotes().catch((error) => {
+			console.error(error)
+		});
+		
 	}, [fetchData, fetchMemberVotes]);
 
 	return (

@@ -22,9 +22,7 @@ const Register = () => {
 	const [firstName, setFirstName] = useState("");
 	const [surname, setSurname] = useState("");
 	const [phoneNumber, setPhoneNumber] = useState("");
-	const [user, setUser] = useState("");
 	const navigate = useNavigate();
-	const auth = useAuth();
 
 	const postLogin = async (e) => {
 		e.preventDefault();

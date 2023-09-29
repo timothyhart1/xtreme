@@ -21,7 +21,9 @@ const Scribante = () => {
 				console.log(error);
 			}
 		}
-		fetchData();
+		fetchData().catch((error) => {
+			console.error(error);
+		});
 	}, []);
 
 	const columns = [

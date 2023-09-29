@@ -24,7 +24,11 @@ const VerifyMembers = () => {
 				console.log(error);
 			}
 		}
-		fetchData();
+		
+		fetchData().catch((error) => {
+			console.error(error)
+		});
+		
 	}, [API, updateTrigger]);
 
 	const deleteEvent = async (vehicleId) => {
@@ -38,8 +42,8 @@ const VerifyMembers = () => {
 			const res = await axios.put(`${API}/Member/ReinstateMember/${memberId}`);
 			setUpdateTrigger(updateTrigger + 1);
 			return res;
-		} catch (e) {
-			console.error(e.message);
+		} catch (error) {
+			console.error(error);
 		}
 	};
 
