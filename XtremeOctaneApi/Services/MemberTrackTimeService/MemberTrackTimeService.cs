@@ -75,9 +75,7 @@ namespace XtremeOctaneApi.Services.MemberTrackTimeService
                 {
                     throw new InvalidOperationException("A lap time for this vehicle already exists.");
                 }
-
-                int totalSeconds = (lapTimeMinutes * 60) + lapTimeSeconds;
-
+                
                 var trackTime = new MemberTrackTimeModel
                 {
                     MemberId = memberId,

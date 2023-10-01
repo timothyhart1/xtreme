@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using XtremeOctaneApi.Data;
 using XtremeOctaneApi.Models;
 using XtremeOctaneApi.Services.MemberTrackTimeService;

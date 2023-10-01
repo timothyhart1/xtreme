@@ -7,8 +7,6 @@ using AutoMapper;
 using WebApi.Services;
 using XtremeOctaneApi.Security.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using AutoMapper.Execution;
 using XtremeOctaneApi.Dtos;
 
 namespace XtremeOctaneApi.Controllers

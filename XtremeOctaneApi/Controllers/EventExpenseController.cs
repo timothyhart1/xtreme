@@ -1,11 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using XtremeOctaneApi.Data;
 using XtremeOctaneApi.Models;
 using XtremeOctaneApi.Services.EventExpenses;
 

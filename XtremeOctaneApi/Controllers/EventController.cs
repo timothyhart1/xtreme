@@ -1,14 +1,5 @@
-﻿using XtremeOctaneApi.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.StaticFiles;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Mvc;
 using XtremeOctaneApi.Services.EventService;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace XtremeOctaneApi.Controllers
 {
