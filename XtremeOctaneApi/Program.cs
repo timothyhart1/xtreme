@@ -13,6 +13,7 @@ using XtremeOctaneApi.Services;
 using XtremeOctaneApi.Services.EventService;
 using XtremeOctaneApi.Services.EventExpenses;
 using XtremeOctaneApi.Services.EventVoteService;
+using XtremeOctaneApi.Services.MemberTrackTimeService;
 using XtremeOctaneApi.Services.Vehicle;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -54,6 +55,7 @@ builder.Services.AddScoped<UserManager<ApplicationUser>>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IVehicleService, VehicleService>();
 builder.Services.AddScoped<IEventVoteService, EventVoteService>();
+builder.Services.AddScoped<IMemberTrackTimeService, MemberTrackTimeService>();
 
 builder.Services.AddControllers();
 

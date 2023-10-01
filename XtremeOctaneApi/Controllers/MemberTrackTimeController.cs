@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using XtremeOctaneApi.Data;
 using XtremeOctaneApi.Models;
-using static System.Net.Mime.MediaTypeNames;
+using XtremeOctaneApi.Services.MemberTrackTimeService;
 
 namespace XtremeOctaneApi.Controllers
 {
@@ -13,140 +13,106 @@ namespace XtremeOctaneApi.Controllers
     {
         private readonly ILogger<MemberTrackTimeController> _logger;
         private readonly DataContext _db;
+        private readonly IMemberTrackTimeService _memberTrackTimeService;
 
-        public MemberTrackTimeController(DataContext db, ILogger<MemberTrackTimeController> logger)
+        public MemberTrackTimeController(DataContext db, ILogger<MemberTrackTimeController> logger, 
+            IMemberTrackTimeService memberTrackTimeService)
         {
             _db = db;
             _logger = logger;
+            _memberTrackTimeService = memberTrackTimeService;
         }
-
-
-        // Get all track times.
-        [HttpGet("GetAllTrackTimes")]
+        
+        // Get all lap times
+        [HttpGet, Route("GetAllTrackTimes")]
         [AllowAnonymous]
         public ActionResult<IEnumerable<MemberTrackTimeModel>> GetAllTrackTimes()
         {
             try
             {
-                List<MemberTrackTimeModel> trackTimes = _db.MemberTrackTime
-                    .Include(t => t.Vehicle)
-                    .ThenInclude(m => m.Member)
-                    .ToList();
-
-                trackTimes = trackTimes.OrderBy(t => (t.LapTimeMinutes * 60) + t.LapTimeSeconds + t.LapTimeMiliseconds).ToList();
-
+                var trackTimes = _memberTrackTimeService.GetAllTrackTimes();
                 return Ok(trackTimes);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while fetching the lap times");
-                return StatusCode(500, "An error occurred while fetching the lap times");
+                return StatusCode(500, $"An error occurred while getting lap times, {ex}");
             }
+
         }
 
-        // Verify a lap time.
+        // Verify lap time
         [HttpPut, Route("VerifyLaptime/{id}")]
         [AllowAnonymous]
         public async Task<ActionResult<MemberTrackTimeModel>> VerifyLaptime(int id)
         {
             try
             {
-
-                var trackTime = await _db.MemberTrackTime.FindAsync(id);
-
-                if (trackTime == null)
-                {
-                    return NotFound($"Laptime with {id} does not exist.");
-                }
-
-                trackTime.Verified = true;
-                _db.Entry(trackTime).State = EntityState.Modified;
-                await _db.SaveChangesAsync();
-
+                var trackTime = await _memberTrackTimeService.VerifyLaptime(id);
                 return Ok(trackTime);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while verifying the lap time");
-                return StatusCode(500, "An error occurred while verifying the lap time");
+                return StatusCode(500, $"An error occurred while verifying the lap time, {ex}");
             }
-
         }
 
-        // Add a new track time.
-        [HttpPost("AddNewTrackTime")]
+        // Add lap time
+        [HttpPost, Route("AddNewTrackTime")]
         [AllowAnonymous]
-        public async Task<ActionResult<MemberTrackTimeModel>> AddTrackTime(int memberId, int vehicleId, int lapTimeMinutes, int lapTimeSeconds,
-            int lapTimeMiliSeconds, string conditions, string tyre, string vehicleClass, IFormFile lapTimeScreenshot, bool? verified)
+        public async Task<ActionResult<MemberTrackTimeModel>> AddNewTrackTime(
+            int memberId,
+            int vehicleId,
+            int lapTimeMinutes,
+            int lapTimeSeconds,
+            int lapTimeMilliseconds,
+            string conditions,
+            string tyre,
+            string vehicleClass,
+            IFormFile lapTimeScreenshot,
+            bool? verified)
         {
             try
             {
-                string screenshotImage = $"{Guid.NewGuid()}{Path.GetExtension(lapTimeScreenshot.FileName)}";
-                string uploadFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Documents", "LapTimeScreenshots", screenshotImage);
-
-                using var stream = new FileStream(uploadFilePath, FileMode.Create);
-                await lapTimeScreenshot.CopyToAsync(stream);
-                await stream.FlushAsync();
-
-
-                bool enteredAlready = await _db.MemberTrackTime.AnyAsync(t => t.VehicleId == vehicleId);
-
-                if (enteredAlready)
-                {
-                    return BadRequest("A lap time for this vehicle already exists.");
-                }
-
-                int totalSeconds = (lapTimeMinutes * 60) + lapTimeSeconds;
-
-                var trackTime = new MemberTrackTimeModel
-                {
-                    MemberId = memberId,
-                    VehicleId = vehicleId,
-                    LapTimeMinutes = lapTimeMinutes,
-                    LapTimeSeconds = lapTimeSeconds,
-                    LapTimeMiliseconds = lapTimeMiliSeconds,
-                    Conditions = conditions,
-                    Tyre = tyre,
-                    VehicleClass = vehicleClass,
-                    TrackDate = DateTime.Now,
-                    LapTimeScreenshot = screenshotImage,
-                    Verified = false
-                };
-
-                await _db.MemberTrackTime.AddAsync(trackTime);
-                await _db.SaveChangesAsync();
+                var trackTime = await _memberTrackTimeService.AddTrackTime(
+                    memberId,
+                    vehicleId,
+                    lapTimeMinutes,
+                    lapTimeSeconds,
+                    lapTimeMilliseconds,
+                    conditions,
+                    tyre,
+                    vehicleClass,
+                    lapTimeScreenshot,
+                    verified
+                );
 
                 return Ok(trackTime);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while posting the vehicle");
-                return StatusCode(500, "An error occurred while posting the lap time");
+                return StatusCode(500, $"An error occurred while posting the lap time, {ex}");
             }
         }
-
-        // Delete a track time
-        [HttpDelete("DeleteTrackTime/{id}")]
+        
+        // Delete lap time
+        [HttpDelete, Route("DeleteTrackTime/{id}")]
         [AllowAnonymous]
         public async Task<IActionResult> DeleteTrackTime(int id)
         {
             try
             {
-                var laptime = await _db.MemberTrackTime.FindAsync(id);
+                bool isDeleted = await _memberTrackTimeService.DeleteTrackTime(id);
 
-                if(laptime == null)
+                if (!isDeleted)
                 {
                     return BadRequest($"No laptime was found with the id {id}");
                 }
 
-                _db.MemberTrackTime.Remove(laptime);
-                await _db.SaveChangesAsync();
-
                 return Ok();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+                return StatusCode(500, "An error occurred while deleting the lap time");
             }
         }
     }
