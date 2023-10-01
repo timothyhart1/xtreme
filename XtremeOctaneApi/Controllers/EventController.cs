@@ -129,10 +129,7 @@ namespace XtremeOctaneApi.Controllers
                 {
                     return Ok(id);
                 }
-                else
-                {
-                    return NotFound($"Could not find the event with the id {id}");
-                }
+                return NotFound($"Could not find the event with the id {id}");
             }
             catch (Exception ex)
             {

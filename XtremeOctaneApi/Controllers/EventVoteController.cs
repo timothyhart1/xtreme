@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using XtremeOctaneApi.Data;
-using XtremeOctaneApi.Dtos;
 using XtremeOctaneApi.Models;
+using XtremeOctaneApi.Services.EventVoteService;
 
 namespace XtremeOctaneApi.Controllers
 {
@@ -13,15 +10,14 @@ namespace XtremeOctaneApi.Controllers
     public class EventVoteController : ControllerBase
     {
         private readonly ILogger<EventVoteController> _logger;
-        private readonly DataContext _db;
+        private readonly IEventVoteService _eventVoteService;
 
-        public EventVoteController(DataContext db, ILogger<EventVoteController> logger)
+        public EventVoteController(IEventVoteService eventVoteService, ILogger<EventVoteController> logger)
         {
-            _db = db;
+            _eventVoteService = eventVoteService;
             _logger = logger;
-
         }
-        
+
         // Get all votes for an event.
         [HttpGet("GetEventVotes/{id}")]
         [AllowAnonymous]
@@ -29,22 +25,7 @@ namespace XtremeOctaneApi.Controllers
         {
             try
             {
-                var voteResults = await _db.EventVote
-                    .Where(ev => ev.EventId == id)
-                    .GroupBy(ev => ev.EventId)
-                    .Select(g => new VoteResultsModel
-                    {
-                        EventId = g.Key,
-                        TotalVotes = g.Count(),
-                        YesVotes = g.Count(ev => ev.Vote == "yes"),
-                        NoVotes = g.Count(ev => ev.Vote == "no"),
-                        MaybeVotes = g.Count(ev => ev.Vote == "maybe"),
-                        YesPercentage = Math.Round((double)g.Count(ev => ev.Vote == "yes") / g.Count() * 100, 2),
-                        NoPercentage = Math.Round((double)g.Count(ev => ev.Vote == "no") / g.Count() * 100, 2),
-                        MaybePercentage = Math.Round((double)g.Count(ev => ev.Vote == "maybe") / g.Count() * 100, 2)
-                    })
-                    .SingleOrDefaultAsync();
-
+                var voteResults = await _eventVoteService.GetEventVotes(id);
                 return Ok(voteResults);
             }
             catch (Exception ex)
@@ -53,7 +34,7 @@ namespace XtremeOctaneApi.Controllers
                 return StatusCode(500, "An error occurred while fetching the event with ID");
             }
         }
-        
+
         // Get votes made by a member
         [HttpGet("MemberEventVote/{id}")]
         [AllowAnonymous]
@@ -61,10 +42,7 @@ namespace XtremeOctaneApi.Controllers
         {
             try
             {
-                var voteResults = await _db.EventVote
-                    .Where(ev => ev.EventId == id && ev.MemberId == memberId)
-                    .ToListAsync();
-
+                var voteResults = await _eventVoteService.GetEventVotes(id, memberId);
                 return Ok(voteResults);
             }
             catch (Exception ex)
@@ -78,26 +56,16 @@ namespace XtremeOctaneApi.Controllers
         [HttpGet("GetMemberVoteDetails/{id}")]
         public ActionResult<object> GetVotesForEvent(int id)
         {
-            var eventDetails = _db.Event.FirstOrDefault(e => e.EventId == id);
-            if (eventDetails == null)
+            try
             {
-                return NotFound(); // Event not found
+                var voteDetails = _eventVoteService.GetVotesForEvent(id);
+                return Ok(voteDetails);
             }
-
-            var voteDetails = from ev in _db.EventVote
-                              join m in _db.Member on ev.MemberId equals m.MemberId
-                              where ev.EventId == id
-                              select new
-                              {
-                                  MemberName = m.Name,
-                                  MemberSurname = m.Surname,
-                                  MemberCity = m.City,
-                                  MemberId = m.MemberId,
-                                  Vote = ev.Vote,
-                                  VoteDate = ev.VoteDate
-                              };
-
-            return Ok(voteDetails);
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"An error occurred while fetching the event with ID {id}");
+                return StatusCode(500, "An error occurred while fetching the event with ID");
+            }
         }
 
         // Add a new vote for an event.
@@ -112,24 +80,7 @@ namespace XtremeOctaneApi.Controllers
 
             try
             {
-                var existingVote = await _db.EventVote.FirstOrDefaultAsync(ev => ev.EventId == id && ev.MemberId == eventVote.MemberId);
-
-                if (existingVote != null)
-                {
-                    _db.EventVote.Remove(existingVote);
-                }
-
-                var newEventVote = new EventVoteModel
-                {
-                    EventId = id,
-                    MemberId = eventVote.MemberId,
-                    Vote = eventVote.Vote,
-                    VoteDate = DateTime.Now
-                };
-
-                await _db.EventVote.AddAsync(newEventVote);
-                await _db.SaveChangesAsync();
-
+                var newEventVote = await _eventVoteService.AddEventVote(id, eventVote);
                 return Ok(newEventVote);
             }
             catch (Exception ex)
