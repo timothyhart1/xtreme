@@ -95,7 +95,11 @@ function App() {
 											path="events/edit-event/:eventId"
 											element={
 												<RequireAuth>
-													<EditEvent />
+													{isAuthorized(["Admin"]) ? (
+														<EditEvent />
+													) : (
+														<AuthGuard />
+													)}
 												</RequireAuth>
 											}
 										/>
@@ -103,7 +107,11 @@ function App() {
 											path="members"
 											element={
 												<RequireAuth>
-													<Members />
+													{isAuthorized(["Admin"]) ? (
+														<Members />
+													) : (
+														<AuthGuard />
+													)}
 												</RequireAuth>
 											}
 										/>
@@ -172,7 +180,11 @@ function App() {
 											path="events/event-votes/:eventId"
 											element={
 												<RequireAuth>
-													<ViewEventVotes />
+													{isAuthorized(["Admin"]) ? (
+														<ViewEventVotes />
+													) : (
+														<AuthGuard />
+													)}
 												</RequireAuth>
 											}
 										/>
@@ -180,7 +192,11 @@ function App() {
 											path="add-event-expense/:eventId"
 											element={
 												<RequireAuth>
-													<EventExpenses />
+													{isAuthorized(["Admin"]) ? (
+														<EventExpenses />
+													) : (
+														<AuthGuard />
+													)}
 												</RequireAuth>
 											}
 										/>
@@ -188,7 +204,11 @@ function App() {
 											path="edit-event-expense/:eventExpenseId/event/:eventId"
 											element={
 												<RequireAuth>
-													<EditEventExpenses />
+													{isAuthorized(["Admin"]) ? (
+														<EditEventExpenses />
+													) : (
+														<AuthGuard />
+													)}
 												</RequireAuth>
 											}
 										/>
@@ -204,7 +224,11 @@ function App() {
 											path="add-category"
 											element={
 												<RequireAuth>
-													<AddCategory />
+													{isAuthorized(["Admin"]) ? (
+														<AddCategory />
+													) : (
+														<AuthGuard />
+													)}
 												</RequireAuth>
 											}
 										/>
@@ -228,7 +252,11 @@ function App() {
 											path="verify-members"
 											element={
 												<RequireAuth>
-													<VerifyMembers />
+													{isAuthorized(["Admin"]) ? (
+														<VerifyMembers />
+													) : (
+														<AuthGuard />
+													)}
 												</RequireAuth>
 											}
 										/>
@@ -236,7 +264,11 @@ function App() {
 											path="verify-member/:memberId"
 											element={
 												<RequireAuth>
-													<VerifyMember />
+													{isAuthorized(["Admin"]) ? (
+														<VerifyMember />
+													) : (
+														<AuthGuard />
+													)}
 												</RequireAuth>
 											}
 										/>

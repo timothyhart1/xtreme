@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { IconContext } from "react-icons";
 import * as AiIcons from "react-icons/ai";
@@ -6,6 +5,7 @@ import * as FaIcons from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 import { useEmail } from "../../Contexts/EmailContext";
 import { useMemberId } from "../../Contexts/MemberIdContext";
+import { useUserRole } from "../../Contexts/RoleContext";
 import logo from "../../Images/Logo_transparent.png";
 
 function Navbar({ toggleSidebar }) {
@@ -14,14 +14,15 @@ function Navbar({ toggleSidebar }) {
 	const API = window.appConfig.API;
 	const { email } = useEmail();
 	const { memberId } = useMemberId();
-	const userId = sessionStorage.getItem("UserId");
-	const [userRole, setUserRole] = useState("");
+	const { userRole } = useUserRole();
 	const token = sessionStorage.getItem("Token");
 
 	const handleToggleSidebar = () => {
 		setSidebar(!sidebar);
 		toggleSidebar();
 	};
+
+	console.log(userRole);
 
 	const loggedInUser = {
 		name: email,
@@ -32,20 +33,6 @@ function Navbar({ toggleSidebar }) {
 			setSidebar(false);
 		}
 	}, [token]);
-
-	useEffect(() => {
-		async function getUserRole() {
-			try {
-				const res = await axios.get(`${API}/User/GetUserRole/${userId}`);
-				setUserRole(res.data);
-			} catch (error) {
-				console.error(error);
-			}
-		}
-		getUserRole().catch((error) => {
-			console.error(error)
-		})
-	}, [API]);
 
 	const SidebarData = [
 		{
@@ -137,14 +124,16 @@ function Navbar({ toggleSidebar }) {
 								const isActive = item.path === location.pathname;
 
 								return (
-									<li
-										key={index}
-										className={isActive ? "nav-text active" : "nav-text"}
-									>
-										<Link to={item.path}>
-											<span>{item.title}</span>
-										</Link>
-									</li>
+									isAllowed && (
+										<li
+											key={index}
+											className={isActive ? "nav-text active" : "nav-text"}
+										>
+											<Link to={item.path}>
+												<span>{item.title}</span>
+											</Link>
+										</li>
+									)
 								);
 							})}
 						</ul>
