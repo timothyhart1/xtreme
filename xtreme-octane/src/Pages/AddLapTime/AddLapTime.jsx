@@ -18,7 +18,8 @@ import "../../Styles/styles.css";
 import CardTitle from "../CardTitle/CardTitle";
 
 const AddLapTime = () => {
-	const API = window.appConfig.sAPI;
+	const API = window.appConfig.API;
+	const { memberId } = useMemberId();
 	const [vehicleId, setVehicleId] = useState("");
 	const [lapTimeMinutes, setLapTimeMinutes] = useState("");
 	const [lapTimeSeconds, setLapTimeSeconds] = useState("");
@@ -28,24 +29,29 @@ const AddLapTime = () => {
 	const [tyre, setTyre] = useState("");
 	const [vehicleClass, setVehicleClass] = useState("");
 	const [lapTimeScreenshot, setLapTimeScreenshot] = useState(null);
-	const [vehicles, setVehicles] = useState([]);
-	const { memberId } = useMemberId();
+	const [data, setData] = useState([]);
+	const token = sessionStorage.getItem("Token");
 
 	useEffect(() => {
-		async function getUserVehicles() {
+		async function fetchData() {
 			try {
 				const res = await axios.get(
-					`${API}/Vehicle/GetAllMemberVehicles/${memberId}`
+					`${API}/Vehicle/GetAllMemberVehicles/${memberId}`,
+					{
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					}
 				);
-				setVehicles(res.data);
+				setData(res.data);
 			} catch (error) {
 				console.error(error);
 			}
 		}
-		getUserVehicles().catch((error) => {
+		fetchData().catch((error) => {
 			console.error(error);
 		});
-	}, [API]);
+	}, [API, memberId, token]);
 
 	const addLapTime = async (e) => {
 		e.preventDefault();
@@ -135,7 +141,7 @@ const AddLapTime = () => {
 											value={vehicleId}
 										>
 											<option value="">Select a Vehicle</option>
-											{vehicles.map((vehicle) => (
+											{data.map((vehicle) => (
 												<option
 													key={vehicle.vehicleId}
 													value={vehicle.vehicleId}

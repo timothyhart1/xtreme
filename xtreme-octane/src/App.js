@@ -40,13 +40,14 @@ function App() {
 	const [userRole, setUserRole] = useState("");
 	const [userId, setUserId] = useState("");
 	const [email, setEmail] = useState("");
-	const [memberId, setMemberId] = useState(null);
+	const [memberId, setMemberId] = useState();
 
 	useEffect(() => {
 		const token = sessionStorage.getItem("Token");
 
 		if (token) {
 			const decoded = jwt(token);
+			console.log(decoded);
 			setUserRole(decoded.role);
 			setUserId(decoded.id);
 			setEmail(decoded.email);

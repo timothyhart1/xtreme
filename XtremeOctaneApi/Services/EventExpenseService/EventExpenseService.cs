@@ -154,6 +154,7 @@ namespace XtremeOctaneApi.Services.EventExpenses
                     eventExpense.ExpenseName = model.ExpenseName;
                     eventExpense.ExpenseAmount = model.ExpenseAmount;
                     eventExpense.AddedBy = model.AddedBy;
+                    eventExpense.MemberId = model.MemberId;
 
                     await _db.SaveChangesAsync();
 
