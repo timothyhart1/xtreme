@@ -30,9 +30,8 @@ const ViewVehicle = () => {
 			}
 		}
 		fetchData().catch((error) => {
-			console.error(error)
+			console.error(error);
 		});
-		
 	}, [vehicleId, API, token]);
 
 	return (
@@ -73,9 +72,6 @@ const ViewVehicle = () => {
 							</Row>
 							<Row>
 								<h6 className="white-text">Mileage: {data.mileage}</h6>
-							</Row>
-							<Row>
-								<h6 className="white-text">Plate: {data.plate}</h6>
 							</Row>
 							<Row>
 								<h6 className="white-text">Colour: {data.color}</h6>

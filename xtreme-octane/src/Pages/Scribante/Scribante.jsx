@@ -68,7 +68,7 @@ const Scribante = () => {
 			sortable: true,
 		},
 		{
-			name: "Actions",
+			name: "Driver",
 			cell: (row) => (
 				<table>
 					<tbody>

@@ -722,9 +722,15 @@
 
 /* View Events */
 .event-card-item {
-	width: 20rem;
+	width: 25rem;
 	margin: 0.5rem;
 	padding: 5px;
+}
+
+.image-wrapper {
+	height: 550px;
+	width: 100%;
+	overflow: hidden;
 }
 
 #event-card-body {
@@ -735,15 +741,14 @@
 
 .event-image {
 	border-radius: 7px;
-	height: 200px;
-	object-fit: cover;
+	width: 100%;
+	object-fit: contain;
 }
 
 .event-image-vote {
 	border-radius: 7px;
-	height: 300px;
-	width: 400px;
-	object-fit: cover;
+	height: 500px;
+	object-fit: contain;
 	margin: auto;
 }
 

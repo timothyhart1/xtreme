@@ -68,13 +68,12 @@ const ViewSingleEvent = () => {
 
 	useEffect(() => {
 		fetchData().catch((error) => {
-			console.error(error)
+			console.error(error);
 		});
-		
+
 		getMemberVote().catch((error) => {
-			console.error(error)
+			console.error(error);
 		});
-		
 	}, [fetchData, getMemberVote]);
 
 	return (
@@ -83,96 +82,107 @@ const ViewSingleEvent = () => {
 				<ToastContainer />
 				<Card id="card-container" className="card-spacing">
 					<CardTitle title="All Events" />
-					<img
-						alt="Sample"
-						src={`${API}/Event/GetEventImage/${eventId}`}
-						className="event-image-vote"
-					/>
-					<h4
-						style={{ textAlign: "center", marginTop: "10px" }}
-						className="light-headers"
+					<div
+						className="event-main-container"
+						style={{ display: "inline-flex", width: "auto", margin: "auto" }}
 					>
-						{data.eventName}
-					</h4>
-					<p style={{ textAlign: "center" }} className="light-headers">
-						{data.eventDesc}
-					</p>
-					<hr style={{ color: "#fff" }} />
-					<h6 style={{ textAlign: "center" }} className="light-headers">
-						Will You Be Attending?
-					</h6>
-					<form onSubmit={eventVote}>
-						<div className="vote-btns" style={{ textAlign: "center" }}>
-							<div className="inner-btn">
-								<Button
-									color="primary"
-									style={{ margin: "5px", width: "100px" }}
-									onClick={() => handleButtonClick("yes")}
-									type="submit"
-									disabled={
-										voteResult.length > 0 && voteResult[0].vote === "yes"
-									}
-								>
-									Yes
-								</Button>
-								{voteResult.length > 0 && voteResult[0].vote === "yes" && (
-									<div className="checkmark-container">
-										<FaCheckCircle id="vote-check" />
-									</div>
-								)}
-							</div>
-							<div className="inner-btn">
-								<Button
-									color="danger"
-									style={{ margin: "5px", width: "100px" }}
-									onClick={() => handleButtonClick("no")}
-									type="submit"
-									disabled={
-										voteResult.length > 0 && voteResult[0].vote === "no"
-									}
-								>
-									No
-								</Button>
-								{voteResult.length > 0 && voteResult[0].vote === "no" && (
-									<div className="checkmark-container">
-										<FaCheckCircle id="vote-check" />
-									</div>
-								)}
-							</div>
-							<div className="inner-btn">
-								<Button
-									color="warning"
-									style={{ margin: "5px", width: "100px" }}
-									onClick={() => handleButtonClick("maybe")}
-									type="submit"
-									disabled={
-										voteResult.length > 0 && voteResult[0].vote === "maybe"
-									}
-								>
-									Maybe
-								</Button>
-								{voteResult.length > 0 && voteResult[0].vote === "maybe" && (
-									<div className="checkmark-container">
-										<FaCheckCircle id="vote-check" />
-									</div>
-								)}
-							</div>
+						<div className="event-left" style={{ marginRight: "10px" }}>
+							<img
+								alt="Sample"
+								src={`${API}/Event/GetEventImage/${eventId}`}
+								className="event-image-vote"
+							/>
 						</div>
-						<Link to={"/view-events"}>
-							<Button
-								style={{
-									margin: "5px",
-									width: "100px",
-									backgroundColor: "#3273b5",
-									borderColor: "#3273b5",
-								}}
-								type="button"
-								id="event-btn"
+						<div className="event-right" style={{ marginLeft: "10px" }}>
+							<h4
+								style={{ textAlign: "center", marginTop: "10px" }}
+								className="light-headers"
 							>
-								Back
-							</Button>
-						</Link>
-					</form>
+								{data.eventName}
+							</h4>
+							<hr style={{ color: "#fff" }} />
+							<p style={{ textAlign: "center" }} className="light-headers">
+								{data.eventDesc}
+							</p>
+							<hr style={{ color: "#fff" }} />
+							<h6 style={{ textAlign: "center" }} className="light-headers">
+								Will You Be Attending?
+							</h6>
+							<form onSubmit={eventVote}>
+								<div className="vote-btns" style={{ textAlign: "center" }}>
+									<div className="inner-btn">
+										<Button
+											color="primary"
+											style={{ margin: "5px", width: "100px" }}
+											onClick={() => handleButtonClick("yes")}
+											type="submit"
+											disabled={
+												voteResult.length > 0 && voteResult[0].vote === "yes"
+											}
+										>
+											Yes
+										</Button>
+										{voteResult.length > 0 && voteResult[0].vote === "yes" && (
+											<div className="checkmark-container">
+												<FaCheckCircle id="vote-check" />
+											</div>
+										)}
+									</div>
+									<div className="inner-btn">
+										<Button
+											color="danger"
+											style={{ margin: "5px", width: "100px" }}
+											onClick={() => handleButtonClick("no")}
+											type="submit"
+											disabled={
+												voteResult.length > 0 && voteResult[0].vote === "no"
+											}
+										>
+											No
+										</Button>
+										{voteResult.length > 0 && voteResult[0].vote === "no" && (
+											<div className="checkmark-container">
+												<FaCheckCircle id="vote-check" />
+											</div>
+										)}
+									</div>
+									<div className="inner-btn">
+										<Button
+											color="warning"
+											style={{ margin: "5px", width: "100px" }}
+											onClick={() => handleButtonClick("maybe")}
+											type="submit"
+											disabled={
+												voteResult.length > 0 && voteResult[0].vote === "maybe"
+											}
+										>
+											Maybe
+										</Button>
+										{voteResult.length > 0 &&
+											voteResult[0].vote === "maybe" && (
+												<div className="checkmark-container">
+													<FaCheckCircle id="vote-check" />
+												</div>
+											)}
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+					<Link to={"/view-events"}>
+						<Button
+							style={{
+								margin: "5px",
+								width: "100px",
+								backgroundColor: "#3273b5",
+								borderColor: "#3273b5",
+							}}
+							type="button"
+							id="event-btn"
+						>
+							Back
+						</Button>
+					</Link>
 				</Card>
 			</Container>
 		</Fragment>

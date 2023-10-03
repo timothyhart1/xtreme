@@ -13,7 +13,6 @@ import {
 } from "reactstrap";
 import "../../../Styles/styles.css";
 import CardTitle from "../../CardTitle/CardTitle";
-import { useAuth } from "../Auth";
 
 const Register = () => {
 	const API = window.appConfig.API;

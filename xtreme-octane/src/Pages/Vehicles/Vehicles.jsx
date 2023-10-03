@@ -3,7 +3,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { FaEye } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Card, CardBody, Container } from "reactstrap";
 import "../../Styles/styles.css";
@@ -52,11 +52,6 @@ const Vehicles = () => {
 		{
 			name: "Colour",
 			selector: (row) => row.color,
-		},
-		{
-			name: "Mileage",
-			selector: (row) => row.mileage.toLocaleString(),
-			sortable: true,
 		},
 		{
 			name: "Owned By",

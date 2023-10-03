@@ -15,7 +15,11 @@ const AuthGuard = () => {
 		<Fragment>
 			<Container fluid={true}>
 				<Card id="card-container">
-					<h1>Unauthorized :/</h1>
+					<h1 style={{ textAlign: "center", color: "#fff" }}>
+						Unauthorized :/
+					</h1>
+					<p style={{ display: "none" }}>We Silenced You, Tsek!</p>
+					<p style={{ display: "none" }}>No more street raving for you</p>
 				</Card>
 			</Container>
 		</Fragment>

@@ -26,9 +26,8 @@ const ViewEvents = () => {
 			}
 		}
 		fetchData().catch((error) => {
-			console.error(error)
+			console.error(error);
 		});
-		
 	}, [API, token]);
 
 	return (
@@ -41,11 +40,13 @@ const ViewEvents = () => {
 						{data.map((item, index) => {
 							return (
 								<Card id="event-card-container" className="event-card-item">
-									<img
-										alt="Sample"
-										src={`${API}/Event/GetEventImage/${item.eventId}`}
-										className="event-image"
-									/>
+									<div class="image-wrapper">
+										<img
+											alt="Sample"
+											src={`${API}/Event/GetEventImage/${item.eventId}`}
+											className="event-image"
+										/>
+									</div>
 									<CardBody>
 										<CardSubtitle className="mb-2 event-header event-centre">
 											{item.eventName} - {item.eventDate.slice(0, 10)}
