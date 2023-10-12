@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, { Fragment, useState } from "react";
+import { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
 	Button,
@@ -20,29 +21,52 @@ const AddCategory = ({ history }) => {
 	const API = window.appConfig.API;
 	const [expenseCategory, setExpenseCategory] = useState("");
 	const navigate = useNavigate();
+	const token = sessionStorage.getItem("Token");
 
 	const addCategory = async (e) => {
 		e.preventDefault();
 
 		try {
-			const res = await axios.post(`${API}/EventExpense/AddCategory`, {
-				category: expenseCategory,
-			});
+			const res = await axios.post(
+				`${API}/EventExpense/AddCategory`,
+				{
+					category: expenseCategory,
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
 
-			setTimeout(() => {
-				navigate(-1);
-			}, 2000);
-			toast.success("Category added successfully");
+			notify("success");
+			navigate(-1);
 		} catch (error) {
-			console.error(error);
-			toast.error("An error occurred while adding the category");
+			notify("failure");
+		}
+	};
+
+	const notify = (toastname) => {
+		switch (toastname) {
+			case "success":
+				toast.success("Category Added.", {
+					position: toast.POSITION.TOP_CENTER,
+					autoClose: 3000,
+				});
+				break;
+			case "failure":
+				toast.error("Error Adding Category.", {
+					position: toast.POSITION.TOP_CENTER,
+					autoClose: 3000,
+				});
+				break;
 		}
 	};
 
 	return (
 		<Fragment>
 			<Container fluid={true}>
-				<ToastContainer />
+				<Toaster />
 				<Card id="card-container">
 					<CardTitle title="Add Category" />
 					<Row>

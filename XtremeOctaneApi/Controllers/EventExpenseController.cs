@@ -18,7 +18,7 @@ namespace XtremeOctaneApi.Controllers
 
         // Get all expenses of an event.
         [HttpGet("GetEventExpenses/{id}")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<IActionResult> GetEventExpenses(int id)
         {
             return await _eventExpenseService.GetEventExpenses(id);
@@ -26,7 +26,7 @@ namespace XtremeOctaneApi.Controllers
 
         // Get all categories.
         [HttpGet("GetAllCategories")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<IActionResult> GetAllCategories()
         {
             return await _eventExpenseService.GetAllCategories();
@@ -34,7 +34,7 @@ namespace XtremeOctaneApi.Controllers
 
         // Get a single event expense.
         [HttpGet("GetExpenseSingle/{id}")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<IActionResult> GetEventExpenseById(int id)
         {
             return await _eventExpenseService.GetEventExpenseById(id);
@@ -42,7 +42,7 @@ namespace XtremeOctaneApi.Controllers
 
         // Get total amount of expenses for an event.
         [HttpGet("EventExpenseTotal/{id}")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<IActionResult> GetEventExpensesTotal(int id)
         {
             return await _eventExpenseService.GetEventExpensesTotal(id);
@@ -50,7 +50,7 @@ namespace XtremeOctaneApi.Controllers
 
         // Add an expense for an event.
         [HttpPost("AddNewEventExpense")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<ActionResult<EventExpenseModel>> AddEventExpense([FromBody] EventExpenseModel model)
         {
             return await _eventExpenseService.AddEventExpense(model);
@@ -58,7 +58,7 @@ namespace XtremeOctaneApi.Controllers
 
         // Add a category.
         [HttpPost("AddCategory")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<ActionResult<ExpenseCategory>> AddExpenseCategory([FromBody] ExpenseCategory model)
         {
             return await _eventExpenseService.AddExpenseCategory(model);
@@ -66,7 +66,7 @@ namespace XtremeOctaneApi.Controllers
 
         // Edit an event expense.
         [HttpPut("EditEventExpense/{id}")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<IActionResult> EditEventExpense(int id, [FromBody] EventExpenseModel model)
         {
             return await _eventExpenseService.EditEventExpense(id, model);
@@ -74,7 +74,7 @@ namespace XtremeOctaneApi.Controllers
 
         // Delete an event expense
         [HttpDelete("DeleteExpense/{id}")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<IActionResult> DeleteEventExpense(int id)
         {
             return await _eventExpenseService.DeleteEventExpense(id);

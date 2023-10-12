@@ -31,10 +31,15 @@ const EventExpenses = () => {
 	const [expenseCategory, setExpenseCategory] = useState("");
 	const [expenseCategories, setExpenseCategories] = useState([]);
 	const { memberId } = useMemberId();
+	const token = sessionStorage.getItem("Token");
 
 	const getTotalExpenses = async () => {
 		const res = await axios
-			.get(`${API}/EventExpense/EventExpenseTotal/${eventId}`)
+			.get(`${API}/EventExpense/EventExpenseTotal/${eventId}`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
 			.then((response) => {
 				setTotal(response.data.totalExpenses);
 			});
@@ -43,7 +48,12 @@ const EventExpenses = () => {
 	const fetchData = async () => {
 		try {
 			const res = await axios.get(
-				`${API}/EventExpense/GetEventExpenses/${eventId}`
+				`${API}/EventExpense/GetEventExpenses/${eventId}`,
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
 			);
 			setData(res.data);
 		} catch (error) {
@@ -53,7 +63,11 @@ const EventExpenses = () => {
 
 	const fetchCategories = async () => {
 		try {
-			const res = await axios.get(`${API}/EventExpense/GetAllCategories`);
+			const res = await axios.get(`${API}/EventExpense/GetAllCategories`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
 			setExpenseCategories(res.data);
 		} catch (error) {
 			console.log(error);
@@ -62,10 +76,10 @@ const EventExpenses = () => {
 
 	useEffect(() => {
 		fetchData().catch((error) => {
-			console.error(error)
+			console.error(error);
 		});
 		getTotalExpenses().catch((error) => {
-			console.error(error)
+			console.error(error);
 		});
 		fetchCategories().catch((error) => {
 			console.error(error);

@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, { Fragment, useEffect, useState } from "react";
+import { Toaster } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
 	Button,
@@ -22,6 +23,7 @@ const EditEventExpenses = () => {
 	const { eventExpenseId, eventId } = useParams();
 	const navigate = useNavigate();
 	const { memberId } = useMemberId();
+	const token = sessionStorage.getItem("Token");
 
 	const [expense, setExpense] = useState({
 		expenseName: "",
@@ -33,7 +35,12 @@ const EditEventExpenses = () => {
 	const fetchData = async () => {
 		try {
 			const res = await axios.get(
-				`${API}/EventExpense/GetExpenseSingle/${eventExpenseId}`
+				`${API}/EventExpense/GetExpenseSingle/${eventExpenseId}`,
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
 			);
 			setExpense(res.data);
 		} catch (error) {
@@ -64,18 +71,41 @@ const EditEventExpenses = () => {
 					expenseAmount: expenseAmount,
 					addedBy: "tim",
 					memberId: memberId,
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
 				}
 			);
+			notify("success");
 			navigate(`/add-event-expense/${eventId}`);
-		} catch(error) {
+		} catch (error) {
 			console.error(error);
+		}
+	};
+
+	const notify = (toastname) => {
+		switch (toastname) {
+			case "success":
+				toast.success("Expense Updated.", {
+					position: toast.POSITION.TOP_CENTER,
+					autoClose: 3000,
+				});
+				break;
+			case "failure":
+				toast.error("Error Updating Expense.", {
+					position: toast.POSITION.TOP_CENTER,
+					autoClose: 3000,
+				});
+				break;
 		}
 	};
 
 	return (
 		<Fragment>
+			<Toaster />
 			<Container fluid={true}>
-				<ToastContainer />
 				<Card id="card-container">
 					<CardTitle title="Edit Event Expense" />
 					<Row>
