@@ -843,3 +843,27 @@
 		margin-left: 0 !important;
 	}
 }
+
+@media only screen and (max-width: 650px) {
+	.logged-in-as {
+		display: none;
+	}
+}
+
+@media only screen and (max-width: 550px) {
+	.image-wrapper {
+		height: 500px;
+	}
+}
+
+@media only screen and (max-width: 500px) {
+	.image-wrapper {
+		height: 400px;
+	}
+}
+
+@media only screen and (max-width: 450px) {
+	.logged-in-as {
+		display: none;
+	}
+}
