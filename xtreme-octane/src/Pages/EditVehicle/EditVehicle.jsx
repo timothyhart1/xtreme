@@ -44,15 +44,12 @@ const EditVehicle = () => {
 				`${API}/Vehicle/GetMemberVehicle/${vehicleId}`
 			);
 			setVehicle(res.data);
-			console.log(res.data);
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) {}
 	};
 
 	useEffect(() => {
 		fetchData().catch((error) => {
-			console.error(error)
+			console.error(error);
 		});
 	}, [vehicleId]);
 

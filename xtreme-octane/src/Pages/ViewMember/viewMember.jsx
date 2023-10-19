@@ -26,9 +26,7 @@ const ViewMember = () => {
 					}
 				);
 				setData(res.data);
-			} catch (error) {
-				console.log(error);
-			}
+			} catch (error) {}
 		}
 
 		async function fetchMemberVehicles() {
@@ -42,16 +40,14 @@ const ViewMember = () => {
 					}
 				);
 				setVehicleData(res.data);
-			} catch (error) {
-				console.log(error);
-			}
+			} catch (error) {}
 		}
 		fetchData().catch((error) => {
-			console.error(error)
+			console.error(error);
 		});
-		
+
 		fetchMemberVehicles().catch((error) => {
-			console.error(error)
+			console.error(error);
 		});
 	}, [API, memberId, token]);
 

@@ -20,9 +20,7 @@ const Vehicles = () => {
 				const res = await axios.get(`${API}/Vehicle/GetAllVehicles`);
 				setData(res.data);
 				setFilteredData(res.data);
-			} catch (error) {
-				console.log(error);
-			}
+			} catch (error) {}
 		}
 		fetchData().catch((error) => {
 			console.error(error);

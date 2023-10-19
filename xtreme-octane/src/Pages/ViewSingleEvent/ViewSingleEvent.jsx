@@ -61,9 +61,7 @@ const ViewSingleEvent = () => {
 				},
 			});
 			setData(res.data);
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) {}
 	}, [API, eventId, token]);
 
 	useEffect(() => {

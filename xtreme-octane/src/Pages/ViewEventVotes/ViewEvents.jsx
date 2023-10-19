@@ -34,21 +34,17 @@ const ViewEventVotes = () => {
 				`${API}/EventVote/GetMemberVoteDetails/${eventId}`
 			);
 			setVoteData(res.data);
-			console.log(res.data);
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) {}
 	}, [API, eventId]);
 
 	useEffect(() => {
 		fetchData().catch((error) => {
-			console.error(error)
+			console.error(error);
 		});
-		
+
 		fetchMemberVotes().catch((error) => {
-			console.error(error)
+			console.error(error);
 		});
-		
 	}, [fetchData, fetchMemberVotes]);
 
 	return (

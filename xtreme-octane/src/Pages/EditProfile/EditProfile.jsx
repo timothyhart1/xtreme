@@ -41,13 +41,11 @@ function EditProfile() {
 					`${API}/Member/GetSingleMember/${memberId}`
 				);
 				setProfile(res.data);
-			} catch (error) {
-				console.log(error);
-			}
+			} catch (error) {}
 		}
 		fetchData().catch((error) => {
-			console.error(error)
-		})
+			console.error(error);
+		});
 	}, []);
 
 	const updateProfile = async (e) => {

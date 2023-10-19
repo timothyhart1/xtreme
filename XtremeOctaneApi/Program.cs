@@ -47,7 +47,9 @@ builder.Services.Configure<AppSettings>(config.GetSection("appsettings"));
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 .AddEntityFrameworkStores<DataContext>()
+    .AddRoles<IdentityRole>()
     .AddDefaultTokenProviders();
+    
 
 // Dependency Injection.
 builder.Services.AddScoped<IEventService, EventService>();

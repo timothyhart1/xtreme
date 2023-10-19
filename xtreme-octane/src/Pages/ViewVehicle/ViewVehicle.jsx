@@ -25,9 +25,7 @@ const ViewVehicle = () => {
 					}
 				);
 				setData(res.data);
-			} catch (error) {
-				console.log(error);
-			}
+			} catch (error) {}
 		}
 		fetchData().catch((error) => {
 			console.error(error);

@@ -56,9 +56,7 @@ const EventExpenses = () => {
 				}
 			);
 			setData(res.data);
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) {}
 	};
 
 	const fetchCategories = async () => {
@@ -69,9 +67,7 @@ const EventExpenses = () => {
 				},
 			});
 			setExpenseCategories(res.data);
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) {}
 	};
 
 	useEffect(() => {
@@ -109,7 +105,6 @@ const EventExpenses = () => {
 		const res = await axios.delete(
 			`${API}/EventExpense/DeleteExpense/${eventExpenseId}`
 		);
-		console.log(res);
 	};
 
 	const columns = [

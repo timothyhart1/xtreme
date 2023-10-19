@@ -17,9 +17,7 @@ const Scribante = () => {
 			try {
 				const res = await axios.get(`${API}/MemberTrackTime/GetAllTrackTimes`);
 				setData(res.data);
-			} catch (error) {
-				console.log(error);
-			}
+			} catch (error) {}
 		}
 		fetchData().catch((error) => {
 			console.error(error);

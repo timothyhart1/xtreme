@@ -43,9 +43,7 @@ const EditEventExpenses = () => {
 				}
 			);
 			setExpense(res.data);
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) {}
 	};
 
 	useEffect(() => {

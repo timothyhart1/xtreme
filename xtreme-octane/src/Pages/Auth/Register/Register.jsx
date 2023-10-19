@@ -35,12 +35,9 @@ const Register = () => {
 					phoneNumber: phoneNumber,
 				})
 				.then((response) => {
-					console.log(response.data);
 					navigate("/login");
 				});
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) {}
 	};
 
 	return (

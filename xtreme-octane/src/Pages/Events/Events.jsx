@@ -34,9 +34,7 @@ const Events = () => {
 				},
 			});
 			setData(res.data);
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) {}
 	};
 
 	useEffect(() => {
@@ -51,9 +49,7 @@ const Events = () => {
 				},
 			});
 			setData(res.data);
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) {}
 	};
 
 	useEffect(() => {
@@ -97,9 +93,7 @@ const Events = () => {
 				document.getElementById("event-image-input").value = null;
 				alert("Event Added.");
 			})
-			.catch((err) => {
-				console.log(err);
-			});
+			.catch((err) => {});
 	};
 
 	const getImage = (e) => {

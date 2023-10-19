@@ -20,15 +20,12 @@ const VerifyMembers = () => {
 			try {
 				const res = await axios.get(`${API}/Member/GetAllNonVerifiedMembers`);
 				setData(res.data);
-			} catch (error) {
-				console.log(error);
-			}
+			} catch (error) {}
 		}
-		
+
 		fetchData().catch((error) => {
-			console.error(error)
+			console.error(error);
 		});
-		
 	}, [API, updateTrigger]);
 
 	const deleteEvent = async (vehicleId) => {

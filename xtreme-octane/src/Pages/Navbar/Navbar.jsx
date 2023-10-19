@@ -22,8 +22,6 @@ function Navbar({ toggleSidebar }) {
 		toggleSidebar();
 	};
 
-	console.log(userRole);
-
 	const loggedInUser = {
 		name: email,
 	};

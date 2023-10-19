@@ -47,7 +47,6 @@ function App() {
 
 		if (token) {
 			const decoded = jwt(token);
-			console.log(decoded);
 			setUserRole(decoded.role);
 			setUserId(decoded.id);
 			setEmail(decoded.email);

@@ -32,15 +32,12 @@ const Login = ({ setUserRole }) => {
 					password: password,
 				})
 				.then((response) => {
-					console.log(response);
 					sessionStorage.setItem("Token", response.data.token);
 					setUser(response.data);
 					auth.login(response.data);
 					navigate("/", { replace: true });
 				});
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) {}
 	};
 
 	return (
