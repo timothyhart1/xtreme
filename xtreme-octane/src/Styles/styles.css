@@ -376,6 +376,7 @@
 	font-size: 12px;
 	width: 130px !important;
 	padding: 7px;
+	margin-left: 0;
 }
 
 #modal-event-btn {
@@ -402,25 +403,11 @@
 	padding: 0 !important;
 }
 
-.candidate-icons {
-	margin: auto 5px auto 5px !important;
-	color: var(--theme-default) !important;
-	transition: 0.3s;
-	cursor: pointer;
-}
-
 .event-input {
 	padding: 8px !important;
 	border: 2px solid #e6edef !important;
 	font-size: 14px !important;
 	font-weight: 400 !important;
-}
-
-#event-btn {
-	font-size: 12px;
-	width: 8%;
-	padding: 7px;
-	margin: auto 5px;
 }
 
 #modal-event-btn {
@@ -446,13 +433,6 @@
 
 #event-form-group {
 	padding: 0 !important;
-}
-
-.candidate-icons {
-	margin: auto 5px auto 5px !important;
-	color: var(--theme-default) !important;
-	transition: 0.3s;
-	cursor: pointer;
 }
 
 #event-btns {
@@ -841,6 +821,19 @@
 
 	#app-container.sidebar-open {
 		margin-left: 0 !important;
+	}
+	
+	.event-block {
+		display: block !important; 
+	}
+	
+	.event-image-vote {
+		margin: auto !important;
+		width: 100% !important;
+	}
+	
+	.event-left {
+		margin-right: 0 !important;
 	}
 }
 

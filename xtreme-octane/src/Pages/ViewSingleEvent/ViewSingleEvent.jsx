@@ -81,7 +81,7 @@ const ViewSingleEvent = () => {
 				<Card id="card-container" className="card-spacing">
 					<CardTitle title="All Events" />
 					<div
-						className="event-main-container"
+						className="event-main-container event-block"
 						style={{ display: "inline-flex", width: "auto", margin: "auto" }}
 					>
 						<div className="event-left" style={{ marginRight: "10px" }}>
