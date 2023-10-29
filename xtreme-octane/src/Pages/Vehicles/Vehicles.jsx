@@ -13,11 +13,16 @@ const Vehicles = () => {
 	const API = window.appConfig.API;
 	const [data, setData] = useState([]);
 	const [filteredData, setFilteredData] = useState([]);
+	const token = sessionStorage.getItem("Token");
 
 	useEffect(() => {
 		async function fetchData() {
 			try {
-				const res = await axios.get(`${API}/Vehicle/GetAllVehicles`);
+				const res = await axios.get(`${API}/Vehicle/GetAllVehicles`, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				});
 				setData(res.data);
 				setFilteredData(res.data);
 			} catch (error) {}

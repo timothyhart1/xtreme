@@ -21,18 +21,21 @@ namespace XtremeOctaneApi.Controllers
         }
 
         [HttpGet("GetAllMembers")]
+        [Authorize]
         public async Task<IActionResult> GetAllMembers()
         {
             return await _memberService.GetAllMembers();
         }
 
         [HttpGet("GetAllNonVerifiedMembers")]
+        [Authorize]
         public async Task<IActionResult> GetAllNonVerifiedMembers()
         {
             return await _memberService.GetAllNonVerifiedMembers();
         }
 
         [HttpGet("GetSingleMember/{id}")]
+        [Authorize]
         public async Task<ActionResult<MemberModel>> GetMemberById(int id)
         {
             return await _memberService.GetMemberById(id);
@@ -46,35 +49,33 @@ namespace XtremeOctaneApi.Controllers
         }
 
         [HttpPut("EditProfile/{id}")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<IActionResult> EditProfile(int id, [FromForm] CreateMemberDto member)
         {
             return await _memberService.EditProfile(id, member);
         }
 
         [HttpPut("ReinstateMember/{memberId}")]
-        [AllowAnonymous]
         public ActionResult ReinstateMember(int memberId)
         {
             return _memberService.ReinstateMember(memberId);
         }
 
         [HttpPut("VerifyMember/{memberId}")]
-        [AllowAnonymous]
         public ActionResult VerifyMember(int memberId)
         {
             return _memberService.VerifyMember(memberId);
         }
 
         [HttpPost("AddNewMember")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<ActionResult<MemberModel>> AddNewMember(MemberModel memberModel)
         {
             return await _memberService.AddMember(memberModel);
         }
 
         [HttpDelete("DeleteMember/{id}")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<IActionResult> DeleteMember(int id)
         {
             return await _memberService.DeleteMember(id);

@@ -20,7 +20,7 @@ namespace XtremeOctaneApi.Controllers
 
         // Get all votes for an event.
         [HttpGet("GetEventVotes/{id}")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<ActionResult<VoteResultsModel>> GetEventVotes(int id)
         {
             try
@@ -37,7 +37,7 @@ namespace XtremeOctaneApi.Controllers
 
         // Get votes made by a member
         [HttpGet("MemberEventVote/{id}")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<ActionResult<List<EventVoteModel>>> GetEventVotes(int id, int memberId)
         {
             try
@@ -54,6 +54,7 @@ namespace XtremeOctaneApi.Controllers
 
         // Get votes + details of member who voted.
         [HttpGet("GetMemberVoteDetails/{id}")]
+        [Authorize]
         public ActionResult<object> GetVotesForEvent(int id)
         {
             try
@@ -70,7 +71,7 @@ namespace XtremeOctaneApi.Controllers
 
         // Add a new vote for an event.
         [HttpPost("AddEventVote/{id}")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<ActionResult<EventModel>> AddEventVote(int id, EventVoteModel eventVote)
         {
             if (!ModelState.IsValid)

@@ -15,11 +15,16 @@ const Members = () => {
 	const [data, setData] = useState([]);
 	const [filteredData, setFilteredData] = useState([]);
 	const [updateTrigger, setUpdateTrigger] = useState(0);
+	const token = sessionStorage.getItem("Token");
 
 	useEffect(() => {
 		async function fetchData() {
 			try {
-				const res = await axios.get(`${API}/Member/GetAllMembers`);
+				const res = await axios.get(`${API}/Member/GetAllMembers`, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				});
 				setData(res.data);
 				setFilteredData(res.data);
 			} catch (error) {
@@ -31,14 +36,22 @@ const Members = () => {
 		});
 	}, [updateTrigger]);
 
-	const deleteEvent = async (vehicleId) => {
-		await axios.delete(`${API}/Member/DeleteMember/${vehicleId}`);
+	const deleteEvent = async (memberId) => {
+		await axios.delete(`${API}/Member/DeleteMember/${memberId}`, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
 		setUpdateTrigger(updateTrigger + 1);
 	};
 
 	const reinstateMember = async (memberId) => {
 		try {
-			await axios.put(`${API}/Member/ReinstateMember/${memberId}`);
+			await axios.put(`${API}/Member/ReinstateMember/${memberId}`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
 			setUpdateTrigger(updateTrigger + 1);
 		} catch (e) {
 			console.error(e.message);

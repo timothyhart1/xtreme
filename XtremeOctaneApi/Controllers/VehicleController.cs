@@ -20,6 +20,7 @@ namespace XtremeOctaneApi.Controllers
 
         // Get all vehicles.
         [HttpGet, Route("GetAllVehicles")]
+        [Authorize]
         public async Task<IActionResult> GetAllVehicles()
         {
             try
@@ -42,6 +43,7 @@ namespace XtremeOctaneApi.Controllers
 
         // Get a single vehicle.
         [HttpGet, Route("GetMemberVehicle/{id}")]
+        [Authorize]
         public async Task<IActionResult> GetVehicle(int id)
         {
             try
@@ -64,6 +66,7 @@ namespace XtremeOctaneApi.Controllers
 
         // Get all vehicles owned by a member.
         [HttpGet, Route("GetAllMemberVehicles/{id}")]
+        [Authorize]
         public async Task<IActionResult> GetVehiclesByMember(int id)
         {
             try
@@ -86,7 +89,6 @@ namespace XtremeOctaneApi.Controllers
 
         // Get the image of a vehicle.
         [HttpGet("GetVehicleImage/{id}")]
-        [AllowAnonymous]
         public async Task<IActionResult> GetVehicleImage(int id)
         {
             try
@@ -109,6 +111,7 @@ namespace XtremeOctaneApi.Controllers
 
         // Edit a vehicle.
         [HttpPut("EditVehicle/{id}")]
+        [Authorize]
         public async Task<IActionResult> EditVehicle(int id, [FromForm] VehicleModel formData)
         {
             try
@@ -126,7 +129,7 @@ namespace XtremeOctaneApi.Controllers
 
         // Add a vehicle.
         [HttpPost("AddVehicle")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<IActionResult> AddVehicle([FromForm] VehicleModel formData)
         {
             try
@@ -144,7 +147,7 @@ namespace XtremeOctaneApi.Controllers
 
         // Delete a vehicle.
         [HttpDelete("DeleteVehicle/{id}")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<IActionResult> DeleteVehicle(int id)
         {
             try
@@ -169,7 +172,7 @@ namespace XtremeOctaneApi.Controllers
 
         // Delete the VehicleImage of a vehicle.
         [HttpDelete("DeleteVehicleImage/{id}")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<IActionResult> DeleteVehicleImage(int id)
         {
             try

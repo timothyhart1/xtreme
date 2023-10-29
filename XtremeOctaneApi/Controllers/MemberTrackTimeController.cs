@@ -24,7 +24,7 @@ namespace XtremeOctaneApi.Controllers
         
         // Get all lap times
         [HttpGet, Route("GetAllTrackTimes")]
-        [AllowAnonymous]
+        [Authorize]
         public ActionResult<IEnumerable<MemberTrackTimeModel>> GetAllTrackTimes()
         {
             try
@@ -41,7 +41,7 @@ namespace XtremeOctaneApi.Controllers
 
         // Verify lap time
         [HttpPut, Route("VerifyLaptime/{id}")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<ActionResult<MemberTrackTimeModel>> VerifyLaptime(int id)
         {
             try
@@ -57,7 +57,7 @@ namespace XtremeOctaneApi.Controllers
 
         // Add lap time
         [HttpPost, Route("AddNewTrackTime")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<ActionResult<MemberTrackTimeModel>> AddNewTrackTime(
             int memberId,
             int vehicleId,
@@ -95,7 +95,7 @@ namespace XtremeOctaneApi.Controllers
         
         // Delete lap time
         [HttpDelete, Route("DeleteTrackTime/{id}")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<IActionResult> DeleteTrackTime(int id)
         {
             try

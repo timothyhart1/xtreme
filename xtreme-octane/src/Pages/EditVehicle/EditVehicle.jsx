@@ -24,6 +24,7 @@ const EditVehicle = () => {
 	const [imageFile, setImageFile] = useState(null);
 	const navigate = useNavigate();
 	const { memberId } = useMemberId();
+	const token = sessionStorage.getItem("Token");
 
 	const [vehicle, setVehicle] = useState({
 		manufacturer: "",
@@ -41,8 +42,11 @@ const EditVehicle = () => {
 	const fetchData = async () => {
 		try {
 			const res = await axios.get(
-				`${API}/Vehicle/GetMemberVehicle/${vehicleId}`
-			);
+				`${API}/Vehicle/GetMemberVehicle/${vehicleId}`, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				});
 			setVehicle(res.data);
 		} catch (error) {}
 	};
@@ -78,6 +82,7 @@ const EditVehicle = () => {
 			await axios.put(requestUrl, requestData, {
 				headers: {
 					"Content-Type": "multipart/form-data",
+					Authorization: `Bearer ${token}`,
 				},
 			});
 
@@ -95,8 +100,11 @@ const EditVehicle = () => {
 
 	const deleteVehicleImage = async (vehicleId) => {
 		const res = await axios.delete(
-			`${API}/Vehicle/DeleteVehicleImage/${vehicleId}`
-		);
+			`${API}/Vehicle/DeleteVehicleImage/${vehicleId}`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
 		toast.success("Vehicle Image Removed");
 		navigate("/member-vehicles");
 	};

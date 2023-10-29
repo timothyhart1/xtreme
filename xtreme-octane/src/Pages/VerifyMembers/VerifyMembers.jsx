@@ -14,11 +14,16 @@ const VerifyMembers = () => {
 	const API = window.appConfig.API;
 	const [data, setData] = useState([]);
 	const [updateTrigger, setUpdateTrigger] = useState(0);
+	const token = sessionStorage.getItem("Token");
 
 	useEffect(() => {
 		async function fetchData() {
 			try {
-				const res = await axios.get(`${API}/Member/GetAllNonVerifiedMembers`);
+				const res = await axios.get(`${API}/Member/GetAllNonVerifiedMembers`, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				});
 				setData(res.data);
 			} catch (error) {}
 		}

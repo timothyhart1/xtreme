@@ -11,11 +11,16 @@ import CardTitle from "../CardTitle/CardTitle";
 const Scribante = () => {
 	const API = window.appConfig.API;
 	const [data, setData] = useState([]);
+	const token = sessionStorage.getItem("Token");
 
 	useEffect(() => {
 		async function fetchData() {
 			try {
-				const res = await axios.get(`${API}/MemberTrackTime/GetAllTrackTimes`);
+				const res = await axios.get(`${API}/MemberTrackTime/GetAllTrackTimes`, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				});
 				setData(res.data);
 			} catch (error) {}
 		}

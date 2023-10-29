@@ -18,6 +18,7 @@ function EditProfile() {
 	const API = window.appConfig.API;
 	const { memberId } = useMemberId();
 	const [profilePicture, setProfilePicture] = useState(null);
+	const token = sessionStorage.getItem("Token");
 
 	const [profile, setProfile] = useState({
 		email: "",
@@ -38,8 +39,11 @@ function EditProfile() {
 		async function fetchData() {
 			try {
 				const res = await axios.get(
-					`${API}/Member/GetSingleMember/${memberId}`
-				);
+					`${API}/Member/GetSingleMember/${memberId}`, {
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					});
 				setProfile(res.data);
 			} catch (error) {}
 		}
@@ -67,6 +71,7 @@ function EditProfile() {
 				{
 					headers: {
 						"Content-Type": "multipart/form-data",
+						Authorization: `Bearer ${token}`,
 					},
 				}
 			);
