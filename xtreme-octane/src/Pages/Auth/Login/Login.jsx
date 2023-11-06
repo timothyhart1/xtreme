@@ -35,6 +35,7 @@ const Login = ({ setUserRole }) => {
 					sessionStorage.setItem("Token", response.data.token);
 					setUser(response.data);
 					auth.login(response.data);
+					sessionStorage.setItem("navbar", "true");
 					navigate("/", { replace: true });
 				});
 		} catch (error) {}

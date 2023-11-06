@@ -8,10 +8,15 @@ const HeroSection = () => {
 	const API = window.appConfig.API;
 	const [memberCount, setMemberCount] = useState("");
 	const [vehicleCount, setVehicleCount] = useState("");
+	const token = sessionStorage.getItem("Token");
 
 	const getMemberCount = async () => {
 		const res = await axios
-			.get(`${API}/Member/GetAllMembers`)
+			.get(`${API}/Member/GetAllMembers`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
 			.then((response) => {
 				setMemberCount(response.data.length);
 			});
@@ -19,7 +24,11 @@ const HeroSection = () => {
 
 	const getVehicleCount = async () => {
 		const res = await axios
-			.get(`${API}/Vehicle/GetAllVehicles`)
+			.get(`${API}/Vehicle/GetAllVehicles`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
 			.then((response) => {
 				setVehicleCount(response.data.length);
 			});

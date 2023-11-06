@@ -4,7 +4,7 @@ import DataTable from "react-data-table-component";
 import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Card, CardBody, Container } from "reactstrap";
+import { Card, CardBody, Container, Button } from "reactstrap";
 import "../../Styles/styles.css";
 import CardTitle from "../CardTitle/CardTitle";
 
@@ -110,13 +110,13 @@ const Scribante = () => {
 							id="vehicle-model"
 							style={{ textAlign: "left" }}
 						>
-							<button
+							<Button
 								type="button"
-								className="btn btn-xo"
+								id="event-btn"
 								style={{ marginBottom: "10px" }}
 							>
 								Add Lap Time
-							</button>
+							</Button>
 						</Link>
 						<DataTable
 							columns={columns}

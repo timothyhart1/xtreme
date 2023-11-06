@@ -41,18 +41,18 @@ function App() {
 	const [userId, setUserId] = useState("");
 	const [email, setEmail] = useState("");
 	const [memberId, setMemberId] = useState();
+	const token = sessionStorage.getItem("Token");
 
 	useEffect(() => {
-		const token = sessionStorage.getItem("Token");
-
 		if (token) {
 			const decoded = jwt(token);
 			setUserRole(decoded.role);
 			setUserId(decoded.id);
 			setEmail(decoded.email);
 			setMemberId(decoded.memberId);
+			console.log(decoded)
 		}
-	}, []);
+	}, [userRole, userId, email, memberId, token]);
 
 	const toggleSidebar = () => {
 		setSidebarOpen(!sidebarOpen);
