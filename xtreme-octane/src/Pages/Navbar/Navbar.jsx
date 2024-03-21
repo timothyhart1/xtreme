@@ -45,7 +45,7 @@ function Navbar({ toggleSidebar }) {
       title: "Dashboard",
       path: "/",
       cName: "nav-text",
-      roles: ["Admin"],
+      roles: ["Admin", "User"],
     },
     {
       title: "Members",

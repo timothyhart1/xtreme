@@ -1,5 +1,7 @@
 import { createContext, useContext, useState } from "react";
 
+import axios from "axios";
+
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
@@ -25,4 +27,20 @@ export const AuthProvider = ({ children }) => {
 
 export const useAuth = () => {
   return useContext(AuthContext);
+};
+
+export const loginUser = async (email, password, API, auth, navigate) => {
+  try {
+    const response = await axios.post(`${API}/User/login`, {
+      EmailAddress: email,
+      password: password,
+    });
+
+    sessionStorage.setItem("Token", response.data.token);
+    auth.login(response.data);
+    sessionStorage.setItem("navbar", "true");
+    navigate("/", { replace: true });
+  } catch (error) {
+    console.error("Login error", error);
+  }
 };
