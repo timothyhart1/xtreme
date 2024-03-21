@@ -40,7 +40,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddDbContext<DataContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-    options.UseSqlServer(connectionString);
+    options.UseMySql(connectionString, new MySqlServerVersion(new Version(10, 4, 13)));
 });
 
 builder.Services.Configure<AppSettings>(config.GetSection("appsettings"));

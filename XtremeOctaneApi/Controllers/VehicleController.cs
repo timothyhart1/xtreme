@@ -129,7 +129,6 @@ namespace XtremeOctaneApi.Controllers
 
         // Add a vehicle.
         [HttpPost("AddVehicle")]
-        [Authorize]
         public async Task<IActionResult> AddVehicle([FromForm] VehicleModel formData)
         {
             try
