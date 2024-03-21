@@ -5,7 +5,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Card, CardBody, Container, CardSubtitle } from "reactstrap";
+import { Card, CardBody, Container } from "reactstrap";
 import { useMemberId } from "../../Contexts/MemberIdContext";
 import "../../Styles/styles.css";
 import CardTitle from "../CardTitle/CardTitle";
@@ -97,42 +97,34 @@ const MemberVehicles = () => {
         <ToastContainer />
         <Card id="card-container" className="card-spacing">
           <CardTitle title="My Vehicles" />
-          {data === null || data.length === 0 ? (
-            <CardBody id="event-card-body">
-              <CardSubtitle className="mb-2 event-header event-centre">
-                No events available
-              </CardSubtitle>
-            </CardBody>
-          ) : (
-            <CardBody>
-              <Link
-                to={`/add-vehicle`}
-                id="vehicle-model"
-                style={{ textAlign: "left" }}
-              >
-                <button
-                  type="button"
-                  className="btn btn-xo"
-                  style={{ marginBottom: "10px" }}
-                >
+          <CardBody>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginBottom: "20px",
+              }}
+            >
+              <Link to={`/add-vehicle`} id="vehicle-model">
+                <button type="button" className="btn btn-xo">
                   Add Vehicle
                 </button>
               </Link>
-              {data.length === 0 ? (
-                <p style={{ textAlign: "center", color: "#fff" }}>
-                  You currently have no added vehicles.
-                </p>
-              ) : (
-                <DataTable
-                  columns={columns}
-                  data={data}
-                  fixedHeader
-                  pagination
-                  className="data-table-xo"
-                />
-              )}
-            </CardBody>
-          )}
+            </div>
+            {data.length === 0 ? (
+              <p style={{ textAlign: "center", color: "#fff" }}>
+                You currently have no added vehicles.
+              </p>
+            ) : (
+              <DataTable
+                columns={columns}
+                data={data}
+                fixedHeader
+                pagination
+                className="data-table-xo"
+              />
+            )}
+          </CardBody>
         </Card>
       </Container>
     </Fragment>

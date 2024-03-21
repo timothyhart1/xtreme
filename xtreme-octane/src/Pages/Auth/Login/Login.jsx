@@ -30,7 +30,7 @@ const Login = () => {
     <Fragment>
       <Container fluid={true}>
         <CardTitle title="Login" />
-        <Card id="card-container">
+        <Card id="card-container-login-register">
           <Form onSubmit={postLogin} id="event-form">
             <div className="event-container">
               <Row>

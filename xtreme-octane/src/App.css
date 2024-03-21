@@ -53,30 +53,9 @@ body {
   margin-top: 20px !important;
   background-color: #323131 !important;
   border-color: #323131 !important;
-  width: 100%; /* Default to a smaller screen */
+  width: 80%; /* Default to a smaller screen */
   margin-left: auto;
   margin-right: auto;
-}
-
-/* Medium devices (tablets, 768px and up) */
-@media (min-width: 768px) {
-  #card-container {
-    width: 70%;
-  }
-}
-
-/* Large devices (desktops, 992px and up) */
-@media (min-width: 992px) {
-  #card-container {
-    width: 50%;
-  }
-}
-
-/* Extra large devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) {
-  #card-container {
-    width: 30%;
-  }
 }
 
 #card-container-edit-vehicle {
@@ -93,4 +72,35 @@ body {
 
 #app-container:not(.sidebar-open) {
   transition: margin-left 0.3s ease;
+}
+
+#card-container-login-register {
+  padding: 20px !important;
+  margin-top: 20px !important;
+  background-color: #323131 !important;
+  border-color: #323131 !important;
+  width: 100%; /* Default to a smaller screen */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  #card-container-login-register {
+    width: 70%;
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  #card-container-login-register {
+    width: 50%;
+  }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  #card-container-login-register {
+    width: 30%;
+  }
 }

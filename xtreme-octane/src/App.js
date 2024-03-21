@@ -34,269 +34,285 @@ import ViewMember from "./Pages/ViewMember/viewMember";
 import ViewSingleEvent from "./Pages/ViewSingleEvent/ViewSingleEvent";
 import ViewVehicle from "./Pages/ViewVehicle/ViewVehicle";
 import VoteEvent from "./Pages/VoteEvent/VoteEvents";
+import image from "./Images/Logo_transparent.png";
 
 function App() {
-	const [sidebarOpen, setSidebarOpen] = useState(true);
-	const [userRole, setUserRole] = useState("");
-	const [userId, setUserId] = useState("");
-	const [email, setEmail] = useState("");
-	const [memberId, setMemberId] = useState();
-	const token = sessionStorage.getItem("Token");
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [userRole, setUserRole] = useState("");
+  const [userId, setUserId] = useState("");
+  const [email, setEmail] = useState("");
+  const [memberId, setMemberId] = useState();
+  const token = sessionStorage.getItem("Token");
 
-	useEffect(() => {
-		if (token) {
-			const decoded = jwt(token);
-			setUserRole(decoded.role);
-			setUserId(decoded.id);
-			setEmail(decoded.email);
-			setMemberId(decoded.memberId);
-			console.log(decoded)
-		}
-	}, [userRole, userId, email, memberId, token]);
+  useEffect(() => {
+    if (token) {
+      const decoded = jwt(token);
+      setUserRole(decoded.role);
+      setUserId(decoded.id);
+      setEmail(decoded.email);
+      setMemberId(decoded.memberId);
+      console.log(decoded);
+    }
+  }, [userRole, userId, email, memberId, token]);
 
-	const toggleSidebar = () => {
-		setSidebarOpen(!sidebarOpen);
-	};
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
 
-	const isAuthorized = (allowedRoles) => {
-		return allowedRoles.includes(userRole);
-	};
+  const isAuthorized = (allowedRoles) => {
+    return allowedRoles.includes(userRole);
+  };
 
-	return (
-		<AuthProvider>
-			<MemberIdProvider memberId={memberId}>
-				<UserIdProvider>
-					<EmailProvider>
-						<UserRoleProvider>
-							<BrowserRouter>
-								<Navbar toggleSidebar={toggleSidebar} />
-								<div
-									id="app-container"
-									className={sidebarOpen ? "" : "sidebar-open"}
-								>
-									<Routes>
-										<Route
-											path="/"
-											element={
-												<RequireAuth>
-													<HeroSection />
-												</RequireAuth>
-											}
-										/>
-										<Route
-											path="events"
-											element={
-												<RequireAuth>
-													{isAuthorized(["Admin"]) ? <Events /> : <AuthGuard />}
-												</RequireAuth>
-											}
-										/>
-										<Route
-											path="events/edit-event/:eventId"
-											element={
-												<RequireAuth>
-													{isAuthorized(["Admin"]) ? (
-														<EditEvent />
-													) : (
-														<AuthGuard />
-													)}
-												</RequireAuth>
-											}
-										/>
-										<Route
-											path="members"
-											element={
-												<RequireAuth>
-													{isAuthorized(["Admin"]) ? (
-														<Members />
-													) : (
-														<AuthGuard />
-													)}
-												</RequireAuth>
-											}
-										/>
-										<Route
-											path="vehicles"
-											element={
-												<RequireAuth>
-													<Vehicles />
-												</RequireAuth>
-											}
-										/>
-										<Route
-											path="scribante"
-											element={
-												<RequireAuth>
-													<Scribante />
-												</RequireAuth>
-											}
-										/>
-										<Route
-											path="vehicles/view-vehicle/:vehicleId"
-											element={
-												<RequireAuth>
-													<ViewVehicle />
-												</RequireAuth>
-											}
-										/>
-										<Route
-											path="view-events"
-											element={
-												<RequireAuth>
-													<ViewEvents />
-												</RequireAuth>
-											}
-										/>
-										<Route
-											path="view-event/:eventId"
-											element={
-												<RequireAuth>
-													<ViewSingleEvent />
-												</RequireAuth>
-											}
-										/>
-										<Route
-											path="edit-profile"
-											element={
-												<RequireAuth>
-													<EditProfile />
-												</RequireAuth>
-											}
-										/>
-										<Route path="register" element={<Register />} />
-										<Route
-											path="login"
-											element={<Login setUserRole={setUserRole} />}
-										/>
-										<Route
-											path="vote-event/:eventId"
-											element={
-												<RequireAuth>
-													<VoteEvent />
-												</RequireAuth>
-											}
-										/>
-										<Route
-											path="events/event-votes/:eventId"
-											element={
-												<RequireAuth>
-													{isAuthorized(["Admin"]) ? (
-														<ViewEventVotes />
-													) : (
-														<AuthGuard />
-													)}
-												</RequireAuth>
-											}
-										/>
-										<Route
-											path="add-event-expense/:eventId"
-											element={
-												<RequireAuth>
-													{isAuthorized(["Admin"]) ? (
-														<EventExpenses />
-													) : (
-														<AuthGuard />
-													)}
-												</RequireAuth>
-											}
-										/>
-										<Route
-											path="edit-event-expense/:eventExpenseId/event/:eventId"
-											element={
-												<RequireAuth>
-													{isAuthorized(["Admin"]) ? (
-														<EditEventExpenses />
-													) : (
-														<AuthGuard />
-													)}
-												</RequireAuth>
-											}
-										/>
-										<Route
-											path="add-vehicle"
-											element={
-												<RequireAuth>
-													<AddVehicle />
-												</RequireAuth>
-											}
-										/>
-										<Route
-											path="add-category"
-											element={
-												<RequireAuth>
-													{isAuthorized(["Admin"]) ? (
-														<AddCategory />
-													) : (
-														<AuthGuard />
-													)}
-												</RequireAuth>
-											}
-										/>
-										<Route
-											path="add-lap-time"
-											element={
-												<RequireAuth>
-													<AddLapTime />
-												</RequireAuth>
-											}
-										/>
-										<Route
-											path="member-vehicles"
-											element={
-												<RequireAuth>
-													<MemberVehicles />
-												</RequireAuth>
-											}
-										/>
-										<Route
-											path="verify-members"
-											element={
-												<RequireAuth>
-													{isAuthorized(["Admin"]) ? (
-														<VerifyMembers />
-													) : (
-														<AuthGuard />
-													)}
-												</RequireAuth>
-											}
-										/>
-										<Route
-											path="verify-member/:memberId"
-											element={
-												<RequireAuth>
-													{isAuthorized(["Admin"]) ? (
-														<VerifyMember />
-													) : (
-														<AuthGuard />
-													)}
-												</RequireAuth>
-											}
-										/>
-										<Route
-											path="edit-vehicle/:vehicleId"
-											element={
-												<RequireAuth>
-													<EditVehicle />
-												</RequireAuth>
-											}
-										/>
-										<Route
-											path="view-member/:memberId"
-											element={
-												<RequireAuth>
-													<ViewMember />
-												</RequireAuth>
-											}
-										/>
-									</Routes>
-								</div>
-							</BrowserRouter>
-						</UserRoleProvider>
-					</EmailProvider>
-				</UserIdProvider>
-			</MemberIdProvider>
-		</AuthProvider>
-	);
+  return (
+    <AuthProvider>
+      <MemberIdProvider memberId={memberId}>
+        <UserIdProvider>
+          <EmailProvider>
+            <UserRoleProvider>
+              <BrowserRouter>
+                <Navbar toggleSidebar={toggleSidebar} />
+                <div
+                  id="app-container"
+                  className={sidebarOpen ? "" : "sidebar-open"}
+                >
+                  <Routes>
+                    <Route
+                      path="/"
+                      element={
+                        <RequireAuth>
+                          <HeroSection />
+                        </RequireAuth>
+                      }
+                    />
+                    <Route
+                      path="events"
+                      element={
+                        <RequireAuth>
+                          {isAuthorized(["Admin"]) ? <Events /> : <AuthGuard />}
+                        </RequireAuth>
+                      }
+                    />
+                    <Route
+                      path="events/edit-event/:eventId"
+                      element={
+                        <RequireAuth>
+                          {isAuthorized(["Admin"]) ? (
+                            <EditEvent />
+                          ) : (
+                            <AuthGuard />
+                          )}
+                        </RequireAuth>
+                      }
+                    />
+                    <Route
+                      path="members"
+                      element={
+                        <RequireAuth>
+                          {isAuthorized(["Admin"]) ? (
+                            <Members />
+                          ) : (
+                            <AuthGuard />
+                          )}
+                        </RequireAuth>
+                      }
+                    />
+                    <Route
+                      path="vehicles"
+                      element={
+                        <RequireAuth>
+                          <Vehicles />
+                        </RequireAuth>
+                      }
+                    />
+                    <Route
+                      path="scribante"
+                      element={
+                        <RequireAuth>
+                          <Scribante />
+                        </RequireAuth>
+                      }
+                    />
+                    <Route
+                      path="vehicles/view-vehicle/:vehicleId"
+                      element={
+                        <RequireAuth>
+                          <ViewVehicle />
+                        </RequireAuth>
+                      }
+                    />
+                    <Route
+                      path="view-events"
+                      element={
+                        <RequireAuth>
+                          <ViewEvents />
+                        </RequireAuth>
+                      }
+                    />
+                    <Route
+                      path="view-event/:eventId"
+                      element={
+                        <RequireAuth>
+                          <ViewSingleEvent />
+                        </RequireAuth>
+                      }
+                    />
+                    <Route
+                      path="edit-profile"
+                      element={
+                        <RequireAuth>
+                          <EditProfile />
+                        </RequireAuth>
+                      }
+                    />
+                    <Route path="register" element={<Register />} />
+                    <Route
+                      path="login"
+                      element={<Login setUserRole={setUserRole} />}
+                    />
+                    <Route
+                      path="vote-event/:eventId"
+                      element={
+                        <RequireAuth>
+                          <VoteEvent />
+                        </RequireAuth>
+                      }
+                    />
+                    <Route
+                      path="events/event-votes/:eventId"
+                      element={
+                        <RequireAuth>
+                          {isAuthorized(["Admin"]) ? (
+                            <ViewEventVotes />
+                          ) : (
+                            <AuthGuard />
+                          )}
+                        </RequireAuth>
+                      }
+                    />
+                    <Route
+                      path="add-event-expense/:eventId"
+                      element={
+                        <RequireAuth>
+                          {isAuthorized(["Admin"]) ? (
+                            <EventExpenses />
+                          ) : (
+                            <AuthGuard />
+                          )}
+                        </RequireAuth>
+                      }
+                    />
+                    <Route
+                      path="edit-event-expense/:eventExpenseId/event/:eventId"
+                      element={
+                        <RequireAuth>
+                          {isAuthorized(["Admin"]) ? (
+                            <EditEventExpenses />
+                          ) : (
+                            <AuthGuard />
+                          )}
+                        </RequireAuth>
+                      }
+                    />
+                    <Route
+                      path="add-vehicle"
+                      element={
+                        <RequireAuth>
+                          <AddVehicle />
+                        </RequireAuth>
+                      }
+                    />
+                    <Route
+                      path="add-category"
+                      element={
+                        <RequireAuth>
+                          {isAuthorized(["Admin"]) ? (
+                            <AddCategory />
+                          ) : (
+                            <AuthGuard />
+                          )}
+                        </RequireAuth>
+                      }
+                    />
+                    <Route
+                      path="add-lap-time"
+                      element={
+                        <RequireAuth>
+                          <AddLapTime />
+                        </RequireAuth>
+                      }
+                    />
+                    <Route
+                      path="member-vehicles"
+                      element={
+                        <RequireAuth>
+                          <MemberVehicles />
+                        </RequireAuth>
+                      }
+                    />
+                    <Route
+                      path="verify-members"
+                      element={
+                        <RequireAuth>
+                          {isAuthorized(["Admin"]) ? (
+                            <VerifyMembers />
+                          ) : (
+                            <AuthGuard />
+                          )}
+                        </RequireAuth>
+                      }
+                    />
+                    <Route
+                      path="verify-member/:memberId"
+                      element={
+                        <RequireAuth>
+                          {isAuthorized(["Admin"]) ? (
+                            <VerifyMember />
+                          ) : (
+                            <AuthGuard />
+                          )}
+                        </RequireAuth>
+                      }
+                    />
+                    <Route
+                      path="edit-vehicle/:vehicleId"
+                      element={
+                        <RequireAuth>
+                          <EditVehicle />
+                        </RequireAuth>
+                      }
+                    />
+                    <Route
+                      path="view-member/:memberId"
+                      element={
+                        <RequireAuth>
+                          <ViewMember />
+                        </RequireAuth>
+                      }
+                    />
+                  </Routes>
+                </div>
+              </BrowserRouter>
+            </UserRoleProvider>
+          </EmailProvider>
+        </UserIdProvider>
+      </MemberIdProvider>
+      <div
+        style={{
+          position: "fixed",
+          left: "50%",
+          bottom: "20px",
+          transform: "translateX(-50%)",
+          zIndex: "1000",
+        }}
+      >
+        <img
+          src={image}
+          alt="Logo"
+          style={{ width: "100%", height: "150px" }}
+        />
+      </div>
+    </AuthProvider>
+  );
 }
 
 export default App;

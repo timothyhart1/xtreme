@@ -49,7 +49,7 @@ const Register = () => {
     <Fragment>
       <Container fluid={true}>
         <CardTitle title="Register" />
-        <Card id="card-container">
+        <Card id="card-container-login-register">
           <Form onSubmit={postRegistration} id="event-form" autocomplete="off">
             <div className="event-container">
               <Row>
