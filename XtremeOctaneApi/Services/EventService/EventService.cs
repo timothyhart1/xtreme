@@ -26,7 +26,7 @@ namespace XtremeOctaneApi.Services.EventService
         public async Task<int> AddEvent(IFormFile image, string eventName, string eventDesc)
         {
             string fileName = Guid.NewGuid() + Path.GetExtension(image.FileName);
-            string uploadFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Documents\\Events", fileName);
+            string uploadFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Documents", "Events", fileName);
 
             using (var fileStream = new FileStream(uploadFilePath, FileMode.Create))
             {
@@ -60,7 +60,7 @@ namespace XtremeOctaneApi.Services.EventService
             if (eventImage != null)
             {
                 string fileName = Guid.NewGuid() + Path.GetExtension(eventImage.FileName);
-                string uploadFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Documents\\Events", fileName);
+                string uploadFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Documents", "Events", fileName);
 
                 using (var fileStream = new FileStream(uploadFilePath, FileMode.Create))
                 {

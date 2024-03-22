@@ -93,7 +93,7 @@ public class VehicleService : IVehicleService
                 if (vehicleImage != null)
                 {
                     string fileName = Guid.NewGuid() + Path.GetExtension(vehicleImage.FileName);
-                    string uploadFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Documents\\Cars", fileName);
+                    string uploadFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Documents", "Cars", fileName);
 
                     using (var fileStream = new FileStream(uploadFilePath, FileMode.Create))
                     {
@@ -140,7 +140,7 @@ public class VehicleService : IVehicleService
 
             if (hasImage)
             {
-                string uploadFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Documents\\Cars", fileName);
+                string uploadFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Documents", "Cars", fileName);
 
                 using (var fileStream = new FileStream(uploadFilePath, FileMode.Create))
                 {
