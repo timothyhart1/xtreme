@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using XtremeOctaneApi.Controllers;
 using XtremeOctaneApi.Data;
@@ -144,6 +145,40 @@ namespace XtremeOctaneApi.Services.MemberService
                 return new BadRequestObjectResult(ex.Message);
             }
         }
+
+        public async Task<IActionResult> UpdateMemberRole(string userId, string newRoleName)
+        {
+            try
+            {
+                var role = _db.Roles.FirstOrDefault(r => r.Name == newRoleName);
+                if (role == null)
+                {
+                    return new NotFoundObjectResult($"Role '{newRoleName}' not found.");
+                }
+
+                // Find the existing user role
+                var userRole = await _db.UserRoles.FirstOrDefaultAsync(ur => ur.UserId == userId);
+                if (userRole != null)
+                {
+                    // Remove the existing user role
+                    _db.UserRoles.Remove(userRole);
+                    await _db.SaveChangesAsync();
+                }
+
+                // Create and add the new user role
+                var newUserRole = new IdentityUserRole<string> { UserId = userId, RoleId = role.Id };
+                _db.UserRoles.Add(newUserRole);
+                await _db.SaveChangesAsync();
+
+                return new OkObjectResult($"Member role updated to '{newRoleName}'.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "There was an error updating the member role.");
+                return new BadRequestObjectResult(ex.Message);
+            }
+        }
+
 
         public ActionResult ReinstateMember(int memberId)
         {

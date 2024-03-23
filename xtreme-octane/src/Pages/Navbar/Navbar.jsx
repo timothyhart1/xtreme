@@ -3,7 +3,7 @@ import { IconContext } from "react-icons";
 import * as AiIcons from "react-icons/ai";
 import * as FaIcons from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
-import { useEmail } from "../../Contexts/EmailContext";
+import { getMemberEmail } from "../../Contexts/UserSession";
 import { getMemberId } from "../../Contexts/UserSession";
 import { useUserRole } from "../../Contexts/RoleContext";
 import logo from "../../Images/Logo_transparent.png";
@@ -13,7 +13,7 @@ function Navbar({ toggleSidebar }) {
   const [sidebar, setSidebar] = useState(false);
   const location = useLocation();
   const API = window.appConfig.API;
-  const { email } = useEmail();
+  const email = getMemberEmail();
   const memberId = getMemberId();
   const { userRole } = useUserRole();
   const token = sessionStorage.getItem("Token");
@@ -114,6 +114,12 @@ function Navbar({ toggleSidebar }) {
     {
       title: "Verify Members",
       path: "/verify-members",
+      cName: "nav-text",
+      roles: ["Admin"],
+    },
+    {
+      title: "Edit Member Roles",
+      path: "/edit-member-role",
       cName: "nav-text",
       roles: ["Admin"],
     },

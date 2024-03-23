@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using XtremeOctaneApi.Data;
 using XtremeOctaneApi.Dtos;
 using XtremeOctaneApi.Services.MemberService;
+using System.Data;
 
 namespace XtremeOctaneApi.Controllers
 {
@@ -53,6 +54,13 @@ namespace XtremeOctaneApi.Controllers
         public async Task<IActionResult> EditProfile(int id, [FromForm] CreateMemberDto member)
         {
             return await _memberService.EditProfile(id, member);
+        }
+
+        [HttpPut("UpdateMemberRole/{userId}")]
+        [Authorize]
+        public async Task<IActionResult> UpdateMemberRole(string userId, [FromBody] string newRoleName)
+        {
+            return await _memberService.UpdateMemberRole(userId, newRoleName);
         }
 
         [HttpPut("ReinstateMember/{memberId}")]
