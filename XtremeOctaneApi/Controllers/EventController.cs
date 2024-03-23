@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using XtremeOctaneApi.Models;
 using XtremeOctaneApi.Services.EventService;
 
 namespace XtremeOctaneApi.Controllers
@@ -38,7 +40,33 @@ namespace XtremeOctaneApi.Controllers
             }
         }
 
-        [HttpGet("GetSingleEvent/{id}")]
+    [HttpGet("GetFutureEvents")]
+    [Authorize]
+    public async Task<IActionResult> GetFutureEvents()
+    {
+        try
+        {
+            var now = DateTime.UtcNow; 
+            var futureEvents = await _eventService.GetAllEvents();
+
+            futureEvents = futureEvents?.Where(e => e.EventDate > now).ToList();
+                
+            if (futureEvents == null || !futureEvents.Any())
+            {
+                    return Ok(new List<EventModel>());
+                }
+
+            return Ok(futureEvents);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred while fetching future events");
+            return StatusCode(500, "An error occurred while fetching future events");
+        }
+    }
+
+
+    [HttpGet("GetSingleEvent/{id}")]
         [Authorize]
         public async Task<IActionResult> GetEventById(int id)
         {

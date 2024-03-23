@@ -514,6 +514,10 @@ input::file-selector-button:hover {
   color: #fff;
 }
 
+.header-blue {
+  color: #3273b5;
+}
+
 /* Modal */
 #event-modal-header {
   font-size: 70px;

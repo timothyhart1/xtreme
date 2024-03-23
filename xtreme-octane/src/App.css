@@ -58,6 +58,16 @@ body {
   margin-right: auto;
 }
 
+#card-container-dashboard {
+  padding: 20px !important;
+  margin-top: 20px !important;
+  background-color: #323131 !important;
+  border-color: #323131 !important;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 #card-container-edit-vehicle {
   padding: 0 !important;
   margin-top: 20px !important;
@@ -102,5 +112,41 @@ body {
 @media (min-width: 1200px) {
   #card-container-login-register {
     width: 30%;
+  }
+}
+
+.responsive-image {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Larger than mobile */
+@media (min-width: 576px) {
+  /* Adjust numbers as needed */
+  .responsive-image {
+    max-width: 50%;
+  }
+}
+
+/* Tablet and up */
+@media (min-width: 768px) {
+  .responsive-image {
+    max-width: 50%;
+  }
+}
+
+/* Desktop and up */
+@media (min-width: 992px) {
+  .responsive-image {
+    max-width: 40%;
+  }
+}
+
+/* Large Desktops */
+@media (min-width: 1200px) {
+  .responsive-image {
+    max-width: 30%;
   }
 }

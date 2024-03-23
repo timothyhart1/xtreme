@@ -96,7 +96,7 @@ namespace XtremeOctaneApi.Services.MemberService
 
             if (!System.IO.File.Exists(filePath))
             {
-                filePath = Path.Combine(Directory.GetCurrentDirectory(), "DocumentsProfilePictures", "ProfilePictures", "profile-pic-default.webp");
+                filePath = Path.Combine(Directory.GetCurrentDirectory(), "Documents", "ProfilePictures", "profile-pic-default.webp");
             }
 
             var fileBytes = System.IO.File.ReadAllBytes(filePath);
