@@ -87,16 +87,16 @@ namespace XtremeOctaneApi.Services.MemberService
         {
             var member = _db.Member.FirstOrDefault(e => e.MemberId == memberId);
 
-            if (member == null || string.IsNullOrEmpty(member.ProfilePicture))
-            {
-                return new NotFoundObjectResult("Event or image not found.");
-            }
-
             string filePath = Path.Combine(Directory.GetCurrentDirectory(), "Documents", "ProfilePictures", member.ProfilePicture);
 
             if (!System.IO.File.Exists(filePath))
             {
                 filePath = Path.Combine(Directory.GetCurrentDirectory(), "Documents", "ProfilePictures", "profile-pic-default.webp");
+            }
+
+            if (member == null || string.IsNullOrEmpty(member.ProfilePicture))
+            {
+                return new NotFoundObjectResult("Event or image not found.");
             }
 
             var fileBytes = System.IO.File.ReadAllBytes(filePath);

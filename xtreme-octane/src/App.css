@@ -150,3 +150,33 @@ body {
     max-width: 30%;
   }
 }
+
+.scroll-container {
+  display: flex;
+  overflow-x: auto;
+  padding: 10px;
+  gap: 20px;
+}
+
+.vehicle-card {
+  flex: 0 0 auto;
+  width: 400px;
+  border: 1px solid #ffffff;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: #3273b5;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.vehicle-card img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.vehicle-card h1,
+.vehicle-card h3,
+.vehicle-card p {
+  margin: 5px 0;
+  text-align: center;
+}

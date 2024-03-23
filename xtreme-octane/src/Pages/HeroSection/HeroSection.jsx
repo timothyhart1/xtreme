@@ -10,6 +10,7 @@ const HeroSection = () => {
     upcomingEvents: [],
     totalMembers: 0,
     totalVehicles: 0,
+    recentlyCreatedVehicles: [],
   });
   const token = sessionStorage.getItem("Token");
 
@@ -24,7 +25,6 @@ const HeroSection = () => {
       });
 
       const totalMembers = membersRes.data.length;
-      console.log(totalMembers);
 
       // Fetch Total Vehicles
       const vehiclesRes = await axios.get(`${API}/Vehicle/GetAllVehicles`, {
@@ -39,12 +39,24 @@ const HeroSection = () => {
           Authorization: `Bearer ${token}`,
         },
       });
+
+      const recentlyCreatedVehicles = await axios.get(
+        `${API}/Vehicle/GetAllVehicles`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const recentVehicleCreations = recentlyCreatedVehicles.data;
+
       const upcomingEvents = eventsRes.data;
-      console.log(upcomingEvents);
+      console.log(recentVehicleCreations);
       setData({
         upcomingEvents,
         totalMembers,
         totalVehicles,
+        recentlyCreatedVehicles: recentVehicleCreations, // This line was corrected
       });
     } catch (error) {
       console.error(error);
@@ -93,7 +105,27 @@ const HeroSection = () => {
             </Card>
           </Col>
         </Row>
-        <Row></Row>
+        <Row>
+          <Col md="12" sx={12}>
+            <Card id="card-container-dashboard">
+              <CardTitle title="Recently Added Vehicles" />
+              <div className="header-white scroll-container">
+                {data.recentlyCreatedVehicles.map((vehicle, index) => (
+                  <div key={index} className="vehicle-card">
+                    <img
+                      src={`${API}/Vehicle/GetVehicleImage/${vehicle.vehicleId}`}
+                      alt="Vehicle"
+                    />
+                    <h1>{vehicle.manufacturer}</h1>
+                    <h3>{vehicle.model}</h3>
+                    <p>{vehicle.year}</p>
+                    <p>Owner: {vehicle.member.name}</p>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </Col>
+        </Row>
       </Container>
     </Fragment>
   );

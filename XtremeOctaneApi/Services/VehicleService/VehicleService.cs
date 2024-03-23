@@ -27,6 +27,7 @@ public class VehicleService : IVehicleService
         {
             var vehicles = await _db.Vehicle
                 .Include(v => v.Member)
+                .OrderByDescending(v => v.VehicleId)
                 .ToListAsync();
 
             return vehicles;

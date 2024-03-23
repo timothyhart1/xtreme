@@ -18,8 +18,30 @@ function Navbar({ toggleSidebar }) {
   const { userRole } = useUserRole();
   const token = sessionStorage.getItem("Token");
   const auth = useAuth();
+  const [userImage, setUserImage] = useState("");
+  const [loadingImage, setLoadingImage] = useState(true); // New state to track image loading
 
-  const userImage = `${API}/Member/GetProfilePicture/${memberId}`;
+  useEffect(() => {
+    // Function to load image and update state
+    const loadImage = async () => {
+      const imageUrl = `${API}/Member/GetProfilePicture/${memberId}`;
+      try {
+        const response = await fetch(imageUrl);
+        if (response.ok) {
+          setUserImage(imageUrl);
+        }
+      } catch (error) {
+        console.error("Failed to load user image:", error);
+      } finally {
+        setLoadingImage(false);
+      }
+    };
+
+    if (memberId) {
+      setLoadingImage(true);
+      loadImage();
+    }
+  }, [API, memberId]); // Depend on API and memberId to re-run the effect
 
   const handleToggleSidebar = () => {
     setSidebar(!sidebar);
@@ -160,16 +182,20 @@ function Navbar({ toggleSidebar }) {
                 Logged In As: {loggedInUser.name}
               </span>
               <span>
-                <img
-                  src={userImage}
-                  style={{
-                    width: "40px",
-                    height: "40px",
-                    borderRadius: "100%",
-                    objectFit: "cover",
-                  }}
-                  alt={null}
-                />
+                {loadingImage ? (
+                  <div>Loading...</div> // Placeholder or spinner
+                ) : (
+                  <img
+                    src={userImage}
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      borderRadius: "100%",
+                      objectFit: "cover",
+                    }}
+                    alt=""
+                  />
+                )}
               </span>
             </div>
           )}
