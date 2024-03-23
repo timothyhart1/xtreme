@@ -10,15 +10,15 @@ import {
   Label,
   Row,
 } from "reactstrap";
-import { useMemberId } from "../../Contexts/MemberIdContext";
 import "../../Styles/styles.css";
 import CardTitle from "../CardTitle/CardTitle";
+import { getMemberId } from "../../Contexts/UserSession";
 
 function EditProfile() {
   const API = window.appConfig.API;
-  const { memberId } = useMemberId();
   const [profilePicture, setProfilePicture] = useState(null);
   const token = sessionStorage.getItem("Token");
+  const memberId = getMemberId();
 
   const [profile, setProfile] = useState({
     email: "",

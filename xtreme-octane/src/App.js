@@ -39,7 +39,7 @@ import image from "./Images/Logo_transparent.png";
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [userRole, setUserRole] = useState("");
-  const [userId, setUserId] = useState("");
+  const [, setUserId] = useState("");
   const [email, setEmail] = useState("");
   const [memberId, setMemberId] = useState();
   const token = sessionStorage.getItem("Token");
@@ -52,9 +52,8 @@ function App() {
       setUserId(decoded.id);
       setEmail(decoded.email);
       setMemberId(decoded.memberId);
-      console.log(decoded);
     }
-  }, [userRole, userId, email, memberId, token]);
+  }, [token]);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);

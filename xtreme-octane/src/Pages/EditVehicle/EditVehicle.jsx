@@ -14,7 +14,7 @@ import {
   Label,
   Row,
 } from "reactstrap";
-import { useMemberId } from "../../Contexts/MemberIdContext";
+import { getMemberId } from "../../Contexts/UserSession";
 import "../../Styles/styles.css";
 import CardTitle from "../CardTitle/CardTitle";
 
@@ -23,7 +23,7 @@ const EditVehicle = () => {
   const { vehicleId } = useParams();
   const [imageFile, setImageFile] = useState(null);
   const navigate = useNavigate();
-  const { memberId } = useMemberId();
+  const memberId = getMemberId();
   const token = sessionStorage.getItem("Token");
 
   const [vehicle, setVehicle] = useState({

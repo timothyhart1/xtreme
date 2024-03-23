@@ -6,15 +6,15 @@ import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Card, CardBody, Container } from "reactstrap";
-import { useMemberId } from "../../Contexts/MemberIdContext";
 import "../../Styles/styles.css";
 import CardTitle from "../CardTitle/CardTitle";
+import { getMemberId } from "../../Contexts/UserSession";
 
 const MemberVehicles = () => {
   const API = window.appConfig.API;
   const [data, setData] = useState([]);
   const token = sessionStorage.getItem("Token");
-  const { memberId } = useMemberId();
+  const memberId = getMemberId();
 
   useEffect(() => {
     async function fetchData() {

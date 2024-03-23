@@ -13,13 +13,13 @@ import {
   Label,
   Row,
 } from "reactstrap";
-import { useMemberId } from "../../Contexts/MemberIdContext";
+import { getMemberId } from "../../Contexts/UserSession";
 import "../../Styles/styles.css";
 import CardTitle from "../CardTitle/CardTitle";
 
 const AddLapTime = () => {
   const API = window.appConfig.API;
-  const { memberId } = useMemberId();
+  const memberId = getMemberId();
   const [vehicleId, setVehicleId] = useState("");
   const [lapTimeMinutes, setLapTimeMinutes] = useState("");
   const [lapTimeSeconds, setLapTimeSeconds] = useState("");
@@ -55,7 +55,6 @@ const AddLapTime = () => {
 
   const addLapTime = async (e) => {
     e.preventDefault();
-    console.log("it shouldnt do this");
     if (
       !vehicleId ||
       !lapTimeMinutes ||

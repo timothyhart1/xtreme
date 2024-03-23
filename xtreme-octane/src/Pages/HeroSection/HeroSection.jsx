@@ -51,7 +51,7 @@ const HeroSection = () => {
       const recentVehicleCreations = recentlyCreatedVehicles.data;
 
       const upcomingEvents = eventsRes.data;
-      console.log(recentVehicleCreations);
+
       setData({
         upcomingEvents,
         totalMembers,

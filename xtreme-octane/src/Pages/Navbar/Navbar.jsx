@@ -4,7 +4,7 @@ import * as AiIcons from "react-icons/ai";
 import * as FaIcons from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 import { useEmail } from "../../Contexts/EmailContext";
-import { useMemberId } from "../../Contexts/MemberIdContext";
+import { getMemberId } from "../../Contexts/UserSession";
 import { useUserRole } from "../../Contexts/RoleContext";
 import logo from "../../Images/Logo_transparent.png";
 import { useAuth } from "../Auth/Auth";
@@ -14,7 +14,7 @@ function Navbar({ toggleSidebar }) {
   const location = useLocation();
   const API = window.appConfig.API;
   const { email } = useEmail();
-  const { memberId } = useMemberId();
+  const memberId = getMemberId();
   const { userRole } = useUserRole();
   const token = sessionStorage.getItem("Token");
   const auth = useAuth();

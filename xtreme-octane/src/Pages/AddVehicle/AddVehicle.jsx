@@ -13,7 +13,7 @@ import {
   Label,
   Row,
 } from "reactstrap";
-import { useMemberId } from "../../Contexts/MemberIdContext";
+import { getMemberId } from "../../Contexts/UserSession";
 import "../../Styles/styles.css";
 import CardTitle from "../CardTitle/CardTitle";
 
@@ -26,7 +26,7 @@ const AddVehicle = () => {
   const [plate, setPlate] = useState("");
   const [colour, setColour] = useState("");
   const [imageFile, setFile] = useState();
-  const { memberId } = useMemberId();
+  const memberId = getMemberId();
 
   const getImage = (e) => {
     setFile(e.target.files[0]);
