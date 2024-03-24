@@ -23,7 +23,7 @@ namespace XtremeOctaneApi.Services.EventService
             return await _db.Event.FirstOrDefaultAsync(e => e.EventId == id);
         }
 
-        public async Task<int> AddEvent(IFormFile image, string eventName, string eventDesc)
+        public async Task<int> AddEvent(IFormFile image, string eventName, string eventDesc, DateTime eventDate)
         {
             string fileName = Guid.NewGuid() + Path.GetExtension(image.FileName);
             string uploadFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Documents", "Events", fileName);
@@ -38,7 +38,7 @@ namespace XtremeOctaneApi.Services.EventService
             {
                 EventName = eventName,
                 EventDesc = eventDesc,
-                EventDate = DateTime.Now,
+                EventDate = eventDate,
                 EventImage = fileName,
                 Deleted = false
             };

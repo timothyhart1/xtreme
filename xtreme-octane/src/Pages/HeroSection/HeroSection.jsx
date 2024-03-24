@@ -3,6 +3,8 @@ import React, { Fragment, useCallback, useEffect, useState } from "react";
 import { Card, Container, Row, Col } from "reactstrap";
 import "../../Styles/styles.css";
 import CardTitle from "../CardTitle/CardTitle";
+import { Button, CardBody, CardSubtitle } from "reactstrap";
+import { Link } from "react-router-dom";
 
 const HeroSection = () => {
   const API = window.appConfig.API;
@@ -35,10 +37,28 @@ const HeroSection = () => {
       const totalVehicles = vehiclesRes.data.length;
 
       const eventsRes = await axios.get(`${API}/Event/GetFutureEvents`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
+      const upcomingEvents = eventsRes.data;
+
+      // Now that upcomingEvents is fetched, proceed to fetch votes for each event
+      const eventsWithVotes = await Promise.all(
+        upcomingEvents.map(async (event) => {
+          try {
+            const voteRes = await axios.get(
+              `${API}/EventVote/GetEventVotes/${event.eventId}`,
+              {
+                headers: { Authorization: `Bearer ${token}` },
+              }
+            );
+            return { ...event, yesVotes: voteRes.data.yesVotes };
+          } catch (error) {
+            console.error(error);
+            // Assuming 0 as default if there's an error
+            return { ...event, yesVotes: 0 };
+          }
+        })
+      );
 
       const recentlyCreatedVehicles = await axios.get(
         `${API}/Vehicle/GetAllVehicles`,
@@ -48,16 +68,14 @@ const HeroSection = () => {
           },
         }
       );
-      const recentVehicleCreations = recentlyCreatedVehicles.data;
 
-      const upcomingEvents = eventsRes.data;
-
-      setData({
-        upcomingEvents,
-        totalMembers,
-        totalVehicles,
-        recentlyCreatedVehicles: recentVehicleCreations, // This line was corrected
-      });
+      setData((prevData) => ({
+        ...prevData,
+        upcomingEvents: eventsWithVotes,
+        totalMembers: membersRes.data.length,
+        totalVehicles: vehiclesRes.data.length,
+        recentlyCreatedVehicles: recentlyCreatedVehicles.data,
+      }));
     } catch (error) {
       console.error(error);
     }
@@ -80,22 +98,54 @@ const HeroSection = () => {
           </Col>
           <Col md="8" sx={12}>
             <Card id="card-container-dashboard">
-              <CardTitle title="Upcoming Event" />
-              <div className="header-white">
-                {data.upcomingEvents.map((event, index) => (
-                  <div key={index} className="text-center mb-4">
-                    {" "}
-                    <h1>{event.eventName}</h1>
-                    <p>{new Date(event.eventDate).toLocaleDateString()}</p>
-                    <p>{event.eventDesc}</p>
-                    <img
-                      src={`${API}/Event/GetEventImage/${event.eventId}`}
-                      alt="Event"
-                      className="responsive-image"
-                    />
-                  </div>
+              <CardTitle
+                title={
+                  data.upcomingEvents.length == 1
+                    ? "Upcoming Event"
+                    : "Upcoming Events"
+                }
+              />
+              <CardBody id="event-card-body">
+                {data.upcomingEvents.map((item, index) => (
+                  <Card
+                    key={index}
+                    id="event-card-container"
+                    className="event-card-item"
+                  >
+                    <div className="image-wrapper">
+                      {item.yesVotes > 0 && (
+                        <div className="attendance-overlay">
+                          {item.yesVotes}{" "}
+                          {item.yesVotes > 1
+                            ? "people attending"
+                            : "person attending"}
+                        </div>
+                      )}
+                      <img
+                        alt="Sample"
+                        src={`${API}/Event/GetEventImage/${item.eventId}`}
+                        className="event-image"
+                      />
+                    </div>
+                    <CardBody>
+                      <CardSubtitle className="mb-2 event-header event-centre">
+                        {item.eventName}
+                      </CardSubtitle>
+                      <CardSubtitle className="mb-2 event-header event-centre">
+                        {item.eventDate.slice(0, 10)}
+                      </CardSubtitle>
+                      <div className="event-btn-container">
+                        <Link
+                          to={`/view-event/${item.eventId}`}
+                          style={{ width: "100%" }}
+                        >
+                          <Button id="event-btn-card">View Event</Button>
+                        </Link>
+                      </div>
+                    </CardBody>
+                  </Card>
                 ))}
-              </div>
+              </CardBody>
             </Card>
           </Col>
           <Col md="2" sx={0}>

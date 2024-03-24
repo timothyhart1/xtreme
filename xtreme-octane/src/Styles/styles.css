@@ -661,7 +661,19 @@ input::file-selector-button:hover {
   padding: 5px;
 }
 
+.attendance-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: green;
+  color: white;
+  padding: 5px 10px;
+  z-index: 2000;
+  border-radius: 5px;
+}
+
 .image-wrapper {
+  position: relative;
   height: 550px;
   width: 100%;
   overflow: hidden;
@@ -813,4 +825,31 @@ input::file-selector-button:hover {
   .logged-in-as {
     display: none;
   }
+}
+
+/* Styles.css adjustments for horizontal slider */
+#event-card-body {
+  display: flex; /* Aligns children (event cards) in a row */
+  overflow-x: auto; /* Enables horizontal scrolling */
+  padding: 15px 0; /* Add some padding around the cards if needed */
+}
+
+.event-card-item {
+  flex: 0 0 auto; /* Prevents cards from stretching or shrinking */
+  margin-right: 20px; /* Spacing between cards */
+}
+
+.image-wrapper img {
+  max-width: 100%;
+  height: auto; /* Ensures images are responsive */
+}
+
+/* Optional: Hide scrollbar but maintain scroll functionality */
+#event-card-body::-webkit-scrollbar {
+  display: none;
+}
+
+#event-card-body {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }

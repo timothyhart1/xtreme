@@ -119,11 +119,11 @@ namespace XtremeOctaneApi.Controllers
 
         [HttpPost("AddNewEvent")]
         [Authorize]
-        public async Task<IActionResult> AddEvent(IFormFile image, string eventName, string eventDesc)
+        public async Task<IActionResult> AddEvent(IFormFile image, string eventName, string eventDesc, DateTime eventDate)
         {
             try
             {
-                var eventId = await _eventService.AddEvent(image, eventName, eventDesc);
+                var eventId = await _eventService.AddEvent(image, eventName, eventDesc, eventDate);
                 if (eventId == 0)
                 {
                     return StatusCode(500, "Failed to add event.");
