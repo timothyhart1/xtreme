@@ -87,22 +87,23 @@ namespace XtremeOctaneApi.Services.MemberService
         public IActionResult GetProfilePicture(int memberId)
         {
             var member = _db.Member.FirstOrDefault(e => e.MemberId == memberId);
-
-            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "Documents", "ProfilePictures", member.ProfilePicture);
-
-            if (!System.IO.File.Exists(filePath))
+            if (member == null)
             {
-                filePath = Path.Combine(Directory.GetCurrentDirectory(), "Documents", "ProfilePictures", "profile-pic-default.webp");
+                return new NotFoundObjectResult("Member not found.");
             }
 
-            if (member == null || string.IsNullOrEmpty(member.ProfilePicture))
+            string basePath = Path.Combine(Directory.GetCurrentDirectory(), "Documents", "ProfilePictures");
+            string filePath = member.ProfilePicture != null ? Path.Combine(basePath, member.ProfilePicture) : null;
+
+            if (string.IsNullOrEmpty(filePath) || !System.IO.File.Exists(filePath))
             {
-                return new NotFoundObjectResult("Event or image not found.");
+                filePath = Path.Combine(basePath, "profile-pic-default.webp");
             }
 
             var fileBytes = System.IO.File.ReadAllBytes(filePath);
-            return new FileContentResult(fileBytes, "image/jpeg");
+            return new FileContentResult(fileBytes, "image/webp"); 
         }
+
 
         public async Task<IActionResult> EditProfile(int id, CreateMemberDto member)
         {
