@@ -1,0 +1,2 @@
+npm lint:fix && npm test
+exit 1
