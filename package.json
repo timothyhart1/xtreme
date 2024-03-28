@@ -7,7 +7,8 @@
   "scripts": {
     "prepare": "husky install",
     "lint": "eslint .",
-    "lint:fix": "eslint --fix --ext .js,.jsx ."
+    "lint:fix": "eslint --fix --ext .js,.jsx .",
+    "lint:check": "eslint . --ext .js,.jsx --quiet"
   },
   "dependencies": {
     "eslint": "^8.57.0",

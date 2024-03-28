@@ -1,2 +1,2 @@
-npm run lint:fix && npm run lint
-exit 1
+#!/bin/sh
+npm run lint:fix && npm run lint:check
