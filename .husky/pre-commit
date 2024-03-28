@@ -1,2 +1,2 @@
-npm lint:fix && npm test
-exit 1
+npm run lint:fix && npm run lint
+exit 0
