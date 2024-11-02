@@ -291,27 +291,6 @@ function App() {
           </BrowserRouter>
         </UserRoleProvider>
       </MemberIdProvider>
-      {!isMobile && (
-        <div
-          style={{
-            position: "fixed",
-            left: "50%",
-            bottom: "20px",
-            transform: "translateX(-50%)",
-            zIndex: "1000",
-          }}
-        >
-          <img
-            src={image}
-            alt="Logo"
-            style={{
-              width: "100%",
-              objectFit: "contain",
-              height: "140px",
-            }}
-          />
-        </div>
-      )}
     </AuthProvider>
   );
 }

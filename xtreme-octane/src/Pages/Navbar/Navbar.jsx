@@ -187,22 +187,6 @@ function Navbar({ toggleSidebar }) {
               <span style={{ color: "#fff", marginRight: "15px" }}>
                 Logged In As: {loggedInUser.name}
               </span>
-              <span>
-                {loadingImage ? (
-                  <div>Loading...</div> // Placeholder or spinner
-                ) : (
-                  <img
-                    src={userImage}
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                      borderRadius: "100%",
-                      objectFit: "cover",
-                    }}
-                    alt=""
-                  />
-                )}
-              </span>
             </div>
           )}
         </div>
