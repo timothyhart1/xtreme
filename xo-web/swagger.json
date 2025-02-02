@@ -1,0 +1,2438 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Xtreme Octane API",
+    "version": "v1"
+  },
+  "paths": {
+    "/Event/GetAllEvents": {
+      "get": {
+        "tags": [
+          "Event"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Event/GetFutureEvents": {
+      "get": {
+        "tags": [
+          "Event"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Event/GetSingleEvent/{id}": {
+      "get": {
+        "tags": [
+          "Event"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Event/GetEventImage/{id}": {
+      "get": {
+        "tags": [
+          "Event"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Event/AddNewEvent": {
+      "post": {
+        "tags": [
+          "Event"
+        ],
+        "parameters": [
+          {
+            "name": "eventName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "eventDesc",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "eventDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "image": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Event/EditEvent/{id}": {
+      "put": {
+        "tags": [
+          "Event"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "eventName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "eventDesc",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "eventDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "deleted",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "eventImage": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "eventImage": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Event/DeleteEvent/{id}": {
+      "delete": {
+        "tags": [
+          "Event"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/EventExpense/GetEventExpenses/{id}": {
+      "get": {
+        "tags": [
+          "EventExpense"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/EventExpense/GetAllCategories": {
+      "get": {
+        "tags": [
+          "EventExpense"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/EventExpense/GetExpenseSingle/{id}": {
+      "get": {
+        "tags": [
+          "EventExpense"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/EventExpense/EventExpenseTotal/{id}": {
+      "get": {
+        "tags": [
+          "EventExpense"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/EventExpense/AddNewEventExpense": {
+      "post": {
+        "tags": [
+          "EventExpense"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EventExpenseModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EventExpenseModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EventExpenseModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventExpenseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventExpenseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventExpenseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/EventExpense/AddCategory": {
+      "post": {
+        "tags": [
+          "EventExpense"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExpenseCategory"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExpenseCategory"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExpenseCategory"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpenseCategory"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpenseCategory"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpenseCategory"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/EventExpense/EditEventExpense/{id}": {
+      "put": {
+        "tags": [
+          "EventExpense"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EventExpenseModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EventExpenseModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EventExpenseModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/EventExpense/DeleteExpense/{id}": {
+      "delete": {
+        "tags": [
+          "EventExpense"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/EventVote/GetEventVotes/{id}": {
+      "get": {
+        "tags": [
+          "EventVote"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoteResultsModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoteResultsModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoteResultsModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/EventVote/MemberEventVote/{id}": {
+      "get": {
+        "tags": [
+          "EventVote"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "memberId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EventVoteModel"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EventVoteModel"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EventVoteModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/EventVote/GetMemberVoteDetails/{id}": {
+      "get": {
+        "tags": [
+          "EventVote"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/EventVote/AddEventVote/{id}": {
+      "post": {
+        "tags": [
+          "EventVote"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EventVoteModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EventVoteModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EventVoteModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Member/GetAllMembers": {
+      "get": {
+        "tags": [
+          "Member"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Member/GetAllNonVerifiedMembers": {
+      "get": {
+        "tags": [
+          "Member"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Member/GetSingleMember/{id}": {
+      "get": {
+        "tags": [
+          "Member"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemberModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemberModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemberModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Member/GetProfilePicture/{memberId}": {
+      "get": {
+        "tags": [
+          "Member"
+        ],
+        "parameters": [
+          {
+            "name": "memberId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Member/EditProfile/{id}": {
+      "put": {
+        "tags": [
+          "Member"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "MemberId": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "UserId": {
+                    "type": "string"
+                  },
+                  "Email": {
+                    "type": "string"
+                  },
+                  "Name": {
+                    "type": "string"
+                  },
+                  "Surname": {
+                    "type": "string"
+                  },
+                  "City": {
+                    "type": "string"
+                  },
+                  "PhoneNumber": {
+                    "type": "string"
+                  },
+                  "Gender": {
+                    "type": "string"
+                  },
+                  "CreateDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "Deleted": {
+                    "type": "boolean"
+                  },
+                  "Verified": {
+                    "type": "boolean"
+                  },
+                  "ProfilePicture": {
+                    "type": "string"
+                  },
+                  "Image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "MemberId": {
+                  "style": "form"
+                },
+                "UserId": {
+                  "style": "form"
+                },
+                "Email": {
+                  "style": "form"
+                },
+                "Name": {
+                  "style": "form"
+                },
+                "Surname": {
+                  "style": "form"
+                },
+                "City": {
+                  "style": "form"
+                },
+                "PhoneNumber": {
+                  "style": "form"
+                },
+                "Gender": {
+                  "style": "form"
+                },
+                "CreateDate": {
+                  "style": "form"
+                },
+                "Deleted": {
+                  "style": "form"
+                },
+                "Verified": {
+                  "style": "form"
+                },
+                "ProfilePicture": {
+                  "style": "form"
+                },
+                "Image": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Member/UpdateMemberRole/{userId}": {
+      "put": {
+        "tags": [
+          "Member"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Member/ReinstateMember/{memberId}": {
+      "put": {
+        "tags": [
+          "Member"
+        ],
+        "parameters": [
+          {
+            "name": "memberId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Member/VerifyMember/{memberId}": {
+      "put": {
+        "tags": [
+          "Member"
+        ],
+        "parameters": [
+          {
+            "name": "memberId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Member/AddNewMember": {
+      "post": {
+        "tags": [
+          "Member"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MemberModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MemberModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MemberModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemberModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemberModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemberModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Member/DeleteMember/{id}": {
+      "delete": {
+        "tags": [
+          "Member"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/MemberTrackTime/GetAllTrackTimes": {
+      "get": {
+        "tags": [
+          "MemberTrackTime"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MemberTrackTimeModel"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MemberTrackTimeModel"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MemberTrackTimeModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/MemberTrackTime/VerifyLaptime/{id}": {
+      "put": {
+        "tags": [
+          "MemberTrackTime"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemberTrackTimeModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemberTrackTimeModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemberTrackTimeModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/MemberTrackTime/AddNewTrackTime": {
+      "post": {
+        "tags": [
+          "MemberTrackTime"
+        ],
+        "parameters": [
+          {
+            "name": "memberId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "vehicleId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "lapTimeMinutes",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "lapTimeSeconds",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "lapTimeMilliseconds",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "conditions",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tyre",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "vehicleClass",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "verified",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "lapTimeScreenshot": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "lapTimeScreenshot": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemberTrackTimeModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemberTrackTimeModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemberTrackTimeModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/MemberTrackTime/DeleteTrackTime/{id}": {
+      "delete": {
+        "tags": [
+          "MemberTrackTime"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/User/CreateNewUser": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/User/GetUserRole/{userId}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/User/Login": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/User/Logout": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Vehicle/GetAllVehicles": {
+      "get": {
+        "tags": [
+          "Vehicle"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Vehicle/GetMemberVehicle/{id}": {
+      "get": {
+        "tags": [
+          "Vehicle"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Vehicle/GetAllMemberVehicles/{id}": {
+      "get": {
+        "tags": [
+          "Vehicle"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Vehicle/GetVehicleImage/{id}": {
+      "get": {
+        "tags": [
+          "Vehicle"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Vehicle/EditVehicle/{id}": {
+      "put": {
+        "tags": [
+          "Vehicle"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "VehicleId": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "MemberId": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Manufacturer": {
+                    "type": "string"
+                  },
+                  "Model": {
+                    "type": "string"
+                  },
+                  "Year": {
+                    "type": "string"
+                  },
+                  "Mileage": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Plate": {
+                    "type": "string"
+                  },
+                  "Color": {
+                    "type": "string"
+                  },
+                  "VehicleImage": {
+                    "type": "string"
+                  },
+                  "HasImage": {
+                    "type": "boolean"
+                  },
+                  "Member.MemberId": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Member.UserId": {
+                    "type": "string"
+                  },
+                  "Member.Email": {
+                    "type": "string"
+                  },
+                  "Member.Name": {
+                    "type": "string"
+                  },
+                  "Member.Surname": {
+                    "type": "string"
+                  },
+                  "Member.City": {
+                    "type": "string"
+                  },
+                  "Member.PhoneNumber": {
+                    "type": "string"
+                  },
+                  "Member.Gender": {
+                    "type": "string"
+                  },
+                  "Member.CreateDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "Member.Deleted": {
+                    "type": "boolean"
+                  },
+                  "Member.Verified": {
+                    "type": "boolean"
+                  },
+                  "Member.ProfilePicture": {
+                    "type": "string"
+                  },
+                  "Member.Image": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "Member.User.Id": {
+                    "type": "string"
+                  },
+                  "Member.User.UserName": {
+                    "type": "string"
+                  },
+                  "Member.User.NormalizedUserName": {
+                    "type": "string"
+                  },
+                  "Member.User.Email": {
+                    "type": "string"
+                  },
+                  "Member.User.NormalizedEmail": {
+                    "type": "string"
+                  },
+                  "Member.User.EmailConfirmed": {
+                    "type": "boolean"
+                  },
+                  "Member.User.PasswordHash": {
+                    "type": "string"
+                  },
+                  "Member.User.SecurityStamp": {
+                    "type": "string"
+                  },
+                  "Member.User.ConcurrencyStamp": {
+                    "type": "string"
+                  },
+                  "Member.User.PhoneNumber": {
+                    "type": "string"
+                  },
+                  "Member.User.PhoneNumberConfirmed": {
+                    "type": "boolean"
+                  },
+                  "Member.User.TwoFactorEnabled": {
+                    "type": "boolean"
+                  },
+                  "Member.User.LockoutEnd": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "Member.User.LockoutEnabled": {
+                    "type": "boolean"
+                  },
+                  "Member.User.AccessFailedCount": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "VehicleId": {
+                  "style": "form"
+                },
+                "MemberId": {
+                  "style": "form"
+                },
+                "Manufacturer": {
+                  "style": "form"
+                },
+                "Model": {
+                  "style": "form"
+                },
+                "Year": {
+                  "style": "form"
+                },
+                "Mileage": {
+                  "style": "form"
+                },
+                "Plate": {
+                  "style": "form"
+                },
+                "Color": {
+                  "style": "form"
+                },
+                "VehicleImage": {
+                  "style": "form"
+                },
+                "HasImage": {
+                  "style": "form"
+                },
+                "Member.MemberId": {
+                  "style": "form"
+                },
+                "Member.UserId": {
+                  "style": "form"
+                },
+                "Member.Email": {
+                  "style": "form"
+                },
+                "Member.Name": {
+                  "style": "form"
+                },
+                "Member.Surname": {
+                  "style": "form"
+                },
+                "Member.City": {
+                  "style": "form"
+                },
+                "Member.PhoneNumber": {
+                  "style": "form"
+                },
+                "Member.Gender": {
+                  "style": "form"
+                },
+                "Member.CreateDate": {
+                  "style": "form"
+                },
+                "Member.Deleted": {
+                  "style": "form"
+                },
+                "Member.Verified": {
+                  "style": "form"
+                },
+                "Member.ProfilePicture": {
+                  "style": "form"
+                },
+                "Member.Image": {
+                  "style": "form"
+                },
+                "Member.User.Id": {
+                  "style": "form"
+                },
+                "Member.User.UserName": {
+                  "style": "form"
+                },
+                "Member.User.NormalizedUserName": {
+                  "style": "form"
+                },
+                "Member.User.Email": {
+                  "style": "form"
+                },
+                "Member.User.NormalizedEmail": {
+                  "style": "form"
+                },
+                "Member.User.EmailConfirmed": {
+                  "style": "form"
+                },
+                "Member.User.PasswordHash": {
+                  "style": "form"
+                },
+                "Member.User.SecurityStamp": {
+                  "style": "form"
+                },
+                "Member.User.ConcurrencyStamp": {
+                  "style": "form"
+                },
+                "Member.User.PhoneNumber": {
+                  "style": "form"
+                },
+                "Member.User.PhoneNumberConfirmed": {
+                  "style": "form"
+                },
+                "Member.User.TwoFactorEnabled": {
+                  "style": "form"
+                },
+                "Member.User.LockoutEnd": {
+                  "style": "form"
+                },
+                "Member.User.LockoutEnabled": {
+                  "style": "form"
+                },
+                "Member.User.AccessFailedCount": {
+                  "style": "form"
+                },
+                "Image": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Vehicle/AddVehicle": {
+      "post": {
+        "tags": [
+          "Vehicle"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "VehicleId": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "MemberId": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Manufacturer": {
+                    "type": "string"
+                  },
+                  "Model": {
+                    "type": "string"
+                  },
+                  "Year": {
+                    "type": "string"
+                  },
+                  "Mileage": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Plate": {
+                    "type": "string"
+                  },
+                  "Color": {
+                    "type": "string"
+                  },
+                  "VehicleImage": {
+                    "type": "string"
+                  },
+                  "HasImage": {
+                    "type": "boolean"
+                  },
+                  "Member.MemberId": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Member.UserId": {
+                    "type": "string"
+                  },
+                  "Member.Email": {
+                    "type": "string"
+                  },
+                  "Member.Name": {
+                    "type": "string"
+                  },
+                  "Member.Surname": {
+                    "type": "string"
+                  },
+                  "Member.City": {
+                    "type": "string"
+                  },
+                  "Member.PhoneNumber": {
+                    "type": "string"
+                  },
+                  "Member.Gender": {
+                    "type": "string"
+                  },
+                  "Member.CreateDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "Member.Deleted": {
+                    "type": "boolean"
+                  },
+                  "Member.Verified": {
+                    "type": "boolean"
+                  },
+                  "Member.ProfilePicture": {
+                    "type": "string"
+                  },
+                  "Member.Image": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "Member.User.Id": {
+                    "type": "string"
+                  },
+                  "Member.User.UserName": {
+                    "type": "string"
+                  },
+                  "Member.User.NormalizedUserName": {
+                    "type": "string"
+                  },
+                  "Member.User.Email": {
+                    "type": "string"
+                  },
+                  "Member.User.NormalizedEmail": {
+                    "type": "string"
+                  },
+                  "Member.User.EmailConfirmed": {
+                    "type": "boolean"
+                  },
+                  "Member.User.PasswordHash": {
+                    "type": "string"
+                  },
+                  "Member.User.SecurityStamp": {
+                    "type": "string"
+                  },
+                  "Member.User.ConcurrencyStamp": {
+                    "type": "string"
+                  },
+                  "Member.User.PhoneNumber": {
+                    "type": "string"
+                  },
+                  "Member.User.PhoneNumberConfirmed": {
+                    "type": "boolean"
+                  },
+                  "Member.User.TwoFactorEnabled": {
+                    "type": "boolean"
+                  },
+                  "Member.User.LockoutEnd": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "Member.User.LockoutEnabled": {
+                    "type": "boolean"
+                  },
+                  "Member.User.AccessFailedCount": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "VehicleId": {
+                  "style": "form"
+                },
+                "MemberId": {
+                  "style": "form"
+                },
+                "Manufacturer": {
+                  "style": "form"
+                },
+                "Model": {
+                  "style": "form"
+                },
+                "Year": {
+                  "style": "form"
+                },
+                "Mileage": {
+                  "style": "form"
+                },
+                "Plate": {
+                  "style": "form"
+                },
+                "Color": {
+                  "style": "form"
+                },
+                "VehicleImage": {
+                  "style": "form"
+                },
+                "HasImage": {
+                  "style": "form"
+                },
+                "Member.MemberId": {
+                  "style": "form"
+                },
+                "Member.UserId": {
+                  "style": "form"
+                },
+                "Member.Email": {
+                  "style": "form"
+                },
+                "Member.Name": {
+                  "style": "form"
+                },
+                "Member.Surname": {
+                  "style": "form"
+                },
+                "Member.City": {
+                  "style": "form"
+                },
+                "Member.PhoneNumber": {
+                  "style": "form"
+                },
+                "Member.Gender": {
+                  "style": "form"
+                },
+                "Member.CreateDate": {
+                  "style": "form"
+                },
+                "Member.Deleted": {
+                  "style": "form"
+                },
+                "Member.Verified": {
+                  "style": "form"
+                },
+                "Member.ProfilePicture": {
+                  "style": "form"
+                },
+                "Member.Image": {
+                  "style": "form"
+                },
+                "Member.User.Id": {
+                  "style": "form"
+                },
+                "Member.User.UserName": {
+                  "style": "form"
+                },
+                "Member.User.NormalizedUserName": {
+                  "style": "form"
+                },
+                "Member.User.Email": {
+                  "style": "form"
+                },
+                "Member.User.NormalizedEmail": {
+                  "style": "form"
+                },
+                "Member.User.EmailConfirmed": {
+                  "style": "form"
+                },
+                "Member.User.PasswordHash": {
+                  "style": "form"
+                },
+                "Member.User.SecurityStamp": {
+                  "style": "form"
+                },
+                "Member.User.ConcurrencyStamp": {
+                  "style": "form"
+                },
+                "Member.User.PhoneNumber": {
+                  "style": "form"
+                },
+                "Member.User.PhoneNumberConfirmed": {
+                  "style": "form"
+                },
+                "Member.User.TwoFactorEnabled": {
+                  "style": "form"
+                },
+                "Member.User.LockoutEnd": {
+                  "style": "form"
+                },
+                "Member.User.LockoutEnabled": {
+                  "style": "form"
+                },
+                "Member.User.AccessFailedCount": {
+                  "style": "form"
+                },
+                "Image": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Vehicle/DeleteVehicle/{id}": {
+      "delete": {
+        "tags": [
+          "Vehicle"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Vehicle/DeleteVehicleImage/{id}": {
+      "delete": {
+        "tags": [
+          "Vehicle"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ApplicationUser": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "userName": {
+            "type": "string",
+            "nullable": true
+          },
+          "normalizedUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "normalizedEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "emailConfirmed": {
+            "type": "boolean"
+          },
+          "passwordHash": {
+            "type": "string",
+            "nullable": true
+          },
+          "securityStamp": {
+            "type": "string",
+            "nullable": true
+          },
+          "concurrencyStamp": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumberConfirmed": {
+            "type": "boolean"
+          },
+          "twoFactorEnabled": {
+            "type": "boolean"
+          },
+          "lockoutEnd": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "lockoutEnabled": {
+            "type": "boolean"
+          },
+          "accessFailedCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EventExpenseModel": {
+        "type": "object",
+        "properties": {
+          "eventExpenseId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "eventId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "expenseName": {
+            "type": "string",
+            "nullable": true
+          },
+          "expenseAmount": {
+            "type": "number",
+            "format": "double"
+          },
+          "addedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "createDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "memberId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "category": {
+            "type": "string",
+            "nullable": true
+          },
+          "active": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EventModel": {
+        "type": "object",
+        "properties": {
+          "eventId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "eventName": {
+            "type": "string",
+            "nullable": true
+          },
+          "eventDesc": {
+            "type": "string",
+            "nullable": true
+          },
+          "eventDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "eventImage": {
+            "type": "string",
+            "nullable": true
+          },
+          "deleted": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EventVoteModel": {
+        "type": "object",
+        "properties": {
+          "eventVoteId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "eventId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "memberId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "vote": {
+            "type": "string",
+            "nullable": true
+          },
+          "voteDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ExpenseCategory": {
+        "type": "object",
+        "properties": {
+          "expenseCategoryId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "category": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MemberModel": {
+        "type": "object",
+        "properties": {
+          "memberId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userId": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "surname": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "gender": {
+            "type": "string",
+            "nullable": true
+          },
+          "createDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "deleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "verified": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "profilePicture": {
+            "type": "string",
+            "nullable": true
+          },
+          "image": {
+            "type": "string",
+            "format": "binary",
+            "nullable": true
+          },
+          "user": {
+            "$ref": "#/components/schemas/ApplicationUser"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MemberTrackTimeModel": {
+        "type": "object",
+        "properties": {
+          "memberTrackTimeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "memberId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "vehicleId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lapTimeMinutes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lapTimeSeconds": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lapTimeMiliseconds": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "conditions": {
+            "type": "string",
+            "nullable": true
+          },
+          "tyre": {
+            "type": "string",
+            "nullable": true
+          },
+          "vehicleClass": {
+            "type": "string",
+            "nullable": true
+          },
+          "trackDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lapTimeScreenshot": {
+            "type": "string",
+            "nullable": true
+          },
+          "verified": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "vehicle": {
+            "$ref": "#/components/schemas/VehicleModel"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserModel": {
+        "required": [
+          "emailAddress",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "emailAddress": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "VehicleModel": {
+        "type": "object",
+        "properties": {
+          "vehicleId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "memberId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "manufacturer": {
+            "type": "string",
+            "nullable": true
+          },
+          "model": {
+            "type": "string",
+            "nullable": true
+          },
+          "year": {
+            "type": "string",
+            "nullable": true
+          },
+          "mileage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "plate": {
+            "type": "string",
+            "nullable": true
+          },
+          "color": {
+            "type": "string",
+            "nullable": true
+          },
+          "vehicleImage": {
+            "type": "string",
+            "nullable": true
+          },
+          "hasImage": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "member": {
+            "$ref": "#/components/schemas/MemberModel"
+          },
+          "image": {
+            "type": "string",
+            "format": "binary",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "VoteResultsModel": {
+        "type": "object",
+        "properties": {
+          "eventId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalVotes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "yesVotes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "noVotes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maybeVotes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "yesPercentage": {
+            "type": "number",
+            "format": "double"
+          },
+          "noPercentage": {
+            "type": "number",
+            "format": "double"
+          },
+          "maybePercentage": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "Please insert token",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
+}

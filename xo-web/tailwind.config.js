@@ -1,13 +1,14 @@
 module.exports = {
   content: [
-    "./src/**/*.{html,ts}",
+    "./src/app/**/*.{html,ts}", // Adjusted for Angular files
   ],
   theme: {
     extend: {
       colors: {
-       charcoal: "#333333"
+        charcoal: "#333333",
+        elephant: "#848C94",
       },
     },
   },
   plugins: [],
-}
+};

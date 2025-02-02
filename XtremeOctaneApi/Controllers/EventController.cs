@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using XtremeOctaneApi.Models;
 using XtremeOctaneApi.Services.EventService;
 
@@ -19,7 +19,7 @@ namespace XtremeOctaneApi.Controllers
         }
 
         [HttpGet("GetAllEvents")]
-        [Authorize]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAllEvents()
         {
             try
@@ -40,34 +40,34 @@ namespace XtremeOctaneApi.Controllers
             }
         }
 
-    [HttpGet("GetFutureEvents")]
-    [Authorize]
-    public async Task<IActionResult> GetFutureEvents()
-    {
-        try
+        [HttpGet("GetFutureEvents")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetFutureEvents()
         {
-            var now = DateTime.UtcNow; 
-            var futureEvents = await _eventService.GetAllEvents();
-
-            futureEvents = futureEvents?.Where(e => e.EventDate > now).ToList();
-                
-            if (futureEvents == null || !futureEvents.Any())
+            try
             {
+                var now = DateTime.UtcNow;
+                var futureEvents = await _eventService.GetAllEvents();
+
+                futureEvents = futureEvents?.Where(e => e.EventDate > now).ToList();
+
+                if (futureEvents == null || !futureEvents.Any())
+                {
                     return Ok(new List<EventModel>());
                 }
 
-            return Ok(futureEvents);
+                return Ok(futureEvents);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while fetching future events");
+                return StatusCode(500, "An error occurred while fetching future events");
+            }
         }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "An error occurred while fetching future events");
-            return StatusCode(500, "An error occurred while fetching future events");
-        }
-    }
 
 
-    [HttpGet("GetSingleEvent/{id}")]
-        [Authorize]
+        [HttpGet("GetSingleEvent/{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetEventById(int id)
         {
             try
@@ -100,7 +100,8 @@ namespace XtremeOctaneApi.Controllers
                     return NotFound("Event not found.");
                 }
 
-                string filePath = Path.Combine(Directory.GetCurrentDirectory(), "Documents", "Events", xtremeEvent.EventImage);
+                string filePath = Path.Combine(Directory.GetCurrentDirectory(), "Documents", "Events",
+                    xtremeEvent.EventImage);
 
                 if (!System.IO.File.Exists(filePath))
                 {
@@ -118,8 +119,9 @@ namespace XtremeOctaneApi.Controllers
         }
 
         [HttpPost("AddNewEvent")]
-        [Authorize]
-        public async Task<IActionResult> AddEvent(IFormFile image, string eventName, string eventDesc, DateTime eventDate)
+        [AllowAnonymous]
+        public async Task<IActionResult> AddEvent(IFormFile image, string eventName, string eventDesc,
+            DateTime eventDate)
         {
             try
             {
@@ -139,7 +141,8 @@ namespace XtremeOctaneApi.Controllers
         }
 
         [HttpPut("EditEvent/{id}")]
-        public async Task<IActionResult> EditEvent(int id, IFormFile eventImage, string eventName, string eventDesc, DateTime eventDate, bool deleted)
+        public async Task<IActionResult> EditEvent(int id, IFormFile eventImage, string eventName, string eventDesc,
+            DateTime eventDate, bool deleted)
         {
             try
             {
@@ -148,6 +151,7 @@ namespace XtremeOctaneApi.Controllers
                 {
                     return Ok(id);
                 }
+
                 return NotFound($"Could not find the event with the id {id}");
             }
             catch (Exception ex)
@@ -158,7 +162,7 @@ namespace XtremeOctaneApi.Controllers
         }
 
         [HttpDelete("DeleteEvent/{id}")]
-        [Authorize]
+        [AllowAnonymous]
         public async Task<IActionResult> DeleteEvent(int id)
         {
             try

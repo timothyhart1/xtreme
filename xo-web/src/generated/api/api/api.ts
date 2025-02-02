@@ -1,0 +1,15 @@
+export * from './event.service';
+import { EventService } from './event.service';
+export * from './eventExpense.service';
+import { EventExpenseService } from './eventExpense.service';
+export * from './eventVote.service';
+import { EventVoteService } from './eventVote.service';
+export * from './member.service';
+import { MemberService } from './member.service';
+export * from './memberTrackTime.service';
+import { MemberTrackTimeService } from './memberTrackTime.service';
+export * from './user.service';
+import { UserService } from './user.service';
+export * from './vehicle.service';
+import { VehicleService } from './vehicle.service';
+export const APIS = [EventService, EventExpenseService, EventVoteService, MemberService, MemberTrackTimeService, UserService, VehicleService];
