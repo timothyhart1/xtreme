@@ -102,6 +102,20 @@
               "type": "string",
               "format": "date-time"
             }
+          },
+          {
+            "name": "startDestination",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "endDestination",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
@@ -2116,6 +2130,14 @@
             "format": "int32"
           },
           "eventName": {
+            "type": "string",
+            "nullable": true
+          },
+          "startDestination": {
+            "type": "string",
+            "nullable": true
+          },
+          "endingDestination": {
             "type": "string",
             "nullable": true
           },

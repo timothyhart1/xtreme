@@ -26,7 +26,7 @@ namespace XtremeOctaneApi.Controllers
             {
                 var events = await _eventService.GetAllEvents();
 
-                if (events == null || !events.Any())
+                if (events is null)
                 {
                     return NotFound("No events are available!");
                 }
@@ -41,7 +41,7 @@ namespace XtremeOctaneApi.Controllers
         }
 
         [HttpGet("GetFutureEvents")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<IActionResult> GetFutureEvents()
         {
             try
@@ -67,7 +67,7 @@ namespace XtremeOctaneApi.Controllers
 
 
         [HttpGet("GetSingleEvent/{id}")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<IActionResult> GetEventById(int id)
         {
             try
@@ -120,12 +120,11 @@ namespace XtremeOctaneApi.Controllers
 
         [HttpPost("AddNewEvent")]
         [AllowAnonymous]
-        public async Task<IActionResult> AddEvent(IFormFile image, string eventName, string eventDesc,
-            DateTime eventDate)
+        public async Task<IActionResult> AddEvent(IFormFile image, string eventName, string eventDesc, DateTime eventDate, string startDestination, string endDestination)
         {
             try
             {
-                var eventId = await _eventService.AddEvent(image, eventName, eventDesc, eventDate);
+                var eventId = await _eventService.AddEvent(image, eventName, eventDesc, eventDate, startDestination, endDestination);
                 if (eventId == 0)
                 {
                     return StatusCode(500, "Failed to add event.");
@@ -162,7 +161,7 @@ namespace XtremeOctaneApi.Controllers
         }
 
         [HttpDelete("DeleteEvent/{id}")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<IActionResult> DeleteEvent(int id)
         {
             try

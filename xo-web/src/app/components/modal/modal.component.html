@@ -1,0 +1,28 @@
+<div class="bg-white p-4 rounded-lg shadow-lg w-full max-h-[90vh] overflow-y-auto">
+    <button class="absolute top-2 right-2" (click)="close()">✖</button>
+    <div class="p-4">
+        <div class="relative w-full">
+            <img #eventImage [src]="returnImage(event.eventId)" alt="Event image" class="w-full h-96 object-contain">
+            <div class="w-full flex justify-center">
+                <mat-icon (click)="downloadImage(eventImage.src)">download</mat-icon>
+            </div>
+        </div>
+        <div class="space-y-2">
+            <h3 class="text-lg text-black">{{ event?.eventName }}</h3>
+            <p class="text-lg text-black">Date: {{ event?.eventDate | date }}</p>
+            <div class="max-h-40 overflow-y-auto border border-gray-200 rounded-md p-2">
+                <p class="text-lg text-black">{{ event?.eventDesc }}</p>
+            </div>
+        </div>
+        <div class="lg:inline-flex block w-full justify-between bg-black p-2 rounded-lg mt-5">
+            <div class="block">
+                <p class="text-white text-center">Start Destination</p>
+                <div class="text-white underline text-center">{{ event?.startDestination }}</div>
+            </div>
+            <div class="block lg:mt-0 mt-3">
+                <p class="text-white text-center">End Destination</p>
+                <div class="text-white underline text-center">{{ event?.endingDestination }}</div>
+            </div>
+        </div>
+    </div>
+</div>

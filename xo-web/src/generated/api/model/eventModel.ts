@@ -12,6 +12,8 @@
 export interface EventModel { 
     eventId?: number;
     eventName?: string | null;
+    startDestination?: string | null;
+    endingDestination?: string | null;
     eventDesc?: string | null;
     eventDate?: string;
     eventImage?: string | null;

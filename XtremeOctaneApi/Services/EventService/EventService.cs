@@ -13,9 +13,9 @@ namespace XtremeOctaneApi.Services.EventService
             _db = db;
         }
 
-        public async Task<IEnumerable<EventModel>> GetAllEvents()
+        public async Task<List<EventModel>> GetAllEvents()
         {
-            return await _db.Event.Where(e => e.Deleted != true).ToListAsync();
+            return await _db.Event.Where(e => e.Deleted != true).OrderByDescending(x => x.EventDate).ToListAsync();
         }
 
         public async Task<EventModel> GetEventById(int id)
@@ -23,7 +23,7 @@ namespace XtremeOctaneApi.Services.EventService
             return await _db.Event.FirstOrDefaultAsync(e => e.EventId == id);
         }
 
-        public async Task<int> AddEvent(IFormFile image, string eventName, string eventDesc, DateTime eventDate)
+        public async Task<int> AddEvent(IFormFile image, string eventName, string eventDesc, DateTime eventDate, string startDestination, string endDestination)
         {
             string fileName = Guid.NewGuid() + Path.GetExtension(image.FileName);
             string uploadFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Documents", "Events", fileName);
@@ -40,7 +40,9 @@ namespace XtremeOctaneApi.Services.EventService
                 EventDesc = eventDesc,
                 EventDate = eventDate,
                 EventImage = fileName,
-                Deleted = false
+                Deleted = false,
+                StartDestination = startDestination,
+                EndingDestination = endDestination
             };
 
             _db.Event.Add(newEvent);

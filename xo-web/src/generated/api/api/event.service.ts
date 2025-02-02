@@ -105,14 +105,16 @@ export class EventService {
      * @param eventName 
      * @param eventDesc 
      * @param eventDate 
+     * @param startDestination 
+     * @param endDestination 
      * @param image 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public eventAddNewEventPost(eventName?: string, eventDesc?: string, eventDate?: string, image?: Blob, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public eventAddNewEventPost(eventName?: string, eventDesc?: string, eventDate?: string, image?: Blob, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public eventAddNewEventPost(eventName?: string, eventDesc?: string, eventDate?: string, image?: Blob, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public eventAddNewEventPost(eventName?: string, eventDesc?: string, eventDate?: string, image?: Blob, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public eventAddNewEventPost(eventName?: string, eventDesc?: string, eventDate?: string, startDestination?: string, endDestination?: string, image?: Blob, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public eventAddNewEventPost(eventName?: string, eventDesc?: string, eventDate?: string, startDestination?: string, endDestination?: string, image?: Blob, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public eventAddNewEventPost(eventName?: string, eventDesc?: string, eventDate?: string, startDestination?: string, endDestination?: string, image?: Blob, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public eventAddNewEventPost(eventName?: string, eventDesc?: string, eventDate?: string, startDestination?: string, endDestination?: string, image?: Blob, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (eventName !== undefined && eventName !== null) {
@@ -126,6 +128,14 @@ export class EventService {
         if (eventDate !== undefined && eventDate !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>eventDate, 'eventDate');
+        }
+        if (startDestination !== undefined && startDestination !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>startDestination, 'startDestination');
+        }
+        if (endDestination !== undefined && endDestination !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>endDestination, 'endDestination');
         }
 
         let localVarHeaders = this.defaultHeaders;
