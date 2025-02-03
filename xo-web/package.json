@@ -7,7 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "generate:api": "curl --insecure https://localhost:7033/swagger/v1/swagger.json > swagger.json && openapi-generator-cli generate -i swagger.json -g typescript-angular -o src/generated/api --skip-validate-spec"
+    "generate:api": "curl --insecure https://localhost:7033/swagger/v1/swagger.json > swagger.json && openapi-generator-cli generate -i swagger.json -g typescript-angular -o src/generated/api --skip-validate-spec",
+    "tailwind:build": "npx tailwindcss -i ./src/styles.scss -o ./src/output.css --watch"
   },
   "private": true,
   "dependencies": {
@@ -39,6 +40,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "tailwindcss": "^3.4.17",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.22.0"
   }
