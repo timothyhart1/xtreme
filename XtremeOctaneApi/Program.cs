@@ -157,6 +157,12 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    await ApplicationDbContextSeed.SeedRolesAsync(roleManager);
+}
+
 app.UseAuthorization();
 
 app.UseRouting();

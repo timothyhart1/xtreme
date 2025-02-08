@@ -1,0 +1,51 @@
+<div class="w-screen justify-center items-center flex p-2">
+    <div class="w-full lg:w-2/3 p-6 rounded-lg shadow-md bg-platinum">
+        <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+            <p *ngIf="errorMessage" class="text-red-600">{{ errorMessage }}</p>
+
+            <div class="mb-4">
+                <label>Email:</label>
+                <input type="email" formControlName="email" class="w-full px-4 py-2 border rounded-md">
+            </div>
+
+            <div class="mb-4">
+                <label>Name:</label>
+                <input type="text" formControlName="name" class="w-full px-4 py-2 border rounded-md">
+            </div>
+
+            <div class="mb-4">
+                <label>Surname:</label>
+                <input type="text" formControlName="surname" class="w-full px-4 py-2 border rounded-md">
+            </div>
+
+            <div class="mb-4">
+                <label>City:</label>
+                <input type="text" formControlName="city" class="w-full px-4 py-2 border rounded-md">
+            </div>
+
+            <div class="mb-4">
+                <label>Phone Number:</label>
+                <input type="text" formControlName="phoneNumber" class="w-full px-4 py-2 border rounded-md">
+            </div>
+
+            <div class="mb-4">
+                <label>Gender:</label>
+                <select formControlName="gender" class="w-full px-4 py-2 border rounded-md">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label>Profile Picture:</label>
+                <input type="file" (change)="onFileChange($event)" class="w-full px-4 py-2 border rounded-md">
+            </div>
+
+            <button type="submit" [disabled]="isSubmitting"
+                    class="w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700">
+                {{ isSubmitting ? 'Updating...' : 'Update Profile' }}
+            </button>
+        </form>
+    </div>
+</div>

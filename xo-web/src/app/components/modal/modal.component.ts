@@ -10,8 +10,6 @@ import {MatIcon} from "@angular/material/icon";
     standalone: true,
     imports: [
         DatePipe,
-        MatIconButton,
-        MatButton,
         MatIcon
     ],
     styleUrls: ['./modal.component.scss']
@@ -48,5 +46,4 @@ export class ModalComponent {
                 console.error('Error downloading image:', error);
             });
     }
-
 }

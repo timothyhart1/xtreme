@@ -3,7 +3,7 @@
     <div class="p-4">
         <div class="relative w-full">
             <img #eventImage [src]="returnImage(event.eventId)" alt="Event image" class="w-full h-96 object-contain">
-            <div class="w-full flex justify-center">
+            <div class="w-full flex justify-center mt-2">
                 <mat-icon (click)="downloadImage(eventImage.src)">download</mat-icon>
             </div>
         </div>
